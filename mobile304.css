@@ -80,3 +80,174 @@ html[data-device=mobile] #game .rhythm-foot{gap:3px;grid-template-columns:minmax
 html[data-device=mobile] #game .rhythm-foot>span{font-size:8px;white-space:normal;overflow-wrap:anywhere}
 }
 @media(max-width:360px) and (orientation:portrait){html[data-device=mobile] #shell .sidebar nav:nth-of-type(2){grid-template-columns:repeat(3,minmax(0,1fr))}html[data-device=mobile] .mode-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.device-settings{grid-template-columns:1fr}}
+
+
+/* Responsive audit: viewport geometry is independent of the chosen device profile.
+   Keep the desktop stage and timing lane intact; let menus grow and scroll instead of clipping. */
+@media (max-width:999px) {
+  #shell #home.active{overflow-y:auto!important;overflow-x:hidden!important}
+  #shell #home .live-lobby{flex:0 0 auto!important;height:auto!important;max-height:none!important;min-height:0!important;grid-template-rows:auto auto auto auto!important;align-items:start}
+  #shell #home .lobby-left,#shell #home .lobby-stage,#shell #home .lobby-right,#shell #home .lobby-bottom{min-width:0;max-width:100%}
+  #shell #home .lobby-stage{min-height:220px!important;height:clamp(220px,42dvh,360px);max-height:none}
+  #shell #home .lobby-dancer{min-height:0!important;height:100%!important}
+  #shell #home .lobby-bottom button{min-width:0;min-height:44px!important;white-space:normal}
+  #shell #home .lobby-bottom{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #shell #home .lobby-bottom .lobby-play,#shell #home .lobby-bottom .lobby-song{grid-column:1/-1}
+  #shell #home .lobby-left h1{overflow-wrap:anywhere;line-height:1.05}
+  #shell #home #lobbyCast{min-width:0}
+  #shell #home .lobby-artist b{white-space:normal;overflow-wrap:anywhere;font-size:11px}
+  #shell #versus .mode-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,78px),1fr));gap:6px}
+  #shell #versus .mode-grid button{min-height:44px!important;min-width:0;white-space:normal;overflow-wrap:anywhere;padding:6px 3px!important}
+  #shell #versus .arena-preview,#shell #versus .arena-config{height:auto;max-height:none;overflow:visible}
+  #shell #versus .mm-tabs button{min-height:44px;white-space:normal;overflow-wrap:anywhere}
+  #shell #versus .mm-panel label,#shell #versus .botsettings{flex-wrap:wrap;min-width:0}
+  #shell #versus .mm-panel select,#shell #versus .botsettings select{min-width:0;max-width:100%}
+  #shell #shop .shop-shell,#shell #inventory .closet-shell{flex:0 0 auto!important}
+  #shell #shop .shop-main,#shell #inventory .closet-right{overflow:visible!important}
+  #shell #shop #shopGrid,#shell #inventory #inventoryGrid{grid-auto-rows:auto;max-height:none}
+  #shell #shop #shopGrid .shop-item,#shell #inventory #inventoryGrid .shop-item{height:auto!important;min-height:210px!important;grid-template-rows:minmax(96px,1fr) auto minmax(26px,auto) auto!important}
+  #shell #shop .shop-item button,#shell #inventory .shop-item button{height:auto!important;min-height:44px!important;white-space:normal;overflow-wrap:anywhere}
+  #shell #shop .shop-item p,#shell #inventory .shop-item p{font-size:12px;line-height:1.3}
+  #shell #shop .shop-item h3,#shell #inventory .shop-item h3{font-size:13px}
+  #shell #shop .catalog-pager button,#shell #inventory .catalog-pager button{min-width:44px;min-height:44px}
+  #shell #gacha .summon-showcase{height:auto!important;min-height:180px!important;grid-template-rows:auto}
+  #shell #gacha .summon-copy{min-width:0;overflow-wrap:anywhere}
+  #shell #gacha .gacha-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  #shell #gacha #buyTicket{grid-column:1/-1}
+  #shell #gacha .gacha-actions button,#shell #gacha .summon-tabs button{min-height:44px;white-space:normal;overflow-wrap:anywhere;font-size:12px}
+  #shell #gacha .featured-rewards .gacha-item.hero{height:auto!important;min-height:150px!important;grid-template-rows:auto minmax(70px,1fr) auto auto!important}
+  #shell #gacha .gacha-history{max-height:220px!important}
+  #shell #profile .cloud-card,#shell #profile .profilecard{flex-wrap:wrap;min-width:0}
+  #shell #profile .cloud-card>*,#shell #profile .profilecard>*{min-width:0;max-width:100%}
+  #shell #profile .profilecard input{width:100%;min-width:0;margin:0 0 8px}
+  #shell #profile .social-buttons,#shell #profile .backup-actions{flex-wrap:wrap}
+  #shell #profile button{min-height:44px;white-space:normal}
+  #shell #profile .statgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  #shell #profile .statgrid>div{min-width:0;padding:10px 6px;overflow-wrap:anywhere}
+  #shell #profile .statgrid strong{font-size:clamp(16px,4vw,30px)}
+  #shell #profile .history-row{white-space:normal;overflow-wrap:anywhere}
+  dialog[open]{box-sizing:border-box;max-width:calc(100vw - 16px);max-height:calc(100dvh - 16px);overflow:auto;overscroll-behavior:contain}
+  dialog .dialoghead{min-width:0;gap:8px}
+  dialog .dialoghead h2{min-width:0;overflow-wrap:anywhere}
+  dialog .dialoghead button{flex:0 0 44px;min-height:44px}
+  dialog .filter-tabs{flex-wrap:wrap}
+  dialog button{min-height:44px;white-space:normal;overflow-wrap:anywhere}
+  dialog input:not([type=checkbox]),dialog select{min-width:0;max-width:100%}
+  dialog .social-id,dialog .social-search,dialog .account-actions{flex-wrap:wrap}
+  dialog .social-id code{min-width:0;overflow-wrap:anywhere}
+  dialog .social-columns{grid-template-columns:minmax(0,1fr)}
+  dialog .party-code{flex-wrap:wrap;min-width:0}
+  dialog .party-code h1{min-width:0;overflow-wrap:anywhere}
+  .party-dialog #partyConfig{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .party-dialog .party-members{grid-template-columns:repeat(auto-fit,minmax(min(100%,106px),1fr))}
+  #boot:not(.art-loading) .boot-content{max-height:calc(100dvh - 12px);overflow:auto;min-width:0}
+  #pauseOverlay .modal{max-width:100%;max-height:calc(100dvh - 16px);overflow:auto}
+  #resultOverlay .resultmodal{padding:12px;overscroll-behavior:contain}
+  #resultOverlay .resultmodal button{min-height:44px;white-space:normal;overflow-wrap:anywhere}
+  body>#gachaReveal .pull-grid .gacha-item{height:auto!important;min-height:205px!important;grid-template-rows:auto minmax(75px,1fr) auto auto auto!important}
+  body>#gachaReveal .pull-grid .gacha-item button{height:auto!important;min-height:44px!important;white-space:normal}
+  body>#gachaReveal .pull-grid.single .gacha-item{min-height:270px!important}
+}
+@media (max-width:700px) and (orientation:portrait) {
+  html[data-device] #shell .sidebar{display:grid!important;grid-template-columns:minmax(0,1fr)!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;padding:6px 8px!important;gap:4px!important}
+  html[data-device] #shell .sidebar .brand{min-width:0!important;justify-self:start}
+  html[data-device] #shell .sidebar nav{display:grid!important;width:100%!important;min-width:0!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px!important;overflow:visible!important}
+  html[data-device] #shell .sidebar .nav{width:100%!important;min-width:0!important;min-height:44px!important;font-size:12px!important;padding:4px!important;white-space:normal!important;line-height:1.2;gap:3px!important;justify-content:center!important}
+  html[data-device] #shell .sidebar .nav i{display:inline!important;font-size:14px!important;margin:0!important}
+  html[data-device] #shell .sidebar .nav em{display:none!important}
+  #shell .main>.top{min-width:0;gap:6px;flex-wrap:wrap}
+  #shell .main>.top>div:first-child{flex:1 1 55px;min-width:0}
+  #shell .main>.top .top-right{flex:0 1 auto;min-width:0;gap:4px}
+  #shell .main>.top .wallet,#shell .main>.top .account{min-height:40px;min-width:0;padding:5px 7px}
+  #shell .main>.top .account{max-width:135px}
+  #shell .main>.top #headerName{max-width:76px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #shell .main>.top .account small{display:none}
+  #shell #home .live-lobby{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
+  #shell #home .lobby-left,#shell #home .lobby-stage,#shell #home .lobby-right,#shell #home .lobby-bottom{grid-column:1!important;grid-row:auto!important}
+  #shell #home .lobby-left{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  #shell #home .lobby-left .lobby-kicker,#shell #home .lobby-left h1,#shell #home .lobby-event{grid-column:1/-1;grid-row:auto}
+  #shell #home .lobby-left p{display:none}
+  #shell #home .lobby-stage{height:clamp(220px,37dvh,320px)}
+  #shell #home #lobbyCast{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  #shell #home .lobby-artist{min-width:0;min-height:48px;padding:5px}
+  #shell #play .track{grid-template-columns:minmax(0,1fr);height:auto;max-height:none}
+  #shell #play .trackinfo{min-width:0}
+  #shell #play .choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  #shell #play .choices button{min-height:44px;padding:5px 2px;min-width:0;white-space:normal;font-size:12px}
+  #shell #versus .arena-rosters{grid-template-columns:minmax(0,1fr)}
+  #shell #shop .shop-shell,#shell #inventory .closet-shell{grid-template-columns:minmax(0,1fr)!important}
+  #shell #inventory .closet-shell>.center-stage,#shell #inventory .closet-left,#shell #inventory .closet-right{grid-column:1!important;grid-row:auto!important}
+  #shell #inventory .closet-shell>.center-stage{grid-row:1!important;height:330px!important}
+  #shell #inventory .closet-left .filter-tabs.vertical{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #shell #inventory .closet-left .filter-tabs button,#shell .filter-tabs button{min-height:40px;white-space:normal}
+  #shell #shop #shopGrid,#shell #inventory #inventoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #shell #gacha .summon-showcase{grid-template-columns:minmax(0,1fr) minmax(80px,.55fr)}
+  #game .game-top-controls{top:6px;right:6px;flex-direction:row;gap:4px}
+  #game .game-top-controls button{width:40px;height:40px}
+  #game .hud{padding-top:52px;gap:4px}
+  #game .matchtop{grid-template-columns:minmax(0,1fr) minmax(82px,.8fr) minmax(0,1fr)!important;grid-template-areas:none!important;padding:0!important;margin:0!important;gap:4px!important;min-height:0!important}
+  #game .matchtop .scorebox{min-width:0;padding:0 2px!important}
+  #game .scorelabel{min-width:0;gap:3px;font-size:10px;letter-spacing:0}
+  #game .scorelabel b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #game .scorelabel small{display:none}
+  #game .scorebox>strong{font-size:clamp(20px,6vw,29px);overflow-wrap:anywhere}
+  #game .stars{font-size:clamp(11px,3vw,15px);letter-spacing:0;gap:1px}
+  #game .matchmid{min-width:0;overflow-wrap:anywhere}
+  #game .matchmid .livebadge{font-size:10px;white-space:normal}
+  #game .rhythm-head{min-width:0;gap:4px;flex-wrap:wrap}
+  #game .rhythm-head>*{min-width:0;max-width:100%;overflow-wrap:anywhere}
+  #game .rhythm-head .lanelegend{display:none}
+  #game .rhythm-foot{grid-template-columns:minmax(0,1fr) auto;gap:5px}
+  #game .rhythm-foot>span:first-child{grid-column:1/-1;font-size:10px;line-height:1.2}
+  #game .rhythm-foot .skill-panel{min-width:0;max-width:100%}
+  #game .rhythm-foot>span:last-child{font-size:10px;white-space:normal}
+  #game .skill-panel #skillButton{width:44px;height:44px;min-height:44px}
+  #game .touchkeys{gap:6px}
+  #game .touchkeys button{flex:1 1 0;min-width:0;max-width:none;height:clamp(44px,7dvh,62px)}
+  #game[data-ffa=yes] .ffa-ranks:not(.hidden){position:relative;inset:auto;transform:none;align-self:center;order:0;max-width:100%;width:100%;gap:2px}
+  #game .ffa-ranks span{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;font-size:10px;padding:3px 4px}
+  #game[data-mode=team] .stage .squad-strip{gap:4px;min-height:0}
+  #game[data-mode=team] .squad-member{grid-template-rows:auto auto auto 14px;gap:1px;padding:0 1px 2px}
+  #game[data-mode=team] .stage .team-art{width:min(100%,var(--dancer-size),13dvh)!important}
+  #game[data-mode=team] .squad-member b{max-width:100%;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+}
+@media (max-width:480px) and (orientation:portrait) {
+  #shell .main>.top .account{max-width:120px}
+  #shell #profile .statgrid>div{padding:8px 4px}
+  .device-settings,.party-dialog #partyConfig{grid-template-columns:minmax(0,1fr)}
+  #shell #gacha .summon-showcase{grid-template-columns:minmax(0,1fr);min-height:0!important}
+  #shell #gacha .summon-art{height:130px!important;justify-self:center}
+  #game .rhythm-foot>span:first-child{display:none}
+}
+@media (min-width:701px) and (max-width:999px) and (min-height:521px) {
+  #shell #home .live-lobby{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #shell #home .lobby-left{grid-column:1/-1;grid-row:auto}
+  #shell #home .lobby-stage{grid-column:1;grid-row:auto}
+  #shell #home .lobby-right{grid-column:2;grid-row:auto}
+  #shell #home .lobby-bottom{grid-column:1/-1;grid-row:auto}
+}
+@media (orientation:landscape) and (max-height:520px) {
+  #shell #home.active{overflow-y:auto!important}
+  #shell #home .live-lobby{flex:0 0 auto!important;height:auto!important;min-height:280px!important;max-height:none!important;grid-template-rows:auto auto!important}
+  #shell #home .lobby-stage{min-height:170px!important;height:clamp(170px,45dvh,230px)}
+  #shell #home .lobby-bottom{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #game .game-top-controls{flex-direction:row;top:4px;right:4px;gap:4px}
+  #game .game-top-controls button{width:40px;height:40px}
+  #game .matchtop{padding-left:0!important;padding-right:132px!important;margin:0!important;grid-template-columns:minmax(0,1fr) minmax(76px,.8fr) minmax(0,1fr)!important;gap:4px!important}
+  #game .scorelabel{gap:3px;font-size:10px;letter-spacing:0}
+  #game .scorelabel b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #game .rhythm{grid-template-columns:minmax(0,1fr) auto}
+  #game .rhythm-foot{grid-template-columns:minmax(0,1fr) auto}
+  #game .rhythm-foot .skill-panel{min-width:0;max-width:100%}
+  #game .rhythm-foot>span:last-child{font-size:10px;white-space:normal}
+  #game .touchkeys button{height:44px!important;min-width:44px}
+  #game .skill-panel #skillButton{height:44px;min-height:44px}
+  #game[data-mode=team] .stage .team-art{width:min(100%,var(--dancer-size),21dvh)!important}
+  #game[data-mode=team] .squad-member{grid-template-rows:auto auto 14px;min-height:0}
+  #game .ffa-ranks span{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  #pauseOverlay .modal{max-height:calc(100dvh - 12px);overflow:auto}
+}
+@media (min-width:1000px) and (max-height:699px) {
+  #shell #home.active{overflow-y:auto!important}
+  #shell #home .live-lobby{flex:0 0 auto!important;min-height:390px!important;height:auto!important;max-height:none!important;grid-template-rows:minmax(220px,1fr) auto}
+}
