@@ -1,0 +1,104 @@
+/* Alpha 0.31 — mobile gameplay presentation. Desktop selectors remain unchanged. */
+.vertical-targets{display:none}
+.mobile-settings{min-width:0;margin:12px 0;padding:12px;border:1px solid #7c85b360;border-radius:12px}
+.mobile-settings legend{padding:0 6px;color:#dac8f6;font-weight:800}
+.mobile-settings label{min-width:0;max-width:100%;white-space:normal}
+.mobile-settings select{width:100%;max-width:100%;min-width:0}
+.mobile-settings small{display:block;line-height:1.4;color:#c5c0da}
+#game[data-mobile-layout=yes] .skill-key:after{content:'MANTÉN'!important;font-size:8px}
+#game[data-mobile-layout=yes] .skill-body{min-width:0}
+#game[data-mobile-layout=yes] #skillStatus{font-size:clamp(8px,2.3vw,11px);white-space:normal;overflow-wrap:anywhere;line-height:1.2}
+#game[data-mobile-layout=yes] #skillButton{touch-action:none;min-width:44px;min-height:44px}
+#game[data-mobile-filters=off] :is(.rhythm,.scorebox,.matchmid,.squad-team,.squad-member,.skill-panel,.feedback,.combo,.dancerlabel,.game-top-controls button,.overlay){backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important}
+#game[data-mobile-filters=off] :is(.note,.hold-tail,.target,.mini-lane span,.touchkeys button,.skill-button,.scoretrack,.team-art){box-shadow:none!important;filter:none!important}
+#game[data-mobile-filters=off] :is(.floor-grid,.floor,.stage-tint){animation:none!important;filter:none!important}
+#game[data-mobile-filters=off] :is(.scorelabel,.matchmid,.feedback,.combo,.squad-member b,.squad-member small){text-shadow:none!important}
+#game[data-mobile-layout=yes] .hud{--side:clamp(66px,21vw,140px);--controls-reserve:clamp(100px,15dvh,132px)}
+/* Both mobile layouts put the teams on opposing edges, not in a single bottom strip. */
+#game[data-mobile-layout=yes][data-mode=team] .stage{position:relative;min-height:0!important;overflow:hidden;padding:0!important}
+#game[data-mobile-layout=yes][data-mode=team] .stage .squad-strip:not(.hidden){position:absolute;inset:0;width:100%;height:100%;display:grid!important;grid-template-columns:var(--side) var(--side)!important;justify-content:space-between;align-items:stretch;margin:0!important;padding:0!important;gap:0!important;pointer-events:none}
+#game[data-mobile-layout=yes][data-mode=team] .squad-team{min-width:0;min-height:0;display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:4px!important;align-items:stretch;overflow:hidden}
+#game[data-mobile-layout=yes][data-mode=team] #allyStrip{grid-column:1;grid-template-rows:repeat(calc(var(--slots) - 1),minmax(0,1fr)) minmax(68px,1.55fr)}
+#game[data-mobile-layout=yes][data-mode=team] #enemyStrip{grid-column:2;grid-template-rows:repeat(var(--slots),minmax(0,1fr))}
+#game[data-mobile-layout=yes][data-mode=team] .squad-member{min-width:0;min-height:0;max-height:100%;display:grid!important;grid-template-columns:minmax(0,1fr) 15px!important;grid-template-rows:minmax(0,1fr) auto auto!important;gap:1px!important;padding:2px!important;border-radius:8px;overflow:hidden;align-items:center;justify-items:stretch;background:#10172b73}
+#game[data-mobile-layout=yes][data-mode=team] #enemyStrip .squad-member{grid-template-columns:15px minmax(0,1fr)!important;background:#14243b73}
+#game[data-mobile-layout=yes][data-mode=team] .stage .team-art{grid-column:1;grid-row:1;width:100%!important;height:100%!important;min-width:0;min-height:0;max-width:100%;max-height:100%!important;aspect-ratio:auto!important;align-self:stretch;justify-self:stretch}
+#game[data-mobile-layout=yes][data-mode=team] #enemyStrip .team-art{grid-column:2}
+#game[data-mobile-layout=yes][data-mode=team] .squad-member b{grid-row:2;grid-column:1/-1;font-size:clamp(9px,2.5vw,12px);white-space:nowrap;text-overflow:ellipsis;overflow:hidden;text-align:center;max-width:100%;min-width:0;line-height:1.15}
+#game[data-mobile-layout=yes][data-mode=team] .squad-member small{grid-row:3;grid-column:1/-1;min-width:0;max-width:100%;font-size:clamp(8px,2.1vw,10px);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+#game[data-mobile-layout=yes][data-mode=team] .squad-member .mini-lane{grid-row:1;grid-column:2;display:flex!important;flex-direction:column;align-items:center;justify-content:center;width:15px;height:100%;min-height:0;gap:1px;margin:0;overflow:hidden}
+#game[data-mobile-layout=yes][data-mode=team] #enemyStrip .mini-lane{grid-column:1}
+#game[data-mobile-layout=yes][data-mode=team] .mini-lane span{width:13px;height:13px;min-width:0;min-height:0;font-size:10px;line-height:1;padding:0;display:grid;place-items:center}
+#game[data-mobile-layout=yes][data-mode=team] #allyStrip .local-player{order:99;grid-template-columns:minmax(0,1fr)!important;background:#522b487f;border:1px solid #e19ac890!important}
+#game[data-mobile-layout=yes][data-mode=team] .local-player .mini-lane{display:none!important}
+#game[data-mobile-layout=yes][data-mode=team] .squad-member .feedback{position:absolute;inset:auto 1px 28px!important;transform:none!important;min-width:0;width:auto;padding:2px!important;z-index:5}
+#game[data-mobile-layout=yes][data-mode=team] .squad-member .feedback b{font-size:10px!important}
+#game[data-mobile-layout=yes][data-mode=team] .squad-member .feedback small{display:none}
+#game[data-mobile-layout=yes][data-mode=team] .squad-member .turn-count{width:20px!important;height:20px!important;font-size:10px!important}
+#game[data-mobile-layout=yes][data-mode=team][data-ffa=yes] .stage .squad-strip:not(.hidden){grid-template-rows:repeat(calc(var(--ffa-count) - 1),minmax(0,1fr));align-items:stretch;row-gap:4px!important}
+#game[data-mobile-layout=yes][data-mode=team][data-ffa=yes] #allyStrip{display:contents!important}
+#game[data-mobile-layout=yes][data-mode=team][data-ffa=yes] #allyStrip .squad-member:not(.local-player){grid-column:2;background:#14243b73}
+#game[data-mobile-layout=yes][data-mode=team][data-ffa=yes] #allyStrip .local-player{grid-column:1;grid-row:1/-1;align-self:end;height:min(100%,180px)}
+#game[data-mobile-layout=yes][data-mode=team][data-ffa=yes] #enemyStrip{display:none!important}
+/* Vertical notes: stage is a noninteractive underlay; lane and buttons have separate grid areas. */
+#game[data-mobile-layout=yes][data-lane=vertical] .hud{display:grid!important;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);gap:4px;min-height:0}
+#game[data-mobile-layout=yes][data-lane=vertical] .matchtop{grid-column:1;grid-row:1}
+#game[data-mobile-layout=yes][data-lane=vertical] .ffa-ranks:not(.hidden){grid-column:1;grid-row:2;position:relative!important;inset:auto!important;transform:none!important;width:100%;max-width:100%;order:0}
+#game[data-mobile-layout=yes][data-lane=vertical] .stage{grid-column:1;grid-row:3;position:relative!important;min-height:0!important;height:100%;width:100%;overflow:hidden!important;pointer-events:none;z-index:1}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm{grid-column:1;grid-row:3;display:grid!important;grid-template-columns:var(--side) minmax(0,1fr) var(--side)!important;grid-template-rows:auto minmax(0,1fr) auto auto!important;min-height:0!important;align-content:stretch!important;align-items:stretch!important;gap:4px 5px!important;padding:0!important;background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;pointer-events:none;z-index:2}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-head{grid-column:2!important;grid-row:1!important;display:flex;flex-wrap:wrap;gap:2px!important;margin:0!important;align-items:center;justify-content:space-between;padding:3px;border-radius:6px;background:#111a2dc9;min-width:0}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-head>*{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-head b{font-size:11px!important;line-height:1.2}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-head .mini,#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-head .lanelegend{display:none!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-head .next-hint,#game[data-mobile-layout=yes][data-lane=vertical] .team-turn,#game[data-mobile-layout=yes][data-lane=vertical] .hold-status{font-size:9px!important;line-height:1.15}
+#game[data-mobile-layout=yes][data-lane=vertical] .runway{grid-column:2!important;grid-row:2!important;min-width:0;height:100%!important;min-height:0!important;max-height:none!important;align-self:stretch;isolation:isolate;overflow:hidden!important;border-radius:9px;background:repeating-linear-gradient(to right,#1c2844d1 0%,#1b2640c9 calc(25% - 1px),#a2afd14d calc(25% - 1px),#a2afd14d 25%)!important;pointer-events:none}
+#game[data-mobile-layout=yes][data-lane=vertical] .runway .tracklines,#game[data-mobile-layout=yes][data-lane=vertical] .runway .target{display:none!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .vertical-targets{display:grid;position:absolute;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center;justify-items:center;inset:auto 0 8px;height:var(--vertical-note-size,30px);z-index:4;pointer-events:none}
+#game[data-mobile-layout=yes][data-lane=vertical] .vertical-targets span{display:grid;place-items:center;width:var(--vertical-note-size,30px);height:var(--vertical-note-size,30px);border:2px solid var(--lane-color);background:#101725a0;border-radius:6px;color:var(--lane-color);font-size:clamp(15px,5vw,27px);font-weight:900;line-height:1}
+.vertical-targets [data-dir=left]{--lane-color:#ed75bc}.vertical-targets [data-dir=up]{--lane-color:#81a7ff}.vertical-targets [data-dir=down]{--lane-color:#49c8b5}.vertical-targets [data-dir=right]{--lane-color:#ff9a71}
+.vertical-targets[data-dir=left] [data-dir=left],.vertical-targets[data-dir=up] [data-dir=up],.vertical-targets[data-dir=down] [data-dir=down],.vertical-targets[data-dir=right] [data-dir=right]{background:color-mix(in srgb,var(--lane-color),transparent 65%)!important}
+#game[data-lane=vertical] .note{position:absolute!important;top:0!important;width:var(--vertical-note-size,30px)!important;height:var(--vertical-note-size,30px)!important;transform:translate3d(-50%,calc(var(--note-y,0px) - 50%),0)!important;border-radius:7px!important;z-index:3;will-change:transform}
+#game[data-lane=vertical] .note strong{font-size:clamp(16px,5vw,29px)!important;line-height:1}
+#game[data-lane=vertical] .note small{display:none}
+#game[data-lane=vertical] .hold-tail{position:absolute!important;width:calc(var(--vertical-note-size,30px)*.47)!important;transform:translateX(-50%)!important;border-radius:8px;background:var(--dir);z-index:1;overflow:hidden}
+#game[data-lane=vertical] .hold-tail i,#game[data-lane=vertical] .hold-tail b{display:none!important}
+#game[data-lane=vertical] .restlabel{inset:40% 4px auto!important;white-space:normal!important;line-height:1.3;font-size:11px;text-align:center}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-foot{grid-column:2/-1!important;grid-row:3!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center;gap:3px!important;min-width:0;pointer-events:auto;background:#12192ec9;padding:3px!important;border-radius:8px}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-foot>span:first-child{display:none!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-foot>span:last-child{min-width:0;max-width:56px;font-size:9px;white-space:normal}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-foot .skill-panel{max-width:none;min-width:0;width:100%;justify-self:stretch}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys{grid-column:2/-1!important;grid-row:4!important;justify-content:stretch!important;min-width:0;gap:4px!important;margin:0!important;pointer-events:auto}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys button{flex:1 1 0;min-width:0!important;width:auto!important;max-width:none!important;height:clamp(48px,8dvh,72px)!important;font-size:clamp(24px,7vw,36px)!important;padding:0}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys [data-key=left]{order:1}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys [data-key=up]{order:2}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys [data-key=down]{order:3}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys [data-key=right]{order:4}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #enemyStrip{padding-bottom:var(--controls-reserve)!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes] #allyStrip .squad-member:not(.local-player){align-self:start;max-height:calc(100% - 3px)}
+#game[data-mobile-layout=yes][data-lane=vertical] .center-hud .combo{display:none!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .stage .player-dancer,#game[data-mobile-layout=yes][data-lane=vertical] .stage .bot-dancer{position:absolute!important;width:var(--side)!important;max-width:var(--side)!important;height:clamp(100px,24dvh,230px)!important;max-height:100%!important;margin:0!important;min-width:0;left:0;bottom:0;top:auto;padding:0 0 24px}
+#game[data-mobile-layout=yes][data-lane=vertical] .stage .bot-dancer{left:auto;right:0;bottom:var(--controls-reserve)}
+#game[data-mobile-layout=yes][data-lane=vertical] .stage .dancerlabel{min-width:0;max-width:100%;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#game[data-mobile-layout=yes][data-lane=vertical] .stage .dancerlabel b{font-size:10px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=solo] .hud{--side:clamp(72px,23vw,160px)}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=solo] .rhythm{grid-template-columns:var(--side) minmax(0,1fr) 0px!important;column-gap:3px!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=solo] .rhythm-head,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=solo] .runway{grid-column:2/-1!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-touch=off] .touchkeys{display:none!important}
+@media(orientation:landscape) and (max-height:520px){
+ #game[data-mobile-layout=yes] .hud{--side:clamp(94px,19vw,150px);--controls-reserve:90px}
+ #game[data-mobile-layout=yes][data-mode=team] .squad-team{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr)) minmax(42px,1.1fr)!important}
+ #game[data-mobile-layout=yes][data-mode=team] #allyStrip .local-player{grid-column:1/-1}
+ #game[data-mobile-layout=yes][data-mode=team] #enemyStrip{grid-template-rows:repeat(3,minmax(0,1fr))!important}
+ #game[data-mobile-layout=yes][data-lane=vertical] .rhythm-head .next-hint{display:none}
+ #game[data-mobile-layout=yes][data-lane=vertical] .touchkeys button{height:44px!important;font-size:25px!important}
+ #game[data-mobile-layout=yes][data-lane=vertical] .skill-panel #skillButton{min-height:40px;height:40px}
+ #game[data-mobile-layout=yes][data-lane=vertical] .hud{padding-top:5px}
+ #game[data-mobile-layout=yes][data-lane=vertical] .rhythm-head b{font-size:10px!important}
+ #game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #enemyStrip{padding-bottom:48px!important}
+ #game[data-mobile-layout=yes][data-lane=vertical] .rhythm-foot>span:last-child{max-width:68px}
+}
+@media(max-height:620px) and (orientation:portrait){
+ #game[data-mobile-layout=yes] .hud{--controls-reserve:96px}
+ #game[data-mobile-layout=yes][data-lane=vertical] .touchkeys button{height:48px!important}
+ #game[data-mobile-layout=yes][data-mode=team] .squad-member small{font-size:8px}
+}
