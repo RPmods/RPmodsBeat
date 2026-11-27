@@ -102,3 +102,17 @@
  #game[data-mobile-layout=yes][data-lane=vertical] .touchkeys button{height:48px!important}
  #game[data-mobile-layout=yes][data-mode=team] .squad-member small{font-size:8px}
 }
+
+/* Static high-quality sprites can react without drawing a second WebGL canvas. */
+#game[data-mobile-layout=yes] [data-lite-pose]{transition:transform .14s ease-out!important}
+#game[data-mobile-layout=yes] [data-lite-pose=left]{transform:translateX(-2px) rotate(-5deg)!important}
+#game[data-mobile-layout=yes] [data-lite-pose=right]{transform:translateX(2px) rotate(5deg)!important}
+#game[data-mobile-layout=yes] [data-lite-pose=up]{transform:translateY(-3px) scale(1.03)!important}
+#game[data-mobile-layout=yes] [data-lite-pose=down]{transform:translateY(2px) scale(.97)!important}
+#game[data-mobile-layout=yes] [data-lite-pose=miss]{transform:scale(.94)!important}
+#game[data-mobile-layout=yes] [data-lite-pose=idle]{transform:none!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes] .stage .squad-strip:not(.hidden){grid-template-rows:repeat(calc(var(--ffa-count) - 1),minmax(0,1fr)) var(--controls-reserve)!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes] #allyStrip .local-player{grid-row:1/-1}
+#game[data-mobile-layout=yes] .skill-panel .skill-key:after{content:'MANTÉN'!important}
+#queue #queueRoster{display:grid;grid-template-columns:repeat(auto-fit,minmax(94px,1fr));gap:6px;margin:12px 0}
+#queue #queueRoster .room-member{min-height:48px;display:grid;place-items:center;padding:6px;font-size:12px;overflow-wrap:anywhere;text-align:center}
