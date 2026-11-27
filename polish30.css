@@ -1,0 +1,64 @@
+/* Stage Polish 0.30. All preview art lives in a square, never in a stretched row. */
+#shell #gacha .summon-showcase{height:clamp(142px,22dvh,210px)!important;background-image:linear-gradient(90deg,#11172df5 0%,#11172dd4 25%,#18234a18 60%,#18234a66 100%),url('assets/ui/scene-observatory.webp');background-position:center top!important;background-size:cover!important;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);}
+#shell #gacha .summon-art{justify-self:end;width:auto!important;aspect-ratio:1;max-width:100%;height:100%!important;align-self:center;}
+#shell #gacha .summon-copy{z-index:2;min-width:0;}
+#shell #gacha .summon-copy h2{font-size:clamp(23px,4.3vh,42px)!important;}
+#shell #gacha .gacha-track{height:auto!important;top:7px!important;bottom:7px!important;}
+#shell #gacha .gacha-wheel{height:clamp(158px,25dvh,232px)!important;}
+#shell #gacha .gacha-track .gacha-item{grid-template-rows:14px minmax(0,1fr) minmax(24px,auto) minmax(12px,auto)!important;align-content:stretch!important;align-items:center!important;}
+#shell #gacha .featured-rewards .gacha-item.hero{grid-column:auto!important;height:clamp(126px,17.7dvh,175px)!important;grid-template-rows:13px minmax(0,1fr) minmax(15px,auto) 12px!important;align-items:center!important;}
+#shell #gacha .gacha-item .gacha-art,body>#gachaReveal .gacha-item .gacha-art{position:relative!important;inset:auto!important;width:auto!important;height:100%!important;aspect-ratio:1;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;justify-self:center;align-self:center;transform:none!important;background-size:var(--equipped-size,contain)!important;background-position:var(--equipped-position,center)!important;}
+#shell #gacha .gacha-item b,#shell #gacha .gacha-item .gacha-desc{height:auto!important;max-height:none!important;line-height:1.2!important;margin:0!important;align-self:center;}
+#shell #gacha .gacha-history{max-height:88px!important;}
+/* Full-screen draw results, no overlap between status and equip button. */
+body>#gachaReveal:not(.hidden){display:flex!important;flex-direction:column;justify-content:center;align-items:center;gap:clamp(6px,1.2dvh,12px);padding:clamp(10px,2.5dvh,24px) clamp(10px,3vw,44px);overflow:hidden!important;}
+body>#gachaReveal .pull-heading{flex:0 0 auto;margin:0;}
+body>#gachaReveal .pull-heading h2{font-size:clamp(20px,3.6dvh,36px);line-height:1.15;margin:4px 0;}
+body>#gachaReveal .pull-grid{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-rows:auto;width:min(100%,1200px);max-height:none!important;min-height:0;flex:0 1 auto;overflow:auto!important;padding:3px;gap:8px;align-content:start;}
+body>#gachaReveal .pull-grid .gacha-item{height:clamp(156px,calc((100dvh - 144px)/2),270px)!important;min-height:0!important;width:100%!important;max-width:none!important;box-sizing:border-box;display:grid!important;grid-template-rows:15px minmax(0,1fr) minmax(25px,auto) minmax(18px,auto) 32px!important;align-content:stretch!important;align-items:center!important;justify-items:center;gap:4px!important;padding:8px!important;overflow:hidden!important;}
+body>#gachaReveal .pull-grid .gacha-desc{display:none!important;}
+body>#gachaReveal .pull-grid .gacha-rarity{font-size:10px;line-height:1.2;}
+body>#gachaReveal .pull-grid .gacha-item b{font-size:clamp(10px,1.1vw,14px);line-height:1.25;white-space:normal;overflow-wrap:anywhere;align-self:center;margin:0!important;}
+body>#gachaReveal .pull-status{display:block!important;width:100%;font-size:clamp(9px,.8vw,12px)!important;line-height:1.25!important;white-space:normal;overflow-wrap:anywhere;margin:0!important;text-align:center;align-self:center;}
+body>#gachaReveal .pull-grid .gacha-item button{width:100%;min-height:32px!important;height:32px!important;margin:0!important;align-self:end;}
+body>#gachaReveal .close-rewards{flex:0 0 auto;min-height:40px;margin:0!important;}
+body>#gachaReveal .pull-grid.single{grid-template-columns:minmax(0,320px)!important;justify-content:center;}
+body>#gachaReveal .pull-grid.single .gacha-item{height:clamp(210px,55dvh,410px)!important;}
+/* Catalog: image, title, description, action each get a non-overlapping row. */
+#shell #inventory #inventoryGrid .shop-item,#shell #shop #shopGrid .shop-item{height:clamp(157px,23dvh,222px)!important;min-height:0!important;grid-template-rows:minmax(0,1fr) minmax(16px,auto) minmax(27px,auto) 32px!important;align-items:stretch!important;gap:4px!important;overflow:hidden!important;}
+#shell #inventory .shop-item .item-art,#shell #shop .shop-item .item-art{height:100%!important;min-height:0!important;max-height:none!important;position:relative!important;overflow:hidden!important;}
+#shell #inventory .item-art .item-character,#shell #shop .item-art .item-character{position:absolute!important;inset:auto!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;width:auto!important;height:calc(100% - 8px)!important;aspect-ratio:1;max-width:calc(100% - 8px)!important;max-height:100%!important;background-size:var(--equipped-size,contain)!important;background-position:var(--equipped-position,center)!important;}
+#shell #inventory .shop-item h3,#shell #shop .shop-item h3{font-size:12px;line-height:1.2;overflow-wrap:anywhere;align-self:center;margin:0;}
+#shell #inventory .shop-item p,#shell #shop .shop-item p{font-size:10px;line-height:1.25;min-height:0;max-height:none;margin:0;white-space:normal;overflow-wrap:anywhere;}
+#shell #inventory .shop-item button,#shell #shop .shop-item button{height:32px!important;min-height:32px!important;margin:0!important;align-self:end;}
+/* Gameplay stage: size derived from roster count and the available vertical space. */
+#game{--dancer-size:min(32vw,47dvh,420px);}
+#game[data-mode=solo]{--dancer-size:min(48vw,52dvh,470px);}
+#game[data-mode=duel]{--dancer-size:min(34vw,46dvh,410px);}
+#game[data-team-size='2']{--dancer-size:min(22vw,40dvh,340px);}
+#game[data-team-size='3']{--dancer-size:min(15vw,36dvh,270px);}
+#game[data-team-size='4']{--dancer-size:min(11.6vw,32dvh,218px);}
+#game[data-team-size='5']{--dancer-size:min(9.3vw,30dvh,180px);}
+#game[data-ffa=yes]{--dancer-size:min(calc(88vw / var(--ffa-count,5)),42dvh,320px);}
+#game .stage{min-height:0!important;flex:1 1 0!important;align-items:end;overflow:visible;}
+#game .stage .dancer{height:min(100%,calc(var(--dancer-size) + 26px))!important;max-height:none!important;width:var(--dancer-size)!important;max-width:48%;min-width:0;flex:0 0 auto;box-sizing:border-box;padding-bottom:24px;}
+#game[data-mode=solo] .stage .dancer{max-width:90%;}
+#game .stage .dancer .sprite{width:100%;height:100%;max-width:100%;max-height:100%;}
+#game[data-mode=team] .squad-strip{gap:clamp(6px,2vw,28px);width:100%;align-items:end;}
+#game[data-mode=team] .squad-team{gap:clamp(2px,.5vw,8px);min-width:0;}
+#game[data-mode=team] .stage .team-art{width:min(100%,var(--dancer-size))!important;height:auto!important;aspect-ratio:1;max-height:none!important;max-width:100%;}
+#game[data-mode=team] .squad-member{grid-template-rows:auto auto auto 20px;gap:3px;min-width:0;}
+/* Countdown anchor is relative to the art, not the viewport or the card header. */
+#game .dancer .turn-count,#game .squad-member .turn-count{position:absolute;left:50%!important;top:var(--turn-y,62%)!important;transform:translate(-50%,-50%);display:grid;place-items:center;box-sizing:border-box;width:clamp(24px,3.5vw,48px)!important;height:clamp(24px,3.5vw,48px)!important;border-radius:50%;border:1px solid #ffe3b8;background:radial-gradient(circle,#544164f2,#171b34e8);color:#fff2d1;font-size:clamp(14px,2vw,26px)!important;text-shadow:0 1px 3px #100b1a;box-shadow:0 0 14px #ffd59555;line-height:1;z-index:10;pointer-events:none;}
+#game .turn-count.go{font-size:clamp(11px,1.4vw,18px)!important;border-color:#b5fce3;color:#e7fff5;background:#16463fe8;}
+#game .turn-count.count-pop{animation:cb30-count-in .48s cubic-bezier(.18,.8,.24,1) both!important;}
+#game .turn-count.count-out{animation:cb30-count-out .22s ease-in both!important;}
+#game .turn-count:empty{display:none!important;}
+@keyframes cb30-count-in{0%{opacity:0;transform:translate(-50%,-65%) scale(1.4)}45%{opacity:1;transform:translate(-50%,-50%) scale(.93)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes cb30-count-out{to{opacity:0;transform:translate(-50%,-30%) scale(.75)}}
+@media(max-width:999px){#shell #gacha .summon-showcase{height:clamp(126px,22dvh,180px)!important;}#shell #gacha .featured-rewards .gacha-item.hero{height:140px!important;}}
+@media(max-width:640px){body>#gachaReveal:not(.hidden){justify-content:flex-start;}body>#gachaReveal .pull-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}body>#gachaReveal .pull-grid .gacha-item{height:184px!important;}body>#gachaReveal .pull-grid.single .gacha-item{height:300px!important;}#game[data-mode=solo]{--dancer-size:min(70vw,40dvh,280px)}#game[data-mode=duel]{--dancer-size:min(45vw,34dvh,220px)}#game[data-team-size='2']{--dancer-size:min(39vw,22dvh,148px)}#game[data-team-size='3']{--dancer-size:min(27vw,19dvh,112px)}#game[data-team-size='4']{--dancer-size:min(20vw,16dvh,90px)}#game[data-team-size='5']{--dancer-size:min(17vw,14dvh,74px)}#game[data-ffa=yes]{--dancer-size:min(17vw,24dvh,100px)}#game[data-mode=team] .squad-strip{gap:3px;grid-template-columns:1fr;}#game[data-mode=team] .squad-member{grid-template-rows:auto auto 15px;gap:1px;}#game .turn-count{width:25px!important;height:25px!important;font-size:14px!important;}}
+@media(orientation:landscape) and (max-height:520px){#game[data-mode=solo]{--dancer-size:min(35vw,42dvh)}#game[data-mode=duel]{--dancer-size:min(32vw,39dvh)}#game[data-mode=team]{--dancer-size:min(calc(85vw / (2 * var(--ffa-count,5))),30dvh)}#game[data-ffa=yes]{--dancer-size:min(17vw,34dvh)}#game[data-mode=team] .squad-strip{grid-template-columns:1fr 1fr;}#game[data-mode=team] .squad-member{gap:0;grid-template-rows:auto auto 14px;}body>#gachaReveal .pull-grid .gacha-item{height:156px!important;}body>#gachaReveal:not(.hidden){justify-content:flex-start;} }
+#game .dancer .turn-count,#game .squad-member .turn-count{width:var(--count-size,32px)!important;height:var(--count-size,32px)!important;font-size:var(--count-font,18px)!important;}
+#game .dancer .turn-count.go,#game .squad-member .turn-count.go{font-size:calc(var(--count-font,18px)*.68)!important;}
+#shell #gacha .gacha-track .gacha-item .gacha-art{height:min(100%,calc(clamp(100px,10vw,158px) - 16px))!important;}

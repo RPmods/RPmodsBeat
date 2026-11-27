@@ -1,3 +1,42 @@
+> **Paquete Alpha 0.21 configurado para RPmodsBeat:** consulta `../LEEME-PRIMERO.txt` y `LOCAL-SYNC-0.21.md` antes de las instrucciones históricas de versiones anteriores. El Level Studio se incluye en un ZIP independiente junto al juego.
+
+# Match Arena · Alpha 0.20
+
+- Versus tiene tres apartados: Buscar partida, Mi grupo y Sala privada (FFA).
+- Matchmaking cooperativo 1v1–5v5: busca durante 12 segundos, combina grupos compatibles y completa con CPU. La descarga y confirmación de recursos se realiza después.
+- Sala privada FFA: 2–5 personas reales, ruta completa por persona, clasificación en directo y MVP único.
+- Respaldo JSON de perfil, importación solo como invitado.
+- Antes de usar online actualiza `database.rules.json` en Firebase. No reemplaces tu `firebase-config.js` configurado.
+- Ver `MATCHMAKING-Y-RESPALDOS.md`.
+
+# Alpha 0.18 — Beat Surge
+
+**Habilidad personal:** la barra comienza vacía; Perfect +5%, Great +4%, Good +2,5%, Miss +0%. Al 100%, mantén Espacio o el botón táctil durante 2 segundos. El motor juzga como Perfect las notas de tu ruta cuyo inicio cae en los siguientes 8 segundos de canción. No consume notas de compañeros ni recarga energía con Perfect asistidos. Si una sostenida empieza dentro de la ventana, finaliza automáticamente aunque cruce su límite. No se activa si no hay notas próximas; la habilidad termina al finalizar la parte jugable. Pausar cancela una pulsación de activación incompleta; la ventana activa se conserva en el reloj musical. Reiniciar restablece la barra. Espacio está reservado y antiguas asignaciones conflictivas se migran automáticamente.
+
+Los resultados registran usos y Perfect asistidos. La habilidad se aplica a Práctica y Versus local contra bots; para un futuro online real se deberá validar en el servidor y decidir reglas competitivas.
+
+**Revisión visual:** contornos de expresiones, uniones de hombros y piernas, residuos blancos en cabello de Zombyexx; se conservan los diseños, cosméticos y rig modular.
+
+# Cherry Beat — Alpha 0.16 · Starlight Encore
+
+Actualización compatible con Alpha 0.15 y con GitHub Pages (rutas relativas, sin backend). Extraer en la raíz del repositorio; conservar `.nojekyll`. Los perfiles se guardan en el mismo espacio local de navegador.
+
+## Novedades 0.16
+- Lobby de escenario con artista central animado, navegación lateral, elenco de cinco artistas y acceso principal a Versus.
+- Zombyexx: nuevo artista jugable, cuervo exclusivo en su hombro derecho (a la izquierda del espectador); sprites y expresiones adaptados de las referencias generadas. Cuervo con movimiento de balanceo, elevación y aleteo parcial. El motor es 2D por capas, no un rig 3D.
+- 26 estados de gameplay + 7 clips de vestidor de 4,7 segundos por artista; estos últimos comparten el motor y varían amplitud según el artista. Los cosméticos se componen con el cuerpo base.
+- Cinco sets exclusivos de Zombyexx: Starmap Scholar, Void Circuit (épicos), Astral Conductor, Night Sovereign (legendarios), Galaxy Nexus (exótico). Son variantes de textura estampada con efectos propios, no prendas de geometría redibujada. Los cosméticos universales siguen disponibles.
+- Gacha con selector de colección (Todas, Astral, Zombyexx). Probabilidades por rareza iguales: 63/27/8/2. Giros ×1 y ×10, canje local y recompensas existentes conservados.
+- Dos fondos de carga ilustrados alternados, barra real de progreso separada de la ilustración. Sin modelos 3D ejecutables.
+- Estrellas de equipo animadas al cruzar umbrales, texto de precisión renovado, replay obligatorio de aproximadamente 9,8 s antes del resultado.
+- Formación de cinco personajes distintos en cada equipo 5v5; bots locales, no conexión online.
+
+Pruebas: sintaxis JS, menú/vestidor y gacha ×10 en Chromium con recursos embebidos reducidos; ambas canciones y cinco tamaños de Versus con reloj simulado. El ensayo extendido de la transición final agotó el límite del entorno. Falta validar audio real, carga HTTPS y dispositivos físicos. La animación es experimental y puede mostrar uniones en recortes de ropa/cabello.
+
+# Alpha 0.15 — Motion Lab (experimental)
+
+Consulta [MOTION-LAB.md](MOTION-LAB.md) para los cambios, pruebas y limitaciones del nuevo motor.
+
 # Cherry Beat — Alpha 0.14 | Encore Release
 
 Consulta [PUBLICACION.md](PUBLICACION.md) para publicar en GitHub Pages, controles, carga y notas de las canciones.
@@ -45,3 +84,25 @@ Perfil, inventario, tickets, monedas y controles se guardan en localStorage, con
 - Replay por equipos con datos acumulados; no reproduce las pulsaciones originales en tiempo real.
 - Pruebas con Chromium y recursos reducidos embebidos, reloj simulado; no equivale a prueba completa con audio físico.
 - Inspiración de interfaz: Colorful Stage (https://www.colorfulstage.com/news/detail/000573.html), Just Dance (estrellas y evaluación).
+
+## Hotfix 0.14.1
+- START, Comenzar y Cancelar reciben clics y toques; las capas de carga bloquean el menú inferior.
+- La precarga inicial tiene un límite de espera de 18 segundos y continúa al menú si hay recursos no disponibles.
+- Se mantienen canciones, modos, cosméticos y claves de almacenamiento.
+
+## Alpha 0.17 · Level Studio compatibility
+- `levels.js`: catálogo de niveles (datos JSON en asignación JS). `chart-schema.js`: validador compartido por juego/editor.
+- El Level Studio se distribuye por separado. Exporta el registro y nuevos recursos en ZIP; se extrae en la raíz del juego. Las canciones aparecen en Práctica y Versus sin tocar código.
+- Se corrigieron siete notas fuera de secciones activas en AI♡SCREAM! extendiendo los límites activos sin mover las notas. Ambas rutas originales mantienen sus tiempos y cantidades.
+- El HUD comienza antes de la primera nota, incluso con intros cortas. Velocidad de desplazamiento adapta la separación mínima de las notas personalizadas. Historial muestra títulos de niveles nuevos. El catálogo muestra el número real de canciones.
+- Las claves internas siguen siendo easy/normal/hard (en el editor Fácil/Difícil/Experto).
+- Mantener los cinco archivos del parche en la raíz, junto a assets y .nojekyll. Las rutas son relativas a la carpeta del proyecto. No es necesario alojar el editor en GitHub Pages.
+
+## Alpha 0.20 — Online Lab
+- Firebase Authentication con correo/contraseña, nombre visible y UID único. Invitado independiente; perfil sincronizado al iniciar sesión y guardar cambios.
+- Salas privadas de 1–5 usuarios contra CPU, reloj común aproximado, asignación de rutas por puesto y resultados de notas remotos. Sin PvP humano, sin rollback ni servidor autoritativo.
+- Canje en Ajustes, códigos configurables en Realtime Database y código de invitado separado. MVP por equipo.
+- Sigue funcionando sin Firebase configurado. Lee **FIREBASE-SETUP.md** antes de usar el online. Las pruebas de servicio real requieren tu proyecto y reglas desplegadas. No es una economía segura para producción.
+
+## Alpha 0.22
+AI♡SCREAM! movida a assets/aiscream/. Level Studio 1.2 guarda chart.json por nivel y genera levels.js. La exportación del usuario se conserva exactamente en notas (205/392/1), con descansos independientes inicialmente iguales. Los scripts históricos de tools no se deben ejecutar sobre el catálogo activo.

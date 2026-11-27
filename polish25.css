@@ -1,0 +1,115 @@
+/* Fixed viewport game shell: navigation never changes the width/height of a scene.
+   Only content panels may scroll on compact screens; no document scrollbar. */
+html,body{margin:0;width:100%;height:100%;overflow:hidden!important;scrollbar-gutter:auto!important;overscroll-behavior:none}
+#shell:not(.hidden){position:fixed!important;inset:0!important;display:flex!important;flex-direction:column!important;min-height:0!important;height:100dvh!important;width:100%!important;overflow:hidden!important}
+#shell .sidebar{position:relative!important;top:auto!important;flex:0 0 auto!important;min-width:0;scrollbar-width:none;overscroll-behavior:contain}
+#shell .main{flex:1 1 0!important;min-height:0!important;min-width:0!important;width:100%!important;max-width:none!important;margin:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;padding:clamp(10px,1.45vh,20px) clamp(12px,2vw,34px)!important;scrollbar-gutter:auto!important}
+#shell .top{flex:0 0 auto;min-height:44px;margin:0 0 clamp(6px,1vh,12px)!important;display:flex!important}
+#shell .page{min-width:0;min-height:0;width:100%;max-width:none;flex:1 1 0;overflow:hidden;animation:none!important}
+#shell .page.active{display:flex!important;flex-direction:column;gap:clamp(5px,1vh,12px);min-height:0;overflow:auto;scrollbar-width:none;overscroll-behavior:contain}
+#shell .page.active>*{flex-shrink:0;min-width:0;animation:none!important}
+#shell .page .sectionhead{margin:0!important;min-height:0;padding:0!important;gap:8px;flex-wrap:wrap}
+#shell .page .sectionhead h1{font-size:clamp(23px,3.5vh,36px);margin:2px 0!important;line-height:1.1}
+#shell .page .sectionhead p{margin:3px 0!important}
+#shell .page .sectionhead .eyebrow{font-size:9px}
+#shell .page::-webkit-scrollbar,#shell .sidebar::-webkit-scrollbar,.track-picker::-webkit-scrollbar,.gacha-history::-webkit-scrollbar,.pull-grid::-webkit-scrollbar{display:none}
+#home.active{overflow:hidden!important}
+#home .live-lobby{flex:1 1 0!important;height:100%!important;min-height:0!important;max-height:100%!important;grid-template-rows:minmax(0,1fr) auto;gap:clamp(6px,1.4vh,18px);padding:clamp(12px,2vh,28px);border-radius:18px}
+#home .lobby-stage{min-height:0!important;align-self:stretch;grid-template-rows:minmax(0,1fr) auto}
+#home .lobby-dancer{width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;align-self:stretch}
+#home .lobby-bottom{padding-top:8px;min-height:0}
+#home .lobby-name strong{font-size:clamp(22px,4.2vh,42px)}
+#home .lobby-name{padding:2px 0!important}
+#home .lobby-copy h1{font-size:clamp(26px,6vh,66px)!important}
+#home .lobby-cast{min-height:0;gap:5px}
+#home .lobby-artist{min-height:0;padding:5px 9px}
+#home .lobby-thumb{height:clamp(24px,4vh,40px);width:clamp(24px,4vh,40px)}
+#home .lobby-new{padding:6px 10px}
+#home .lobby-play{min-height:44px}
+#inventory .closet-cast{margin:0!important;gap:6px}
+#inventory .closet-shell,#shop .shop-shell{flex:1 1 auto!important;min-height:0;align-items:stretch!important;gap:10px!important}
+#inventory .closet-shell>.center-stage,#inventory .closet-panel{height:100%;min-height:0!important;margin:0!important}
+#inventory .center-stage{grid-template-rows:minmax(0,1fr) auto auto auto!important}
+#inventory .center-stage .wardrobe-sprite{min-height:0!important;height:100%!important;max-height:none!important;overflow:hidden!important}
+#inventory .closet-right,#shop .shop-main{display:flex!important;flex-direction:column;min-height:0;gap:8px;overflow:hidden}
+#inventory .shop-grid,#shop .shop-grid{grid-auto-rows:minmax(0,1fr);align-content:start;min-height:0;gap:8px}
+#inventory .shop-item,#shop .shop-item{min-height:0;grid-template-rows:minmax(60px,1fr) auto minmax(1.8em,auto) auto!important;gap:4px!important;padding:6px!important}
+#inventory .shop-item p,#shop .shop-item p{font-size:11px;min-height:1.8em;line-height:1.25}
+#inventory .item-art,#shop .item-art{min-height:80px!important;max-height:145px!important}
+#inventory .shop-item h3,#shop .shop-item h3{margin:0;line-height:1.2;font-size:13px}
+#inventory .shop-item button,#shop .shop-item button{min-height:32px!important;margin-top:0!important}
+#inventory .catalog-pager,#shop .catalog-pager{flex:none;margin:2px auto 0!important}
+#inventory .closet-left{overflow:auto;scrollbar-width:none}
+#shop .shop-preview-wrap{min-height:0!important;height:clamp(120px,30vh,290px)!important}
+#shop .shop-feature{min-height:0!important}
+/* The reward art always lives in a square, centered inside its card.
+   No stretch, negative offsets or competing character-specific transforms. */
+#gacha .gacha-layout{flex:1 1 auto!important;min-height:0;grid-template-columns:minmax(0,1.75fr) minmax(245px,1fr)!important;align-items:start!important;gap:10px!important}
+#gacha .gacha-left,#gacha .gacha-right{min-width:0;min-height:0;display:flex!important;flex-direction:column;gap:8px!important;overflow:visible!important}
+#gacha .summon-showcase{height:clamp(125px,22vh,215px);min-height:0!important;flex:none;grid-template-columns:minmax(0,1fr) minmax(90px,.72fr);padding:12px!important;align-items:center;overflow:hidden}
+#gacha .summon-copy h2{font-size:clamp(23px,4vh,43px)!important;line-height:1.04;margin:3px 0!important}
+#gacha .summon-copy p{font-size:11px!important;line-height:1.25;margin:3px 0!important}
+#gacha .summon-tabs{gap:4px;flex-wrap:wrap}
+#gacha .summon-tabs button{padding:6px 10px;min-height:29px;font-size:12px}
+#gacha .summon-art{height:100%!important;width:100%!important;min-height:0!important;max-height:100%!important;overflow:hidden!important}
+#gacha .gacha-machine{flex:none;padding:8px!important;min-height:0;overflow:hidden!important}
+#gacha .gacha-wheel{height:clamp(148px,24vh,230px)!important;min-height:0!important;margin:0!important;padding:0!important;position:relative;overflow:hidden!important}
+#gacha .gacha-track{top:7px!important;bottom:7px!important;height:auto!important;padding:0 8px!important;gap:7px!important;align-items:stretch!important}
+#gacha .gacha-track .gacha-item{height:100%!important;width:clamp(100px,10vw,158px)!important;min-width:clamp(100px,10vw,158px)!important;flex:0 0 auto!important;grid-template-rows:15px minmax(0,1fr) minmax(22px,auto) minmax(19px,auto)!important;gap:3px!important;padding:7px!important;justify-items:stretch!important;align-content:stretch!important}
+#gacha .gacha-rarity{font-size:9px!important;line-height:1.2;letter-spacing:.06em;white-space:nowrap}
+#gacha .gacha-track .gacha-item b,#gacha .featured-rewards .gacha-item b{font-size:11px!important;line-height:1.15;margin:0;align-self:center;overflow-wrap:anywhere;white-space:normal!important}
+#gacha .gacha-item .gacha-desc{font-size:9px!important;line-height:1.15;min-height:0!important;align-self:center;white-space:normal!important;overflow-wrap:anywhere}
+#gacha .gacha-art,.gacha-reveal .gacha-art{height:100%!important;max-height:none!important;width:100%!important;min-height:0!important;max-width:100%!important;transform:none!important;animation:none!important;background-position:var(--equipped-position,center center)!important;background-size:var(--equipped-size,contain)!important;overflow:hidden!important;isolation:isolate}
+#gacha .gacha-art:after,.gacha-reveal .gacha-art:after,#gacha .summon-art:after{background-size:contain!important;background-position:center!important;inset:0!important;transform:none!important;animation:none!important}
+#gacha .gacha-result{min-height:30px;margin:7px 0 0!important;padding:5px!important;font-size:12px;line-height:1.2}
+#gacha .gacha-actions{display:grid!important;grid-template-columns:1.25fr 1fr 1fr;gap:6px;margin:0!important}
+#gacha .gacha-actions button{min-width:0;min-height:36px;padding:6px;font-size:12px}
+#gacha .gacha-left>#gachaStatus{margin:0!important;font-size:11px}
+#gacha .gacha-rates,#gacha .gacha-banner,#gacha .gacha-history{padding:9px!important;margin:0!important;min-height:0;min-width:0;gap:5px}
+#gacha .gacha-rates h3,#gacha .gacha-history h3{margin:0 0 4px!important;font-size:14px}
+#gacha .gacha-banner>small{font-size:10px;line-height:1.2}
+#gacha .gacha-banner .featured-rewards{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;max-height:none!important;overflow:visible!important;margin:0!important}
+#gacha .featured-rewards .gacha-item.hero{grid-column:auto!important;display:grid!important;width:100%!important;min-width:0!important;height:clamp(104px,16vh,150px)!important;min-height:0!important;grid-template-rows:13px minmax(0,1fr) minmax(18px,auto) 12px!important;gap:3px!important;padding:6px!important;overflow:hidden!important}
+#gacha .featured-rewards .gacha-item.hero .gacha-art{height:100%!important;min-height:0!important}
+#gacha .gacha-history{max-height:100px!important;overflow:auto!important;scrollbar-width:none}
+#gacha .gacha-history-art{width:34px!important;height:34px!important}
+#gacha .catalog-pager{margin:3px auto 0!important}
+.gacha-reveal .pull-grid .gacha-item{grid-template-rows:15px minmax(0,1fr) minmax(24px,auto) minmax(13px,auto) 15px 28px!important;height:clamp(155px,32vh,265px)!important;gap:3px!important;overflow:hidden!important}
+.gacha-reveal .pull-grid.single .gacha-item{height:clamp(210px,57vh,440px)!important}
+.gacha-reveal .pull-grid{scrollbar-width:none}
+.gacha-reveal .gacha-item b{font-size:12px;white-space:normal;overflow-wrap:anywhere}
+.motion-mounted .motion-canvas{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center bottom!important;transform:none!important}
+.motion-mounted .motion-fx{background-size:contain!important;background-position:center!important;transform-origin:center;animation:cb25-orbit 9s linear infinite!important}
+.motion-mounted[data-outfit^='legend-'] .motion-fx,.motion-mounted[data-outfit^='zomby-'] .motion-fx{animation:cb25-pulse 4s ease-in-out infinite!important}
+.motion-mounted[data-outfit='original'] .motion-fx{animation:none!important}
+@keyframes cb25-orbit{to{transform:rotate(360deg)}}
+@keyframes cb25-pulse{0%,100%{opacity:.58;transform:scale(.96)}50%{opacity:.9;transform:scale(1.02)}}
+.is-paused .motion-fx{animation-play-state:paused!important}
+@media(min-width:1000px) and (min-height:700px){#inventory.active,#shop.active,#gacha.active{overflow:hidden!important}#inventory .closet-shell,#shop .shop-shell{flex:1 1 0!important}#inventory .shop-grid,#shop .shop-grid{grid-auto-rows:minmax(130px,1fr);max-height:100%;flex:0 1 auto!important}#inventory .shop-item,#shop .shop-item{height:clamp(140px,25vh,230px)!important}#shop .shop-sidebar{overflow:auto;scrollbar-width:none}}
+@media(max-width:999px){#gacha .gacha-layout{grid-template-columns:minmax(0,1fr)!important}#inventory .closet-shell,#shop .shop-shell{flex:0 0 auto!important}#inventory .closet-shell>.center-stage{height:330px!important}#inventory .closet-panel{height:auto!important}#inventory .shop-item,#shop .shop-item{height:190px!important}#gacha .gacha-right .featured-rewards{grid-template-columns:repeat(2,minmax(0,1fr))!important}#home .live-lobby{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto!important;gap:7px}#home .lobby-stage{grid-column:1/-1}#home .lobby-copy h1{font-size:clamp(23px,5vh,38px)!important}#home .lobby-cast{gap:3px}#home .lobby-new{display:none}#home .lobby-copy p{margin:2px 0}#home .lobby-bottom{grid-column:1/-1}#home .lobby-event{min-height:0;padding:6px}#home .lobby-artist{padding:3px 5px}#home .lobby-thumb{width:24px;height:24px}}
+@media(max-width:640px){#shell .sidebar{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;height:52px!important;min-height:52px!important;max-height:52px!important;padding:6px 8px!important;gap:8px!important}#shell .sidebar nav{display:flex!important;flex-wrap:nowrap!important;flex-shrink:0;gap:3px!important}#shell .sidebar .brand{flex-shrink:0}#shell .main{padding:8px!important}#shell .top{min-height:36px;margin-bottom:6px!important}#home .live-lobby{display:flex!important;flex-direction:column;gap:6px!important;padding:8px!important}#home .lobby-copy{display:grid;grid-template-columns:1fr 1fr;gap:3px;align-items:center}#home .lobby-copy h1{grid-column:1/-1;margin:0;font-size:clamp(22px,4.5vh,34px)!important}#home .lobby-copy .eyebrow,#home .lobby-copy p{display:none}#home .lobby-event{grid-column:1/-1}#home .lobby-stage{flex:1 1 0!important;min-height:110px!important}#home .lobby-cast{display:flex!important;flex-direction:row!important;overflow-x:auto;scrollbar-width:none}#home .lobby-cast>*{min-width:0;flex:1 0 18%;font-size:9px}#home .lobby-artist{display:flex;flex-direction:column;align-items:center;gap:1px}#home .lobby-bottom{gap:4px;padding-top:4px!important}#home .lobby-song{display:none}#home .lobby-bottom button{min-height:36px}#home .lobby-name strong{font-size:22px}#gacha .gacha-wheel{height:170px!important}#gacha .summon-showcase{height:140px!important}#gacha .gacha-actions button{font-size:10px;min-height:36px}#gacha .gacha-history{max-height:90px!important}#inventory .closet-shell>.center-stage{height:285px!important}#inventory .closet-cast{display:flex!important;overflow-x:auto;scrollbar-width:none}#inventory .closet-cast>*{flex:0 0 142px;width:142px!important}#shop .shop-item,#inventory .shop-item{height:175px!important}.gacha-reveal .pull-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-height:70dvh!important;overflow:auto!important}.gacha-reveal .pull-grid .gacha-item{height:180px!important}.gacha-reveal .pull-grid.single{grid-template-columns:minmax(0,270px)!important}.gacha-reveal .pull-grid.single .gacha-item{height:290px!important}}
+@media(orientation:landscape) and (max-height:520px){#shell .sidebar{height:44px!important;min-height:44px!important;padding:3px 9px!important}#shell .top{min-height:30px;margin-bottom:4px!important}#home .live-lobby{grid-template-columns:minmax(105px,.8fr) minmax(0,1.8fr) minmax(105px,.7fr)!important;grid-template-rows:minmax(0,1fr) auto!important;padding:6px!important}#home .lobby-stage{grid-column:auto!important}#home .lobby-bottom{grid-column:1/-1}#home .lobby-copy h1{font-size:23px!important}#home .lobby-copy p,#home .lobby-copy .eyebrow{display:none}#home .lobby-event{padding:5px!important}#home .lobby-name strong{font-size:18px!important}#home .lobby-artist{padding:2px 5px!important}#home .lobby-thumb{width:18px;height:18px}#home .lobby-bottom button{min-height:32px!important;padding:4px 8px!important}#home .lobby-play strong{font-size:18px!important}#gacha .gacha-wheel{height:152px!important}}
+@media(prefers-reduced-motion:reduce){.motion-fx,.page.active{animation:none!important}}
+/* Keep paging authoritative even where older card styles use !important. */
+#shell #gacha #featuredRewards .gacha-item[hidden],#shell #shop #shopGrid .shop-item[hidden],#shell #inventory #inventoryGrid .shop-item[hidden],#shell [hidden]{display:none!important}
+#gacha .gacha-track .gacha-item{grid-template-rows:15px minmax(0,1fr) 25px 21px!important}
+#gacha .gacha-track .gacha-item .gacha-desc{max-height:21px;overflow:hidden}
+#gacha .featured-rewards .gacha-item.hero{grid-template-rows:13px minmax(0,1fr) 22px 12px!important}
+/* Compact competitive scene and circular effects on non-square cards. */
+#gacha .painted[data-outfit^='legend-']:not(.motion-mounted)::after,#gacha .painted[data-outfit^='epic-']:not(.motion-mounted)::after,.gacha-reveal .painted[data-outfit^='legend-']::after,.gacha-reveal .painted[data-outfit^='epic-']::after{border-radius:0!important;background:radial-gradient(circle closest-side,transparent 48%,#c3a0fa22 64%,transparent 77%)!important;box-shadow:none!important}
+#gacha .painted[data-outfit='exotic-galaxy']:not(.motion-mounted)::after,#gacha .painted[data-outfit='zomby-nexus']:not(.motion-mounted)::after{background-image:var(--orbit-image)!important;background-size:contain!important;background-position:center!important;animation:cb25-orbit 9s linear infinite!important}
+#versus .arena-select{min-height:0;gap:10px!important;align-items:start!important}
+#versus .arena-config,#versus .arena-preview{padding:12px!important;min-height:0!important;gap:8px!important}
+#versus .arena-preview>.mm-hub{margin:0!important;padding:10px!important;gap:6px!important}
+#versus .mm-panel{gap:5px!important}
+#versus .mm-panel p,#versus .arena-preview>p,#versus #teamInfo{font-size:11px;line-height:1.3;margin:4px 0!important}
+#versus .arena-rosters{gap:6px!important;min-height:0!important}
+#versus .arena-rosters .roster-member{padding:4px!important;min-height:0!important}
+#versus .arena-rosters .roster-art{height:clamp(44px,9vh,96px)!important;min-height:0!important}
+#versus .arena-heading{margin:0!important;min-height:0!important}
+#versus .arena-config .botsettings{padding:8px!important;margin:4px 0!important;min-height:0!important}
+#versus .arena-config h2{margin:5px 0!important;font-size:18px}
+#versus .mode-grid button{padding:9px 5px!important;min-height:0!important}
+@media(min-width:1000px) and (max-height:820px){#gacha .summon-showcase{height:clamp(110px,19vh,160px)!important}#gacha .gacha-wheel{height:clamp(145px,21vh,185px)!important}#gacha .featured-rewards .gacha-item.hero{height:clamp(92px,14vh,124px)!important}#gacha .gacha-history{max-height:70px!important}#gacha .gacha-layout{gap:8px!important}#gacha .gacha-right{gap:5px!important}#gacha .gacha-rates,#gacha .gacha-banner,#gacha .gacha-history{padding:6px!important}#inventory .shop-item,#shop .shop-item{height:clamp(115px,22vh,170px)!important}}
+#shell #gacha.active,#shell #shop.active,#shell #inventory.active{overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none}
+@media(max-width:999px){#home .lobby-dancer{min-height:0!important}#home .lobby-copy{min-height:0!important}}

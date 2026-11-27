@@ -1,0 +1,36 @@
+/* Stage integrity: cosmetic effects cannot escape their portrait or player card. */
+:where(.painted){position:relative;isolation:isolate}
+#shell .roster-art,#shell .closet-art,#shell .lobby-thumb,#shell .item-character,#shell .gacha-art,#shell .legend-preview,#shell .gacha-history-art,#shell .galaxy-variant{position:relative;isolation:isolate;overflow:hidden;min-width:0;min-height:0;max-width:100%;background-repeat:no-repeat}
+/* item-character uses absolute positioning within some catalogue cards. */
+#shell .item-art .item-character{position:absolute}
+#shell .roster-art::after,#shell .roster-art::before{inset:8%!important;width:auto!important;height:auto!important;max-width:100%;max-height:100%;pointer-events:none!important;z-index:-1!important;background-size:contain!important;background-position:center!important;transform-origin:center!important}
+#shell .roster-member{position:relative;isolation:isolate;overflow:hidden;min-width:0;display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;gap:3px!important;border:1px solid #8b8bb820;border-radius:9px}
+#shell .roster-member[data-local=yes]{border-color:#e4a3d0;background:#392f4d}
+#shell .roster-member b{min-width:0;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;line-height:1.25;font-size:clamp(9px,.8vw,12px)}
+#shell .arena-rosters{margin:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:8px!important;min-width:0;min-height:0}
+#shell .arena-roster{position:relative;isolation:isolate;overflow:hidden;grid-template-columns:repeat(var(--roster-slots,1),minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:4px!important;padding:5px!important;align-items:stretch;min-width:0;min-height:0}
+#shell #versus .arena-rosters .roster-art{height:clamp(58px,13vh,130px)!important;max-height:none!important;width:100%;aspect-ratio:auto}
+#shell #versus .arena-roster[data-slots="1"] .roster-art{height:clamp(110px,23vh,220px)!important}
+#shell #versus .arena-preview{display:flex;flex-direction:column;align-items:stretch;overflow:hidden}
+#shell #versus .arena-heading{display:flex;align-items:center;justify-content:space-between;flex:none}
+#shell #versus .arena-heading b{flex:1;text-align:center;font-size:12px}
+#shell #versus .arena-heading strong{font-size:23px}
+#shell #versus .arena-config{align-self:start;overflow:hidden}
+#shell #versus .arena-select{grid-template-columns:minmax(280px,.74fr) minmax(0,1.26fr);align-items:start!important;min-width:0}
+#shell #versus .track-picker{max-height:clamp(90px,19vh,180px);overflow:auto;scrollbar-width:none}
+#shell #versus .mm-tabs{min-width:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+#shell #versus .mm-tabs button{min-width:0;white-space:normal;padding:7px 4px;font-size:12px}
+#shell #versus .mm-panel h3{margin:0;font-size:clamp(17px,2.2vh,24px)}
+#shell #versus .mm-panel button,#shell #versus .mm-hub>button{min-height:34px;padding:7px 9px}
+#shell #versus .arena-preview>p.subtle{margin:0!important}
+#shell #versus .arena-preview .mm-hub{flex:none}
+#shell #versus .arena-config .mode-grid{gap:4px}
+#shell #versus .arena-config .mode-grid button{min-width:0}
+#shell .page.active{scrollbar-gutter:auto!important;scrollbar-width:none!important}
+#shell .page.active::-webkit-scrollbar{display:none!important}
+/* Only local, deliberately sized decorative layers; never full page. */
+.motion-mounted .motion-fx{inset:0!important;clip-path:inset(0);pointer-events:none!important}
+.motion-mounted::after{display:none!important}
+@media(min-width:1000px) and (max-height:800px){#shell #versus .arena-rosters .roster-art{height:clamp(48px,11vh,95px)!important}#shell #versus .arena-roster[data-slots="1"] .roster-art{height:clamp(85px,19vh,160px)!important}#shell #versus .arena-config .botsettings{padding:5px!important}#shell #versus .arena-preview,#shell #versus .arena-config{padding:8px!important}}
+@media(max-width:999px){#shell #versus .arena-select{grid-template-columns:minmax(0,1fr)!important}#shell #versus .arena-roster{grid-template-columns:repeat(var(--roster-slots,1),minmax(0,1fr))}#shell #versus .arena-rosters .roster-art{height:clamp(45px,10vh,90px)!important}}
+@media(max-width:600px){#shell #versus .arena-rosters{grid-template-columns:1fr}#shell #versus .arena-rosters .roster-art{height:clamp(52px,11vh,95px)!important}}

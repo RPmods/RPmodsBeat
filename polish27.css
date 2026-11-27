@@ -1,0 +1,16 @@
+/* Cinematic rest: characters and rhythm lane hide without reflow; score remains visible. */
+.game .hud:is(.cinematic-rest,.cinematic-return) .stage .dancer,.game .hud:is(.cinematic-rest,.cinematic-return) .squad-strip{transition:transform .58s cubic-bezier(.4,0,.2,1),opacity .48s ease;}
+.game .hud.cinematic-rest:not(.outro) .stage .dancer,.game .hud.cinematic-rest:not(.outro) .squad-strip{transform:translateY(105dvh)!important;opacity:0!important;pointer-events:none;}
+.game .hud.cinematic-rest .floor{opacity:0!important;transition:opacity .5s;}
+.game.cinematic-rest .stage-tint.visible{opacity:.42;transition:opacity .65s;}
+@media(prefers-reduced-motion:reduce){.game .hud:is(.cinematic-rest,.cinematic-return) .stage .dancer,.game .hud:is(.cinematic-rest,.cinematic-return) .squad-strip{transition:opacity .15s!important;}}
+
+/* Cinematic rest: the whole input board (including touch controls and Beat Surge)
+   slides away. Do not use display:none or collapse its dimensions: draw() measures it. */
+#game .hud:is(.cinematic-rest,.cinematic-return) .rhythm{transition:opacity .30s ease,transform .35s cubic-bezier(.22,.7,.3,1),visibility 0s;}
+#game .hud.cinematic-rest:not(.outro) .rhythm{opacity:0!important;transform:translateY(calc(100% + 40px))!important;visibility:hidden;pointer-events:none!important;transition:opacity .30s ease,transform .35s cubic-bezier(.22,.7,.3,1),visibility 0s .35s;}
+#game .hud .center-hud{transition:opacity .30s ease;}
+#game .hud.cinematic-rest:not(.outro) .center-hud{opacity:0!important;}
+#game .hud .floor{transition:opacity .35s ease;}
+#game.cinematic-rest .stage-tint.visible{opacity:.12;}
+@media(prefers-reduced-motion:reduce){#game .hud .rhythm,#game .hud.cinematic-rest:not(.outro) .rhythm{transition:none;transform:none!important;}#game .hud .center-hud{transition:none;}}

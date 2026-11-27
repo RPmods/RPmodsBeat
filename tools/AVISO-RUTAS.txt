@@ -1,0 +1,1 @@
+Los scripts históricos de análisis de rutas usan la estructura antigua. No ejecutarlos sobre el juego actual: el catálogo activo lo genera Level Studio 1.2.
