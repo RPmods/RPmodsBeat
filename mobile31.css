@@ -116,3 +116,7 @@
 #game[data-mobile-layout=yes] .skill-panel .skill-key:after{content:'MANTÉN'!important}
 #queue #queueRoster{display:grid;grid-template-columns:repeat(auto-fit,minmax(94px,1fr));gap:6px;margin:12px 0}
 #queue #queueRoster .room-member{min-height:48px;display:grid;place-items:center;padding:6px;font-size:12px;overflow-wrap:anywhere;text-align:center}
+
+#game[data-mobile-layout=yes][data-ffa=yes] #allyStrip .squad-member:not(.local-player){grid-template-columns:15px minmax(0,1fr)!important}
+#game[data-mobile-layout=yes][data-ffa=yes] #allyStrip .squad-member:not(.local-player) .team-art{grid-column:2}
+#game[data-mobile-layout=yes][data-ffa=yes] #allyStrip .squad-member:not(.local-player) .mini-lane{grid-column:1;visibility:visible!important}
