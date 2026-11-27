@@ -1,21 +1,23 @@
 /* Team Sync v1: deterministic shared routes, equal per-note base weight and bounded bonus. */
 (function(root){
 'use strict';
-const revision='team-sync-v1',baseMax=13000,bonusMax=1500,pattern=[1,2,1,3,2,'all',1,2,3,'all'];
-function plan(base,n){
+const revision='team-sync-v2',baseMax=13000,bonusMax=1500,pattern=[1,2,1,3,2,'all',1,2,3,'all'];
+function plan(base,n,sections=[],seed='default'){
  if(!Number.isInteger(n)||n<3||n>5)throw Error('Team Sync requires 3–5 members');
  const routes=Array.from({length:n},()=>[]),groups=[],slots=[],counts=Array(n).fill(0);
- let chunk=[];
+ let chunk=[],lastSection=null;
+ const at=t=>sections.find(x=>t>=x.start&&t<x.end)||null;
+ function random(g){let h=2166136261;for(const c of seed+'|'+g)h=Math.imul(h^c.charCodeAt(0),16777619);return (h>>>0)/4294967296}
  for(let i=0;i<base.length;i++){
-  const note=base[i],prev=base[i-1];
-  if(chunk.length&&(note.t-prev.t>1.25||note.t-base[chunk[0]].t>=5.2||chunk.length>=13)){groups.push(chunk);chunk=[]}
-  chunk.push(i);
+  const note=base[i],prev=base[i-1],section=at(note.t);
+  if(chunk.length&&(section!==lastSection||(!section&&(note.t-prev.t>1.25||note.t-base[chunk[0]].t>=5.2||chunk.length>=13)))){groups.push(chunk);chunk=[]}
+  chunk.push(i);lastSection=section;
  }
  if(chunk.length)groups.push(chunk);
  let sharedWeight=0;
  for(let g=0;g<groups.length;g++){
-  const group=groups[g],kind=pattern[g%pattern.length],width=kind==='all'?n:Math.min(n,kind);
-  const order=Array.from({length:n},(_,i)=>i).sort((a,b)=>counts[a]-counts[b]||((a-g%n+n)%n)-((b-g%n+n)%n)).slice(0,width);
+  const group=groups[g],section=at(base[group[0]].t),kind=section?.mode==='all'?'all':section?.mode==='relay'?1:section?.mode==='duo'?2:section?.mode==='trio'?3:pattern[g%pattern.length],width=kind==='all'?n:Math.min(n,kind);
+  const shift=Math.floor(random(g)*n),order=section?.mode==='relay'?[((section.slot-1)%n+n)%n]:Array.from({length:n},(_,i)=>i).sort((a,b)=>counts[a]-counts[b]||((a-shift+n)%n)-((b-shift+n)%n)).slice(0,width);
   for(const i of group){
    slots[i]=order.slice();
    if(width>1)sharedWeight+=width/n;
