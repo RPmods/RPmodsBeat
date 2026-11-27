@@ -105,3 +105,12 @@
 #updates .updates-list header b{font-size:15px;color:#f2d3f0}
 #updates .updates-list header span{font-size:11px;color:#9ce8c4}
 #updates .updates-list ul{margin:8px 0;padding-left:20px;line-height:1.5;font-size:13px;color:#e0e3f1}
+
+/* A visible version control, independent of the hidden legacy footer. */
+#shell .sidebar .brand-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;max-width:100%;flex:0 0 auto}
+#shell .sidebar .brand-row .brand{min-width:0!important;flex:0 1 auto}
+#shell .sidebar .brand-row .version-link{font-size:11px;font-weight:750;white-space:normal;min-width:44px;min-height:36px;padding:4px 7px;border:1px solid #8d93bb55!important;border-radius:8px;background:#1d2339!important;color:#dce1fa}
+html[data-device=mobile] #shell .sidebar .brand-row{width:100%;grid-column:1/-1}
+@media(max-width:420px){#shell .sidebar .brand-row .version-link{font-size:10px;min-height:34px}}
+/* Avoid a detached fifth badge row on tiny mobile screens. */
+#game[data-mobile-layout=yes] #resultOverlay .podium-member{grid-template-rows:auto auto 19px}
