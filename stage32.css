@@ -135,3 +135,28 @@ html[data-device=mobile] #shell .sidebar .brand-row{width:100%;grid-column:1/-1}
 
 /* Results countdown remains compact and visible without displacing the actions. */
 #game #resultOverlay #resultCountdown{margin:0;text-align:center;color:#d9dff4;font-size:clamp(12px,1.8vw,14px);line-height:1.25;font-variant-numeric:tabular-nums;flex:0 0 auto}
+
+/* Alpha 0.33: centered personal cue, behind the playable notes and never interactive. */
+#game .runway .board-turn-count:not(:empty){position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:auto;min-width:clamp(54px,7vw,92px);height:auto;max-height:85%;aspect-ratio:1;box-sizing:border-box;padding:3px 10px;border-radius:16px;font-size:clamp(32px,4vw,58px);line-height:1;z-index:2;pointer-events:none;background:#19162edb;border:1px solid #edcc90;color:#fff3d0;text-shadow:0 2px 5px #0b0b1e;box-shadow:0 0 20px #ffd68e38}
+#game .runway .board-turn-count.go{font-size:clamp(21px,3vw,39px);color:#b4ffe1;background:#123431d9;border-color:#7bd7bd}
+#game .runway .board-turn-count.count-pop{animation:teamCuePulse .22s ease-out both}
+@keyframes teamCuePulse{from{opacity:.5;transform:translate(-50%,-50%) scale(.86)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+#game .runway:has(.board-turn-count:not(:empty)) .restlabel{visibility:hidden}
+#game .runway .noteslayer{z-index:3}
+#game .runway .board-turn-count:empty{display:none}
+#game[data-mobile-layout=yes][data-lane=vertical] .runway .board-turn-count:not(:empty){min-width:clamp(56px,18vw,112px);font-size:clamp(44px,13vw,88px)}
+#game[data-mobile-layout=yes][data-lane=vertical] .runway .board-turn-count.go{font-size:clamp(24px,7vw,44px)}
+#game[data-mobile-hud-effects=off] .runway .board-turn-count{box-shadow:none!important;animation:none!important}
+#game .matchmid .team-bonus{display:block;min-width:0;max-width:100%;color:#f1d59f;font-weight:800;font-size:clamp(9px,1vw,12px);line-height:1.2;white-space:normal;text-align:center;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#game .matchmid .team-bonus.hidden{display:none!important}
+@media(orientation:landscape) and (max-height:520px){
+ #game .runway .board-turn-count:not(:empty){min-width:40px;max-height:80%;font-size:32px;border-radius:9px}
+ #game .runway .board-turn-count.go{font-size:19px}
+ #game[data-mobile-layout=yes][data-lane=vertical] .runway .board-turn-count:not(:empty){min-width:42px;font-size:32px}
+ #game[data-mobile-layout=yes][data-lane=vertical] .runway .board-turn-count.go{font-size:19px}
+ #game .matchmid .team-bonus{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){#game .runway .board-turn-count{animation:none!important}}
+
+/* A gold inset outline marks shared notes without hiding their direction color. */
+#game .runway .note.sync-note{outline:2px solid #ffe19b;outline-offset:-2px}
