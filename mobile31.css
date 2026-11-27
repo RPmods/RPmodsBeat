@@ -146,3 +146,81 @@
 @media(orientation:landscape) and (max-height:360px){
  #game[data-mobile-layout=yes][data-lane=horizontal] .ffa-ranks{display:none!important}
 }
+/* 0.31.2: keep the mobile lane and touch receptors on the same grid tracks. */
+#game[data-mobile-layout=yes][data-lane=vertical] .hud{--side:clamp(52px,calc((100vw - 196px)/2),clamp(70px,22vw,145px));--keys:clamp(54px,8dvh,76px);--skill:66px;--gap:4px}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm{grid-template-rows:minmax(0,.13fr) auto minmax(0,1fr) var(--skill) var(--keys)!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys{grid-column:2!important;grid-row:5!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:0!important;align-items:stretch!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys:not([hidden]){display:grid!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-touch=off] .touchkeys{display:none!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .touchkeys button{width:calc(100% - 4px)!important;margin:0 2px!important;min-width:0!important;font-size:clamp(25px,7vw,40px)!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-foot{grid-column:1/-1!important;grid-row:4!important;min-height:0!important;padding:4px 5px!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .rhythm-foot .skill-panel{height:100%!important;max-height:none!important;padding:4px 6px!important;box-sizing:border-box;align-items:center;gap:7px}
+#game[data-mobile-layout=yes][data-lane=vertical] .skill-panel #skillButton{width:54px!important;height:54px!important;min-height:54px!important;min-width:54px!important}
+#game[data-mobile-layout=yes] .skill-panel .skill-meter{height:10px}
+#game[data-mobile-layout=yes] .skill-panel .skill-heading{font-size:12px}
+#game[data-mobile-layout=yes] #skillStatus{font-size:clamp(9px,2.6vw,12px);line-height:1.2}
+#game[data-mobile-layout=yes][data-lane=vertical] .note strong{font-size:calc(var(--vertical-note-size,40px)*.65)!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .vertical-targets span{font-size:calc(var(--vertical-note-size,40px)*.65)!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .runway{background:repeating-linear-gradient(to right,#1b264075 0%,#1b264075 calc(25% - 1px),#a2afd155 calc(25% - 1px),#a2afd155 25%)!important}
+/* Transparent sprite slots end above the full-width skill panel. The art can use transparent margins outside its side column. */
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] .stage .squad-strip:not(.hidden){--local-art:clamp(40px,calc(var(--side)*1.42),175px);--art:clamp(18px,min(calc(var(--side)*1.3),calc((100cqh - var(--reserve) - var(--local-art) - 26px)/max(1,var(--slots) - 1) - 23px)),138px)}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] :is(#allyStrip,#enemyStrip){bottom:var(--reserve)!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] .squad-member{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:var(--art) auto auto!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] .stage .squad-member .team-art{grid-column:1!important;width:var(--art)!important;height:var(--art)!important;max-width:none!important;max-height:none!important;aspect-ratio:1!important;justify-self:center!important;position:relative!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] .squad-member .mini-lane{position:absolute!important;right:0;left:auto;top:10%;width:14px!important;max-height:75%;z-index:3}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #enemyStrip .mini-lane,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes] #allyStrip .squad-member:not(.local-player) .mini-lane{left:0;right:auto}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #allyStrip .local-player,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #enemyStrip .squad-member:first-child,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes] #allyStrip .squad-member:last-child:not(.local-player),#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes][data-team-size='2'] #allyStrip .squad-member:not(.local-player){order:99;margin-top:auto!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:var(--local-art) auto auto!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes] #allyStrip .local-player{bottom:0!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #allyStrip .local-player .team-art,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #enemyStrip .squad-member:first-child .team-art,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes] #allyStrip .squad-member:last-child:not(.local-player) .team-art,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes][data-team-size='2'] #allyStrip .squad-member:not(.local-player) .team-art{width:var(--local-art)!important;height:var(--local-art)!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .stage :is(.player-dancer,.bot-dancer){bottom:var(--reserve)!important;height:clamp(70px,calc(var(--side)*1.5 + 22px),192px)!important;width:var(--side)!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .stage .dancer .sprite{width:calc(var(--side)*1.42)!important;max-width:none!important;align-self:center!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=solo] .rhythm{grid-template-columns:var(--side) minmax(0,1fr) var(--side)!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=solo] .rhythm-head,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=solo] .runway{grid-column:2!important}
+@media(orientation:portrait) and (max-height:680px){
+ #game[data-mobile-layout=yes][data-lane=vertical] .hud{--keys:52px;--skill:60px}
+ #game[data-mobile-layout=yes][data-lane=vertical] .rhythm{grid-template-rows:0px auto minmax(0,1fr) var(--skill) var(--keys)!important}
+ #game[data-mobile-layout=yes][data-lane=vertical] .skill-panel #skillButton{width:48px!important;height:48px!important;min-height:48px!important;min-width:48px!important}
+ #game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] .stage .squad-strip:not(.hidden){--local-art:clamp(34px,min(calc(var(--side)*1.28),calc((100cqh - var(--reserve))/var(--slots) - 10px)),110px)}
+}
+@media(orientation:landscape) and (max-height:520px){
+ #game[data-mobile-layout=yes][data-lane=vertical] .hud{--side:clamp(90px,21vw,156px);--keys:44px;--skill:52px}
+ #game[data-mobile-layout=yes][data-lane=vertical] .rhythm{grid-template-rows:0px auto minmax(0,1fr) var(--skill) var(--keys)!important}
+ #game[data-mobile-layout=yes][data-lane=vertical] .skill-panel #skillButton{width:44px!important;height:44px!important;min-height:44px!important;min-width:44px!important}
+ #game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] .stage .squad-strip:not(.hidden){--art:clamp(12px,calc((100cqh - var(--reserve) - 20px)/3 - 12px),46px);--local-art:clamp(22px,calc((100cqh - var(--reserve))*.35),58px)}
+ #game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #allyStrip .local-player{bottom:0!important;grid-column:1/-1}
+ #game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #enemyStrip .squad-member:first-child{position:absolute!important;bottom:0;left:0;grid-column:1/-1}
+ #game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes][data-team-size='2'] #allyStrip .squad-member:not(.local-player){position:absolute!important;bottom:0;width:100%!important}
+}
+/* Replay and final results use the available height, with natural scroll for larger rosters. */
+#game[data-mobile-layout=yes] #resultOverlay .resultmodal{padding:clamp(10px,2dvh,22px) clamp(10px,3vw,24px) max(12px,env(safe-area-inset-bottom))!important;overscroll-behavior:contain;box-sizing:border-box}
+#game[data-mobile-layout=yes] #resultOverlay #winnerStage:not(.hidden),#game[data-mobile-layout=yes] #teamReview:not(.hidden){min-height:100%!important;height:auto!important;justify-content:space-evenly!important;gap:clamp(8px,1.6dvh,20px)!important;padding:4px 0!important;box-sizing:border-box}
+#game[data-mobile-layout=yes] #teamReview .cin-heading h2,#game[data-mobile-layout=yes] #winnerStage #resultTitle{font-size:clamp(30px,9vw,48px)!important;line-height:1.1;margin:0}
+#game[data-mobile-layout=yes] #teamReview .cin-clock{font-size:clamp(24px,7vw,38px)}
+#game[data-mobile-layout=yes] #teamReview .cin-timeline,#game[data-mobile-layout=yes] #teamReview .cin-graph{width:100%}
+#game[data-mobile-layout=yes] #resultOverlay .ffa-review-grid,#game[data-mobile-layout=yes] #resultOverlay .ffa-podium{grid-template-columns:repeat(auto-fit,minmax(min(100%,105px),1fr))!important;gap:8px;width:100%;margin:6px 0}
+#game[data-mobile-layout=yes] #resultOverlay .ffa-result-card{gap:5px;padding:10px 5px;min-height:0}
+#game[data-mobile-layout=yes] #resultOverlay .ffa-art{height:clamp(96px,22dvh,190px)!important;min-height:0}
+#game[data-mobile-layout=yes] #resultOverlay .ffa-podium:has(>article:nth-child(2):last-child) .ffa-art,#game[data-mobile-layout=yes] #resultOverlay .ffa-review-grid:has(>article:nth-child(2):last-child) .ffa-art{height:clamp(130px,30dvh,270px)!important}
+#game[data-mobile-layout=yes] #resultOverlay .ffa-result-card b,#game[data-mobile-layout=yes] #resultOverlay .podium-member b,#game[data-mobile-layout=yes] #resultOverlay .cin-player b{font-size:clamp(11px,3vw,15px)!important}
+#game[data-mobile-layout=yes] #resultOverlay .ffa-result-card strong,#game[data-mobile-layout=yes] #resultOverlay .cin-player strong{font-size:clamp(19px,5vw,30px)!important}
+#game[data-mobile-layout=yes] #resultOverlay .cin-lineup,#game[data-mobile-layout=yes] #resultOverlay .podium-lineup{grid-template-columns:repeat(var(--count),minmax(0,1fr));gap:3px}
+#game[data-mobile-layout=yes] #resultOverlay .cin-art,#game[data-mobile-layout=yes] #resultOverlay .podium-member .winner-team-art{width:100%;height:clamp(60px,15dvh,145px)!important}
+#game[data-mobile-layout=yes] #winnerStage .resultdetail{font-size:clamp(12px,3.1vw,15px)!important;line-height:1.45;white-space:pre-line;max-width:100%;overflow-wrap:anywhere}
+#game[data-mobile-layout=yes] #winnerStage .resultcompare strong{font-size:clamp(28px,8vw,44px)!important}
+#game[data-mobile-layout=yes] #winnerActions{width:100%;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px;margin-top:4px}
+#game[data-mobile-layout=yes] #winnerActions #resultMusic{grid-column:1/-1}
+#game[data-mobile-layout=yes] #winnerActions button{min-height:46px;white-space:normal;line-height:1.15}
+@media(orientation:landscape) and (max-height:520px){
+ #game[data-mobile-layout=yes] #resultOverlay #winnerStage:not(.hidden),#game[data-mobile-layout=yes] #teamReview:not(.hidden){justify-content:flex-start!important;gap:6px!important}
+ #game[data-mobile-layout=yes] #resultOverlay .ffa-art,#game[data-mobile-layout=yes] #resultOverlay .ffa-podium:has(>article:nth-child(2):last-child) .ffa-art,#game[data-mobile-layout=yes] #resultOverlay .ffa-review-grid:has(>article:nth-child(2):last-child) .ffa-art{height:clamp(64px,25dvh,125px)!important}
+ #game[data-mobile-layout=yes] #winnerActions{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #game[data-mobile-layout=yes] #winnerActions #resultMusic{grid-column:auto}
+}
+/* Optional lightweight cosmetic animations (does not affect note movement or input). */
+#game[data-mobile-hud-effects=off] :is(.combo,.skill-panel,.motion-fx,.winner-team-art,.team-art[data-outfit]){animation:none!important;box-shadow:none!important}
+#game[data-mobile-hud-effects=off] :is(.team-art,.motion-fx,.winner-team-art)::after{animation:none!important}
+#game[data-mobile-hud-effects=off] .motion-canvas{filter:none!important}
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] #enemyStrip .squad-member,#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team][data-ffa=yes] #allyStrip .squad-member:not(.local-player){grid-template-columns:minmax(0,1fr)!important}
+@media(orientation:landscape) and (max-height:360px){
+ #game[data-mobile-layout=yes][data-lane=vertical] .ffa-ranks{display:none!important}
+}
