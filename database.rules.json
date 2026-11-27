@@ -11,7 +11,7 @@
           ".validate": "newData.isNumber()"
         },
         "profile": {
-          ".validate": "newData.hasChildren(['name','char','coins','tickets','matches','wins'])",
+          ".validate": "newData.hasChildren(['name','char','coins','tickets','matches','wins']) && (!data.exists() || ((newData.child('name').val() === data.child('name').val() && newData.child('renameCount').val() === data.child('renameCount').val()) || (newData.child('name').val() !== data.child('name').val() && ((!data.child('renameCount').exists() && newData.child('renameCount').val() === 1 && newData.child('coins').val() === data.child('coins').val()) || (data.child('renameCount').val() === 0 && newData.child('renameCount').val() === 1 && newData.child('coins').val() === data.child('coins').val()) || (data.child('renameCount').val() >= 1 && newData.child('renameCount').val() === data.child('renameCount').val() + 1 && newData.child('coins').val() === data.child('coins').val() - 5000))))) && (data.exists() || !newData.child('renameCount').exists() || newData.child('renameCount').val() === 0)",
           "name": {
             ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 24"
           },
@@ -29,6 +29,9 @@
           },
           "wins": {
             ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000000"
+          },
+          "renameCount": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100000 && newData.val() % 1 === 0"
           }
         }
       }
@@ -225,7 +228,7 @@
         ".write": "auth != null && auth.uid === $uid && newData.exists()",
         ".validate": "newData.hasChildren(['name','char'])",
         "name": {
-          ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 24"
+          ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 24 && newData.val() === root.child('users').child($uid).child('profile').child('name').val()"
         },
         "char": {
           ".validate": "newData.val() === 'ruby' || newData.val() === 'neko' || newData.val() === 'guizz' || newData.val() === 'meli' || newData.val() === 'zomby'"
@@ -233,7 +236,11 @@
         "$other": {
           ".validate": false
         }
-      }
+      },
+      ".indexOn": [
+        "name"
+      ],
+      ".read": "auth != null && query.orderByChild === 'name' && query.equalTo !== null && query.limitToFirst != null && query.limitToFirst <= 10"
     },
     "friendLinks": {
       "$uid": {
@@ -269,6 +276,35 @@
           },
           "$otherField": {
             ".validate": false
+          }
+        }
+      }
+    },
+    "leaderboards": {
+      "$song": {
+        "$difficulty": {
+          "$hash": {
+            ".indexOn": [
+              "accuracy"
+            ],
+            ".read": "auth != null && query.orderByChild === 'accuracy' && query.limitToLast != null && query.limitToLast <= 10",
+            "$uid": {
+              ".read": "auth != null && auth.uid === $uid",
+              ".write": "auth != null && auth.uid === $uid && newData.exists() && root.child('users').child($uid).child('profile').exists() && (!data.exists() || newData.child('accuracy').val() > data.child('accuracy').val())",
+              ".validate": "$song.matches(/^[a-z0-9-]{1,60}$/) && ($difficulty === 'easy' || $difficulty === 'normal' || $difficulty === 'hard') && $hash.matches(/^[a-f0-9]{1,8}$/) && newData.hasChildren(['accuracy','notes','updatedAt'])",
+              "accuracy": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10000 && newData.val() % 1 === 0"
+              },
+              "notes": {
+                ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 20000 && newData.val() % 1 === 0"
+              },
+              "updatedAt": {
+                ".validate": "newData.isNumber()"
+              },
+              "$other": {
+                ".validate": false
+              }
+            }
           }
         }
       }
