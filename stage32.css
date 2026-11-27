@@ -1,0 +1,107 @@
+/* Alpha 0.32 — shared stage and presentation, loaded after mobile31.css. */
+#game .hud .matchtop{padding:0!important;margin:0!important;grid-template-columns:minmax(0,1fr) minmax(86px,.58fr) minmax(0,1fr)!important;grid-template-rows:auto auto;row-gap:4px!important;min-height:0!important}
+#game[data-mode=solo] .hud .matchtop{grid-template-columns:minmax(0,1fr) minmax(86px,.7fr)!important}
+#game .hud .matchtop .game-top-controls{position:static!important;inset:auto!important;grid-column:3;grid-row:2;justify-self:end;align-self:start;display:flex!important;flex-direction:row!important;justify-content:flex-end;align-items:center;gap:6px;z-index:8;min-width:0}
+#game[data-mode=solo] .hud .matchtop .game-top-controls{grid-column:2}
+#game .hud .matchtop .game-top-controls button{width:36px;height:36px;min-width:36px;min-height:36px;display:grid;place-items:center;font-size:16px;padding:0;touch-action:manipulation}
+#game:not([data-online=yes]) #onlineQuit,#game[data-online=yes] #pauseBtn{display:none!important}
+#game[data-mobile-layout=yes] .hud .matchtop{grid-template-columns:minmax(0,1fr) minmax(70px,.68fr) minmax(0,1fr)!important;gap:3px!important}
+#game[data-mobile-layout=yes][data-mode=solo] .hud .matchtop{grid-template-columns:minmax(0,1fr) minmax(70px,.7fr)!important}
+#game[data-mobile-layout=yes] .hud .matchtop .game-top-controls button{width:40px;height:36px;min-width:40px;min-height:36px}
+#game .board-cue{display:flex;gap:6px;align-items:center;justify-content:flex-end;min-width:0;max-width:100%;flex:0 1 auto}
+#game .board-cue .next-hint{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#game .board-turn-count{display:grid;place-items:center;min-width:38px;height:34px;padding:0 7px;border-radius:8px;font-size:23px;font-weight:950;font-variant-numeric:tabular-nums;line-height:1;color:#fff2c4;background:#231b3deb;border:1px solid #ebc785;box-shadow:0 0 10px #ffd58c33;flex:none}
+#game .board-turn-count:empty{display:none}
+#game .board-turn-count.go{font-size:16px;color:#a3f6d6;border-color:#82e8c8;background:#143a3aeb}
+#game .board-turn-count.count-pop{animation:boardCuePop .23s ease-out both}
+@keyframes boardCuePop{from{opacity:.65;transform:scale(.91)}to{opacity:1;transform:none}}
+#game[data-mobile-hud-effects=off] .board-turn-count{animation:none!important;box-shadow:none}
+#game[data-mobile-layout=yes] .board-turn-count{min-width:28px;height:28px;padding:0 4px;font-size:19px}
+#game[data-mobile-layout=yes] .board-turn-count.go{font-size:12px}
+#game .stage :is(.player-dancer,.local-player)>.turn-count{display:none!important}
+/* Transparent characters form one cohesive group near the lower play area. */
+@media(orientation:portrait){
+ #game[data-mobile-layout=yes][data-mode=team] .stage :is(#allyStrip,#enemyStrip){justify-content:flex-end!important;gap:4px!important}
+ #game[data-mobile-layout=yes][data-mode=team] .stage #allyStrip .local-player,#game[data-mobile-layout=yes][data-mode=team] .stage #enemyStrip .squad-member:first-child,#game[data-mobile-layout=yes][data-mode=team][data-ffa=yes] .stage #allyStrip .squad-member:not(.local-player){margin-top:0!important}
+ #game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] .stage .squad-strip:not(.hidden){--roster-height:max(0px,calc(100cqh - var(--reserve) - 8px));--local-art:clamp(20px,min(calc(var(--side)*1.42),calc(var(--roster-height)/var(--slots) - 12px)),175px);--art:clamp(12px,min(calc(var(--side)*1.3),calc((var(--roster-height) - var(--local-art) - 28px)/max(1,var(--slots) - 1) - 28px)),138px)}
+ #game[data-mobile-layout=yes][data-mode=team][data-ffa=yes] .stage #allyStrip .local-player{bottom:0!important}
+}
+/* Grade text: a stable anchor above each sprite. The text is animated independently,
+   without creating particles or forcing a layout read on each hit. */
+#game .stage .feedback{position:absolute!important;top:-13px!important;bottom:auto!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:max-content!important;min-width:0!important;max-width:110%!important;display:grid!important;justify-items:center;gap:2px;z-index:12;opacity:0;background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;pointer-events:none;padding:2px 3px!important;isolation:isolate;line-height:1.04}
+#game .stage .feedback b{font-size:clamp(16px,2.2vw,34px)!important;font-weight:950;font-style:italic;letter-spacing:.025em;line-height:1.05;color:inherit;white-space:nowrap;outline:none!important;text-shadow:0 2px 3px #0a0c1d!important;background:none!important;border:0!important;padding:0!important}
+#game .stage .feedback small{font-size:clamp(7px,.9vw,11px)!important;line-height:1.1;color:#f5efff;letter-spacing:.04em}
+#game .stage .squad-member .feedback{top:-12px!important;min-width:0!important}
+#game .stage .squad-member .feedback b{font-size:clamp(13px,1.45vw,24px)!important}
+#game .stage .squad-member .feedback small{display:none}
+#game .stage .feedback[data-grade=perfect]{color:#ffe29b}#game .stage .feedback[data-grade=great]{color:#a9e7ff}#game .stage .feedback[data-grade=good]{color:#a7f4c6}#game .stage .feedback[data-grade=miss]{color:#ff89b6}
+#game[data-grade-glow=on] .stage .feedback::before{content:'';position:absolute;inset:-6px -12px;z-index:-1;border-radius:100%;background:radial-gradient(ellipse,currentColor 0%,transparent 67%);opacity:.23;pointer-events:none}
+#game[data-grade-glow=on] .stage .feedback b{text-shadow:0 2px 2px #161126,0 0 8px currentColor,0 0 18px currentColor!important}
+#game[data-grade-glow=off] .stage .feedback::before{display:none}
+#game .stage .feedback.grade-fallback{animation:stageGradeFade 1.12s linear both!important}
+@keyframes stageGradeFade{0%{opacity:0}13%,66%{opacity:1}100%{opacity:0}}
+#game[data-mobile-layout=yes] .stage .feedback,#game[data-mobile-layout=yes] .stage .squad-member .feedback{top:0!important;max-width:100%!important}
+#game[data-mobile-layout=yes] .stage .feedback b,#game[data-mobile-layout=yes] .stage .squad-member .feedback b{font-size:clamp(11px,3.1vw,18px)!important}
+#game[data-mobile-layout=yes] .stage .feedback small{display:none!important}
+#game[data-mobile-layout=no] [data-lite-pose]{transition:transform .14s ease-out!important}
+#game[data-mobile-layout=no] [data-lite-pose=left]{transform:translateX(-2px) rotate(-5deg)!important}
+#game[data-mobile-layout=no] [data-lite-pose=right]{transform:translateX(2px) rotate(5deg)!important}
+#game[data-mobile-layout=no] [data-lite-pose=up]{transform:translateY(-3px) scale(1.03)!important}
+#game[data-mobile-layout=no] [data-lite-pose=down]{transform:translateY(2px) scale(.97)!important}
+#game[data-mobile-layout=no] [data-lite-pose=miss]{transform:scale(.94)!important}
+#game[data-mobile-layout=no] [data-lite-pose=idle]{transform:none!important}
+/* Winners' and losing team's standouts are selected independently and centered. */
+#game #resultOverlay .podium-line{display:grid;grid-template-columns:repeat(var(--count),minmax(0,1fr));gap:clamp(4px,1vw,12px);align-items:end;min-width:0}
+#game #resultOverlay .podium-member{min-width:0;position:relative;display:grid;justify-items:center;align-content:end;gap:4px;padding:4px 2px 8px;grid-template-rows:auto auto 20px}
+#game #resultOverlay .podium-member:not([data-award]){padding-top:10px}
+#game #resultOverlay .podium-member .winner-team-art{height:clamp(78px,18dvh,175px)!important;max-height:none!important;min-width:0;width:100%}
+#game #resultOverlay .podium-member[data-award] .winner-team-art{height:clamp(100px,22dvh,218px)!important}
+#game #resultOverlay .podium-member[data-award=MVP]{background:radial-gradient(ellipse at 50% 48%,#ffd17a24,transparent 70%)}
+#game #resultOverlay .podium-member[data-award=SVP]{background:radial-gradient(ellipse at 50% 48%,#92c5ff24,transparent 70%)}
+#game #resultOverlay .podium-member>b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(11px,1.2vw,17px)}
+#game #resultOverlay .svp-mark{color:#d9efff;border-color:#a6d9ff;background:linear-gradient(110deg,#25354f,#41698e,#20344a);box-shadow:0 0 12px #9ad5ff44}
+#game #resultOverlay .podium-member .mvp-mark{margin:0;align-self:center}
+#game #resultOverlay .podium-team{opacity:1;padding:clamp(7px,1.2vh,14px) 5px 5px;min-width:0}
+#game #resultOverlay .podium-team h2{margin:4px 0 7px;text-align:center}
+#game #resultOverlay .ffa-result-card[data-award=SVP]{border-color:#9cccf3}
+#game #resultOverlay .ffa-result-card[data-award=MVP]{border-color:#ffe3a4}
+#game #resultOverlay .ffa-result-card .mvp-mark{justify-self:center}
+#game[data-mobile-layout=yes] #resultOverlay #winnerStage:not(.hidden){justify-content:flex-start!important;gap:clamp(7px,1.2dvh,16px)!important}
+#game[data-mobile-layout=yes] #resultOverlay #winnerActions{margin-top:auto!important}
+#game[data-mobile-layout=yes] #resultOverlay .podium-member .winner-team-art{height:clamp(64px,13dvh,125px)!important}
+#game[data-mobile-layout=yes] #resultOverlay .podium-member[data-award] .winner-team-art{height:clamp(82px,16dvh,156px)!important}
+@media(orientation:portrait){
+ #game[data-mobile-layout=yes] #winnerStage.team-result #teamWinner:has(.podium-team){grid-template-columns:minmax(0,1fr)!important;gap:8px!important}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='4']{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='5']{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='5'] .podium-member{grid-column:span 2}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='5'] .podium-member:nth-child(4){grid-column:2/span 2}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='5'] .podium-member:nth-child(5){grid-column:4/span 2}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='4'] .podium-member[data-award]{order:-1}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='5'] .podium-member:nth-child(3)[data-award]{order:0;grid-column:3/span 2;grid-row:1}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='5'] .podium-member:nth-child(2){grid-column:5/span 2;grid-row:1}
+ #game[data-mobile-layout=yes] #resultOverlay .podium-line[data-count='5'] .podium-member:nth-child(1){grid-column:1/span 2;grid-row:1}
+}
+@media(orientation:landscape) and (max-height:520px){
+ #game .hud .matchtop .game-top-controls button{height:28px!important;min-height:28px!important;width:34px!important;min-width:34px!important}
+ #game .board-turn-count{height:24px;min-width:24px;font-size:15px}
+ #game .board-turn-count.go{font-size:11px}
+ #game #resultOverlay .podium-member .winner-team-art{height:clamp(48px,18dvh,90px)!important}
+ #game #resultOverlay .podium-member[data-award] .winner-team-art{height:clamp(60px,22dvh,115px)!important}
+}
+@media(prefers-reduced-motion:reduce){#game .board-turn-count{animation:none!important}}
+/* Version link and scrollable changelog. */
+.version-link{background:none!important;border:0!important;color:inherit;font:inherit;letter-spacing:inherit;text-align:left;padding:5px 2px;cursor:pointer;min-height:30px}
+.version-link:hover,.version-link:focus-visible{color:#ffd5f0;text-decoration:underline}
+#updates{width:min(640px,calc(100vw - 18px));max-height:calc(100dvh - 24px);overflow:auto;padding:clamp(14px,3vw,25px);box-sizing:border-box;overscroll-behavior:contain}
+#updates .dialoghead{position:sticky;top:-1px;z-index:2;align-items:start;background:#171b2f;padding:7px 0}
+#updates .dialoghead h2{margin:2px 0}
+#updates .dialoghead button{min-width:44px;min-height:44px}
+#updates .update-current{display:grid;gap:5px;background:#202a43;border:1px solid #8b99c755;border-radius:9px;padding:12px;color:#c6cdeb}
+#updates .update-current strong{color:#fff;font-size:17px}
+#updates .updates-list{display:grid;gap:10px}
+#updates .updates-list article{border-bottom:1px solid #ffffff20;padding:10px 0}
+#updates .updates-list header{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+#updates .updates-list header b{font-size:15px;color:#f2d3f0}
+#updates .updates-list header span{font-size:11px;color:#9ce8c4}
+#updates .updates-list ul{margin:8px 0;padding-left:20px;line-height:1.5;font-size:13px;color:#e0e3f1}
