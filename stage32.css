@@ -160,3 +160,18 @@ html[data-device=mobile] #shell .sidebar .brand-row{width:100%;grid-column:1/-1}
 
 /* A gold inset outline marks shared notes without hiding their direction color. */
 #game .runway .note.sync-note{outline:2px solid #ffe19b;outline-offset:-2px}
+
+/* Alpha 0.34 — compact account identity and ranking. */
+#rankDialog{width:min(560px,calc(100vw - 20px));max-height:calc(100dvh - 24px);overflow:auto;box-sizing:border-box}
+#rankDialog .rank-filters{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:8px}
+#rankDialog .rank-filters label{display:grid;gap:4px;min-width:0}
+#rankDialog .rank-filters select{width:100%;min-width:0}
+#rankRows{display:grid;gap:5px;margin:12px 0}
+#rankRows .rank-row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 9px;border-radius:8px;background:#262c45;border:1px solid #7884ab33}
+#rankRows .rank-position{font-weight:900;color:#bfc7e5}
+#rankRows .rank-name{overflow-wrap:anywhere;font-weight:650}
+#rankRows .rank-accuracy{font-variant-numeric:tabular-nums;font-weight:850;color:#a9edcf}
+#rankRows .rank-row:first-child .rank-position{color:#ffe09a}
+#profile .profilecard .social-id{display:flex;gap:6px;flex-wrap:wrap;max-width:100%;align-items:center;margin-top:12px}
+#profileUID{overflow-wrap:anywhere;min-width:0;max-width:100%;font-size:11px}
+@media(max-width:380px){#rankDialog .rank-filters{grid-template-columns:1fr}}
