@@ -143,3 +143,6 @@
  #game[data-mobile-layout=yes][data-lane=horizontal][data-mode=team] .squad-member .team-art{grid-column:1!important}
  #game[data-mobile-layout=yes][data-lane=horizontal][data-mode=team] .mini-lane{display:none!important}
 }
+@media(orientation:landscape) and (max-height:360px){
+ #game[data-mobile-layout=yes][data-lane=horizontal] .ffa-ranks{display:none!important}
+}
