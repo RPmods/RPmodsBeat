@@ -114,3 +114,21 @@ html[data-device=mobile] #shell .sidebar .brand-row{width:100%;grid-column:1/-1}
 @media(max-width:420px){#shell .sidebar .brand-row .version-link{font-size:10px;min-height:34px}}
 /* Avoid a detached fifth badge row on tiny mobile screens. */
 #game[data-mobile-layout=yes] #resultOverlay .podium-member{grid-template-rows:auto auto 19px}
+
+/* Keep compact team views inside the available stage after relocating controls. */
+@media(orientation:portrait) and (max-height:680px){
+ #game[data-mobile-layout=yes][data-lane=horizontal][data-mode=team] .stage :is(#allyStrip,#enemyStrip){gap:2px!important}
+ #game[data-mobile-layout=yes][data-lane=horizontal][data-mode=team] .stage .squad-member>small{display:none!important}
+}
+@media(orientation:landscape) and (max-height:520px){
+ #game[data-mobile-layout=yes][data-lane=horizontal] .rhythm .rhythm-foot{grid-column:1!important;grid-row:3!important}
+ #game[data-mobile-layout=yes][data-lane=horizontal] .rhythm .touchkeys{grid-column:2!important;grid-row:3!important}
+ #game[data-mobile-layout=yes][data-lane=horizontal] .rhythm .rhythm-head,#game[data-mobile-layout=yes][data-lane=horizontal] .rhythm .runway{grid-column:1/-1!important}
+ #game[data-mobile-layout=yes] .hud .matchtop .matchmid{gap:1px!important}
+ #game[data-mobile-layout=yes] .hud .matchtop .matchmid .smalllabel{display:none}
+ #game[data-mobile-layout=yes] .hud .matchtop .matchmid #lead{line-height:1.05}
+}
+@media(min-width:800px) and (max-height:700px){
+ #game[data-mobile-layout=no][data-mode=team] .stage{container-type:size}
+ #game[data-mobile-layout=no][data-mode=team] .stage .team-art{width:min(100%,var(--dancer-size),max(18px,calc(100cqh - 68px)))!important}
+}
