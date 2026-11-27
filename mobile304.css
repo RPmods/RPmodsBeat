@@ -1,0 +1,82 @@
+/* Device Edition 0.30.4 — isolated mobile overrides; desktop stage unchanged. */
+.device-chooser{width:min(100%,430px);margin:16px auto 0;padding:16px;border:1px solid #a9a3e36b;border-radius:18px;background:linear-gradient(145deg,#27253f,#151a30);box-sizing:border-box;text-align:center;box-shadow:0 16px 48px #090c1e70}
+.device-chooser h2{font-size:clamp(18px,4vw,26px);margin:0 0 5px}.device-chooser p{margin:0 0 12px;font-size:13px;color:#d2cbe8;letter-spacing:normal}.device-chooser>small{display:block;color:#c0bad7;font-size:11px;margin-top:12px;letter-spacing:normal}.device-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.device-options button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:0;min-height:112px;padding:12px 4px;border-radius:14px;border:1px solid #9b9bce70;color:#f5e9ff;background:linear-gradient(145deg,#353453,#22273f)}.device-options button:hover,.device-options button:focus-visible{border-color:#f3b8e7;background:#503b63}.device-options svg{width:42px;height:42px;color:#d9b9ff}.device-options strong{font-size:18px}.device-options small{font-size:11px;color:#d0c7e3;letter-spacing:normal}.device-settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.device-settings label{min-width:0}.device-settings select{width:100%;min-width:0}.device-settings small{display:block;line-height:1.4}
+html[data-device=mobile] #game[data-touch=auto] .touchkeys{display:flex}
+@media(max-height:520px) and (orientation:landscape){#boot:not(.art-loading) .boot-content{max-height:100dvh;overflow:auto;padding:10px 18px}#boot:not(.art-loading) .boot-orbit{display:none}#boot:not(.art-loading) h1{font-size:clamp(30px,7dvh,48px);margin:0}#boot:not(.art-loading) .device-chooser{margin-top:6px;padding:8px}#boot:not(.art-loading) .device-options button{min-height:74px;gap:2px;padding:4px}#boot:not(.art-loading) .device-options svg{width:28px;height:28px}}
+@media(max-width:950px){
+html[data-device=mobile] .main{min-width:0;overflow-x:hidden;overscroll-behavior-y:contain;padding:10px 10px max(12px,env(safe-area-inset-bottom));scrollbar-width:none}
+html[data-device=mobile] .main::-webkit-scrollbar{display:none}
+html[data-device=mobile] .page,html[data-device=mobile] .arena-select>*,html[data-device=mobile] .shop-shell>*,html[data-device=mobile] .gacha-layout>*,html[data-device=mobile] .closet-shell>*{min-width:0;max-width:100%}
+html[data-device=mobile] .arena-select{grid-template-columns:minmax(0,1fr);gap:10px}
+html[data-device=mobile] .arena-config,html[data-device=mobile] .arena-preview{padding:12px;min-height:0;height:auto;max-height:none}
+html[data-device=mobile] .mode-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:10px 0}
+html[data-device=mobile] .mode-grid button{min-width:0;min-height:44px;padding:6px 2px;font-size:15px;white-space:normal}
+html[data-device=mobile] .mode-grid button small{font-size:9px;overflow-wrap:anywhere}
+html[data-device=mobile] .mm-tabs button{white-space:normal;overflow-wrap:anywhere;min-width:0;min-height:44px}
+html[data-device=mobile] .mm-panel select,html[data-device=mobile] .botsettings select{min-width:0;max-width:100%}
+html[data-device=mobile] .arena-preview>.mm-hub{padding:10px;gap:8px}
+html[data-device=mobile] .arena-rosters{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+html[data-device=mobile] .gacha16 .gacha-layout,html[data-device=mobile] .shop-shell{grid-template-columns:minmax(0,1fr)}
+html[data-device=mobile] .gacha16 .gacha-right{max-height:none;overflow:visible}
+html[data-device=mobile] .gacha16 .gacha-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+html[data-device=mobile] .gacha16 #buyTicket{grid-column:1/-1}
+html[data-device=mobile] .filter-tabs{flex-wrap:wrap;gap:5px}
+html[data-device=mobile] .filter-tabs button{min-width:0;white-space:normal;min-height:38px;padding:7px 8px}
+html[data-device=mobile] .profilecard{gap:8px}
+html[data-device=mobile] .profilecard input{width:100%;min-width:0;margin:0}
+html[data-device=mobile] .social-buttons,html[data-device=mobile] .backup-actions{flex-wrap:wrap;gap:6px}
+html[data-device=mobile] dialog{box-sizing:border-box;width:min(760px,calc(100vw - 18px));max-height:calc(100dvh - 18px);overflow:auto;overscroll-behavior:contain;padding:12px}
+html[data-device=mobile] dialog .dialoghead{min-width:0;gap:8px}
+html[data-device=mobile] dialog .dialoghead h2{font-size:21px;overflow-wrap:anywhere}
+html[data-device=mobile] dialog input,html[data-device=mobile] dialog select{min-width:0;max-width:100%}
+html[data-device=mobile] dialog .social-id,html[data-device=mobile] dialog .social-search{flex-wrap:wrap;min-width:0}
+html[data-device=mobile] dialog .social-id code{max-width:100%;overflow-wrap:anywhere;white-space:normal}
+html[data-device=mobile] dialog .social-columns{grid-template-columns:minmax(0,1fr)}
+html[data-device=mobile] .party-dialog .party-code{flex-wrap:wrap}
+html[data-device=mobile] .party-dialog .party-code h1{font-size:clamp(20px,6vw,34px)}
+html[data-device=mobile] .party-dialog #partyConfig{grid-template-columns:repeat(2,minmax(0,1fr))}
+html[data-device=mobile] .party-dialog .party-members{grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px}
+}
+@media(max-width:700px) and (orientation:portrait){
+html[data-device=mobile] #shell .sidebar{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:5px!important;min-height:0!important;max-height:none!important;height:auto!important;overflow:visible!important;padding:7px 8px!important}
+html[data-device=mobile] #shell .sidebar .brand{margin:0!important;min-width:0!important;padding:0!important;justify-self:start}
+html[data-device=mobile] #shell .sidebar nav{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px!important;width:100%!important;min-width:0!important;overflow:visible!important}
+html[data-device=mobile] #shell .sidebar nav:first-of-type{grid-template-columns:repeat(3,minmax(0,1fr))}
+html[data-device=mobile] #shell .sidebar .nav{justify-content:center!important;min-width:0!important;min-height:34px!important;padding:5px 1px!important;gap:2px!important;font-size:10px!important;white-space:normal!important;line-height:1.15}
+html[data-device=mobile] #shell .sidebar .nav i{font-size:12px!important;margin:0!important;display:inline!important}
+html[data-device=mobile] #shell .sidebar .nav em,html[data-device=mobile] #shell .sidebar .navtitle,html[data-device=mobile] #shell .sidebar .sidefoot{display:none!important}
+html[data-device=mobile] .main>.top{display:flex!important;min-width:0;gap:4px;align-items:center;margin-bottom:8px}
+html[data-device=mobile] .main>.top .top-right{min-width:0;gap:4px}
+html[data-device=mobile] .main>.top .account{min-width:0;max-width:125px}
+html[data-device=mobile] .main>.top #headerName{display:block;max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html[data-device=mobile] .sectionhead{flex-wrap:wrap;gap:5px}
+html[data-device=mobile] .sectionhead>div{min-width:0;max-width:100%}
+html[data-device=mobile] .sectionhead h1{font-size:23px;overflow-wrap:anywhere}
+html[data-device=mobile] .live-lobby{min-height:0;height:auto;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;padding:10px;gap:8px}
+html[data-device=mobile] .lobby-left,html[data-device=mobile] .lobby-stage,html[data-device=mobile] .lobby-right,html[data-device=mobile] .lobby-bottom{grid-column:1!important;grid-row:auto!important;min-width:0}
+html[data-device=mobile] .lobby-left{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+html[data-device=mobile] .lobby-stage{min-height:230px;max-height:340px}
+html[data-device=mobile] .lobby-stage .lobby-dancer{max-height:240px;min-height:0}
+html[data-device=mobile] .lobby-right{display:grid;gap:5px}
+html[data-device=mobile] .lobby-right #lobbyCast{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+html[data-device=mobile] .lobby-right .lobby-artist{min-width:0}
+html[data-device=mobile] .lobby-right .lobby-artist strong{font-size:9px;overflow-wrap:anywhere}
+html[data-device=mobile] .lobby-bottom{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+html[data-device=mobile] .lobby-bottom .lobby-song,html[data-device=mobile] .lobby-bottom .lobby-play{grid-column:1/-1}
+html[data-device=mobile] .lobby-bottom button{min-width:0;min-height:40px;white-space:normal}
+html[data-device=mobile] .track{grid-template-columns:minmax(0,1fr);gap:10px;padding:10px}
+html[data-device=mobile] .trackinfo{min-width:0;padding:6px}
+html[data-device=mobile] .choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+html[data-device=mobile] .choices button{min-width:0;padding:8px 2px;font-size:11px;white-space:normal}
+html[data-device=mobile] .closet-shell{grid-template-columns:minmax(0,1fr);gap:8px}
+html[data-device=mobile] .closet-shell>.closet-left,html[data-device=mobile] .closet-shell>.center-stage,html[data-device=mobile] .closet-shell>.closet-right{grid-column:1;grid-row:auto;min-width:0}
+html[data-device=mobile] .closet-shell>.center-stage{min-height:280px;grid-row:1}
+html[data-device=mobile] .closet-left .filter-tabs.vertical{grid-template-columns:repeat(3,minmax(0,1fr))}
+html[data-device=mobile] .shop-grid,html[data-device=mobile] .closet-right .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+html[data-device=mobile] #game .touchkeys{justify-content:center;gap:5px}
+html[data-device=mobile] #game .touchkeys button{flex:1 1 0;min-width:0;max-width:23vw;height:clamp(44px,7dvh,60px)}
+html[data-device=mobile] #game .matchtop{margin-right:0;gap:3px}
+html[data-device=mobile] #game .rhythm-foot{gap:3px;grid-template-columns:minmax(0,1fr) minmax(116px,1.5fr) minmax(0,1fr)}
+html[data-device=mobile] #game .rhythm-foot>span{font-size:8px;white-space:normal;overflow-wrap:anywhere}
+}
+@media(max-width:360px) and (orientation:portrait){html[data-device=mobile] #shell .sidebar nav:nth-of-type(2){grid-template-columns:repeat(3,minmax(0,1fr))}html[data-device=mobile] .mode-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.device-settings{grid-template-columns:1fr}}
