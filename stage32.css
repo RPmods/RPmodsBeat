@@ -132,3 +132,6 @@ html[data-device=mobile] #shell .sidebar .brand-row{width:100%;grid-column:1/-1}
  #game[data-mobile-layout=no][data-mode=team] .stage{container-type:size}
  #game[data-mobile-layout=no][data-mode=team] .stage .team-art{width:min(100%,var(--dancer-size),max(18px,calc(100cqh - 68px)))!important}
 }
+
+/* Results countdown remains compact and visible without displacing the actions. */
+#game #resultOverlay #resultCountdown{margin:0;text-align:center;color:#d9dff4;font-size:clamp(12px,1.8vw,14px);line-height:1.25;font-variant-numeric:tabular-nums;flex:0 0 auto}
