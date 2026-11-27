@@ -1,0 +1,21 @@
+{
+  "format": "cherrybeat-coop-event-template-v1",
+  "enabled": false,
+  "eventOnly": true,
+  "id": "",
+  "title": "",
+  "players": 4,
+  "allowVersus": false,
+  "assets": {
+    "audio": "",
+    "videoLite": "",
+    "videoHD": "",
+    "cover": ""
+  },
+  "chart": null,
+  "teamSections": {
+    "easy": [],
+    "normal": [],
+    "hard": []
+  }
+}
