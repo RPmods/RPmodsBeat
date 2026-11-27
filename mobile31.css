@@ -224,3 +224,6 @@
 @media(orientation:landscape) and (max-height:360px){
  #game[data-mobile-layout=yes][data-lane=vertical] .ffa-ranks{display:none!important}
 }
+/* Keep a small safety gap above the skill panel on every mobile viewport. */
+#game[data-mobile-layout=yes][data-lane=vertical][data-mode=team] :is(#allyStrip,#enemyStrip){bottom:calc(var(--reserve) + 8px)!important}
+#game[data-mobile-layout=yes][data-lane=vertical] .stage :is(.player-dancer,.bot-dancer){bottom:calc(var(--reserve) + 8px)!important}
