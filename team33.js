@@ -7,16 +7,16 @@ function plan(base,n,sections=[],seed='default'){
  const routes=Array.from({length:n},()=>[]),groups=[],slots=[],counts=Array(n).fill(0);
  let chunk=[],lastSection=null;
  const at=t=>sections.find(x=>t>=x.start&&t<x.end)||null;
- function random(g){let h=2166136261;for(const c of seed+'|'+g)h=Math.imul(h^c.charCodeAt(0),16777619);return (h>>>0)/4294967296}
+ function random(g){let h=2166136261;for(const c of seed+'|'+g)h=Math.imul(h^c.charCodeAt(0),16777619);h^=h>>>16;h=Math.imul(h,0x7feb352d);h^=h>>>15;h=Math.imul(h,0x846ca68b);h^=h>>>16;return (h>>>0)/4294967296}
  for(let i=0;i<base.length;i++){
   const note=base[i],prev=base[i-1],section=at(note.t);
-  if(chunk.length&&(section!==lastSection||(!section&&(note.t-prev.t>1.25||note.t-base[chunk[0]].t>=5.2||chunk.length>=13)))){groups.push(chunk);chunk=[]}
+  if(chunk.length&&(section!==lastSection||((!section||section.mode==='auto')&&(note.t-prev.t>1.25||note.t-base[chunk[0]].t>=5.2||chunk.length>=13)))){groups.push(chunk);chunk=[]}
   chunk.push(i);lastSection=section;
  }
  if(chunk.length)groups.push(chunk);
  let sharedWeight=0;
  for(let g=0;g<groups.length;g++){
-  const group=groups[g],section=at(base[group[0]].t),kind=section?.mode==='all'?'all':section?.mode==='relay'?1:section?.mode==='duo'?2:section?.mode==='trio'?3:pattern[g%pattern.length],width=kind==='all'?n:Math.min(n,kind);
+  const group=groups[g],section=at(base[group[0]].t),kind=section?.mode==='all'?'all':section?.mode==='relay'?1:section?.mode==='duo'?2:section?.mode==='trio'?3:sections.length?2+Math.floor(random(g+'|width')*Math.min(2,n-2)):pattern[g%pattern.length],width=kind==='all'?n:Math.min(n,kind);
   const shift=Math.floor(random(g)*n),order=section?.mode==='relay'?[((section.slot-1)%n+n)%n]:Array.from({length:n},(_,i)=>i).sort((a,b)=>counts[a]-counts[b]||((a-shift+n)%n)-((b-shift+n)%n)).slice(0,width);
   for(const i of group){
    slots[i]=order.slice();
