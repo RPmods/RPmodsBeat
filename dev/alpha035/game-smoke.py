@@ -69,6 +69,13 @@ with sync_playwright() as p:
         page.locator("#gachaReveal .pull-grid .gacha-item").first.wait_for()
         page.locator("#gachaReveal").evaluate("(e)=>e.classList.add('hidden')")
         for name in ["shop","inventory","profile","versus","play","home"]: click_page(name)
+        click_page("versus")
+        page.locator("#matchSearch").click()
+        expect(page.locator("#queue")).to_be_visible()
+        assert page.locator("#queue .rpb-queue-team").count()==2
+        page.locator("#cancelQueue").click()
+        expect(page.locator("#queue")).to_be_hidden()
+        click_page("home")
         if device=="mobile":
             page.locator("#rpbMobileMore").click()
             page.locator('#rpbMobileMenu [data-rpb-open="settingsBtn"]').click()
@@ -83,6 +90,24 @@ with sync_playwright() as p:
         page.locator('#accountLoginView [data-auth-view="recover"]').click()
         expect(page.locator("#accountRecoverView")).to_be_visible()
         page.locator("#accountClose").click()
+        if width in [393,1366]:
+            if device=="mobile":
+                page.locator("#rpbMobileMore").click()
+                page.locator('#rpbMobileMenu [data-rpb-open="settingsBtn"]').click()
+            else: page.locator("#settingsBtn").click()
+            page.locator("#videoEnabled").uncheck()
+            page.locator("#saveSettings").click()
+            click_page("play")
+            page.locator("#startNormal").click()
+            expect(page.locator("#songReady")).to_be_visible(timeout=65000)
+            page.locator("#songReady").click()
+            expect(page.locator("#game")).to_be_visible()
+            page.wait_for_function("document.getElementById(\'music\').currentTime > 0.5",timeout=15000)
+            page.locator("#pauseBtn").click()
+            expect(page.locator("#pauseOverlay")).to_be_visible()
+            page.locator("#quitBtn").click()
+            expect(page.locator("#home")).to_be_visible()
+            print("PASS audio and practice start/quit",width,height,flush=True)
         assert page.evaluate("localStorage.getItem('cherrybeat04.profile')===null")
         assert not any("firebase" in u or "googleapis" in u for u in external),external
         assert not errors,errors
