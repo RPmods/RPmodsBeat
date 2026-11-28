@@ -100,7 +100,7 @@ function body(c,p,m,cos){const ink=m.dark,cg='url(#'+p+'cloth)',sk='url(#'+p+'sk
  if(c==='meli')s+=path('M172 255L151 263L159 276L168 270L174 285L182 266L200 264L218 266L226 285L232 270L241 276L249 263L228 255Z',cg,ink,1.5)+path('M158 285Q162 294 166 286Q170 297 175 290Q180 300 185 293Q190 302 195 295Q200 302 205 295Q210 302 215 293Q220 300 225 290Q230 297 234 286Q238 294 242 285','none',edge,2.3);
  }
  if(c==='zomby'){s+=path('M170 258L190 260L185 294L168 321L143 303L158 281ZM230 258L210 260L215 294L232 321L257 303L242 281Z',cg,ink,2)+path('M169 263L156 301L168 311L182 290M231 263L244 301L232 311L218 290','none',metal,1.6)+star(163,299,7,metal)+star(237,299,7,metal)+path('M160 292L175 279M240 292L225 279','none',m.cloth[2],1.2)}
- if(cos.cloth&&/galaxy|legend|zomby|epic/.test(cos.cloth)){for(const [x,y,r] of [[180,226,3],[218,225,4],[188,245,2],[213,241,3]])s+=star(x,y,r,metal)}
+ if(Object.hasOwn(cloth,cos.cloth)&&(!cos.cloth.startsWith('zomby-')||c==='zomby')&&/galaxy|legend|zomby|epic/.test(cos.cloth)){for(const [x,y,r] of [[180,226,3],[218,225,4],[188,245,2],[213,241,3]])s+=star(x,y,r,metal)}
  return s
 }
 function art(c,l={},prefix='cb',includeFx=true){c=Object.hasOwn(cast,c)?c:'ruby';const p=String(prefix).replace(/[^a-zA-Z0-9_-]/g,'')||'cb',m=materials(c,l),a=appearance(c,l);
