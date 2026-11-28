@@ -1,7 +1,7 @@
 /* Server-only account economy and rank domain. Never trust client balances or results. */
 const REWARDS=Object.freeze({register:{coins:500,crystals:5},verify:{coins:1000,crystals:10}});
 const RANKS=Object.freeze([{name:"Rookie",min:0},{name:"Rhythm",min:800},{name:"Harmony",min:1100},{name:"Virtuoso",min:1400},{name:"Starlight",min:1700},{name:"Encore",min:2000},{name:"Idol Legend",min:2300}]);
-const validId=s=>typeof s==="string"&&/^[A-Za-z0-9_-]{1,128}$/.test(s);
+const validId=s=>typeof s==="string"&&/^[A-Za-z0-9_-]{1,128}$/.test(s)&&!["__proto__","prototype","constructor"].includes(s);
 const nonnegative=n=>Number.isSafeInteger(n)&&n>=0?n:0;
 function accountRewards(existing,identity,now){
  if(!identity||!validId(identity.uid)||identity.disabled===true||typeof identity.email!=="string"||!identity.email||!Number.isSafeInteger(now)||now<0)throw Error("Account not eligible");
