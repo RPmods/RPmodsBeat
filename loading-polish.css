@@ -1,0 +1,12 @@
+/* Loading presentation only; native semantic progress remains the source of truth. */
+#boot progress,#songLoad progress{appearance:none;-webkit-appearance:none;border:1px solid #9a98d66b;border-radius:999px;height:clamp(12px,1.7vh,18px);width:100%;max-width:none;overflow:hidden;background:#0e1328d9;box-shadow:0 0 0 3px #090d2055,inset 0 2px 5px #0007;accent-color:#e1a9ef}
+#boot progress::-webkit-progress-bar,#songLoad progress::-webkit-progress-bar{background:#0e1328d9;border-radius:999px}
+#boot progress::-webkit-progress-value,#songLoad progress::-webkit-progress-value{border-radius:999px;background:linear-gradient(110deg,#9a79f0 0%,#efabdc 36%,#c1caff 52%,#e6adf1 68%,#9a79f0 100%);background-size:220% 100%;animation:cbLoadingShine 2.2s linear infinite;box-shadow:inset 0 1px 1px #fff8,0 0 12px #d2a6f488;transition:width .15s linear}
+#boot progress::-moz-progress-bar,#songLoad progress::-moz-progress-bar{border-radius:999px;background:linear-gradient(110deg,#9a79f0,#efabdc,#c1caff,#e6adf1,#9a79f0);background-size:220% 100%;animation:cbLoadingShine 2.2s linear infinite;box-shadow:inset 0 1px 1px #fff8}
+#boot progress.finalizing::-webkit-progress-value,#songLoad progress.finalizing::-webkit-progress-value{transition:none}
+@keyframes cbLoadingShine{from{background-position:100% 0}to{background-position:-120% 0}}
+#bootStatus,#songLoadStatus{font-size:clamp(11px,2.6vw,14px);line-height:1.4;letter-spacing:.045em!important;color:#e2deef!important;max-width:100%;overflow-wrap:anywhere}
+#partySearchProgress:not([hidden]){min-height:32px;height:auto;padding:8px;border:1px solid #8c86bf66;border-radius:999px;background:#11172b;box-shadow:inset 0 1px 6px #0007}
+#partySearchProgress i{background:linear-gradient(90deg,transparent,#bc9df75c,#eeb8e366,transparent);animation:mmSweep 1.7s linear infinite}
+#partySearchProgress[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){#boot progress::-webkit-progress-value,#songLoad progress::-webkit-progress-value,#boot progress::-moz-progress-bar,#songLoad progress::-moz-progress-bar,#partySearchProgress i{animation:none!important;transition:none!important}}
