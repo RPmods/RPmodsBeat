@@ -1,6 +1,6 @@
 /* Opt-in PixiJS note layer. The existing game remains the timing/input authority. */
 (function(root){"use strict";
-const dirs=["left","down","up","right"],glyph={left:"←",down:"↓",up:"↑",right:"→"},colors={left:"#e96ab0",down:"#79d1c4",up:"#87a9ef",right:"#f08793"};
+const dirs=["left","up","down","right"],glyph={left:"←",down:"↓",up:"↑",right:"→"},colors={left:"#e96ab0",down:"#79d1c4",up:"#87a9ef",right:"#f08793"};
 function project(n,t,hit,speed,vertical,width,height,size,held,order=dirs){
  const x=held?hit:hit+(n.t-t)*speed,end=hit+(n.t+(n.hold||0)-t)*speed;
  return vertical?{x:(order.indexOf(n.d)+.5)*width/4,y:2*hit-x,tailX:(order.indexOf(n.d)+.5)*width/4,tailY:2*hit-end,tailW:size*.45,tailH:Math.max(0,end-x)}:{x,y:height/2,tailX:x,tailY:height/2,tailW:Math.max(0,end-x),tailH:size*.28};
@@ -22,7 +22,7 @@ function release(id,entry){entry.note.visible=entry.tail.visible=false;active.de
 function reset(){for(const [id,entry] of active)release(id,entry);layer?.classList.remove("rpb-pixi-active");if(app?.canvas)app.canvas.hidden=true}
 function draw(notes,from,to,t,hit,speed,vertical,size,hold,order,keyLabel){
  if(!app||failed||!layer||!enabled())return false;
- try{if(!app.canvas.isConnected)layer.append(app.canvas);const width=layer.clientWidth,height=layer.clientHeight;if(!width||!height)return false;
+ try{if(!app.canvas.isConnected)layer.append(app.canvas);const width=layer.clientWidth,height=layer.clientHeight;if(!width||!height){layer.classList.remove("rpb-pixi-active");app.canvas.hidden=true;return false;}
  if(width!==lastW||height!==lastH){app.renderer.resize(width,height);lastW=width;lastH=height}
  const visible=new Set();
  for(let i=from;i<to;i++){const n=notes[i];if(!n||n.done||!n.el)continue;visible.add(n.id);const entry=acquire(n.id),held=hold?.n===n,p=project(n,t,hit,speed,vertical,width,height,size,held,order);entry.note.texture=texture(n.d,keyLabel(n.d),!!n.hold,n.teamWidth>1,held);entry.note.position.set(p.x,p.y);entry.note.width=entry.note.height=size;entry.tail.visible=!!n.hold&&p.tailH>=0&&p.tailW>0;entry.tail.tint=held?0xffe7a6:0xd5b4de;entry.tail.alpha=.88;entry.tail.anchor.set(vertical?.5:0,vertical?0:.5);entry.tail.position.set(p.tailX,p.tailY);entry.tail.width=p.tailW;entry.tail.height=p.tailH;
