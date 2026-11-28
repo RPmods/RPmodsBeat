@@ -57,7 +57,49 @@ api.departures=()=>room?.data?.departures||{};
 api.complete=async(forfeit=false)=>{const r=room;if(!r?.match||r.completed)return;r.completed=true;const ref=R('rooms/'+r.code+'/departures/'+r.slot);try{await flushEvents(r);await D.onDisconnect(ref).cancel();if(forfeit)await D.remove(R('rooms/'+r.code));}catch(e){console.warn('Cierre de partida:',error(e));}};
 api.setReady=async()=>{if(!room||room.match||ready)return;const current=room,base='rooms/'+current.code,ref=R(base+'/departures/'+current.slot);try{if((await D.get(ref)).exists())await D.remove(ref);if(current.slot===0)await D.onDisconnect(R(base)).cancel();await D.onDisconnect(ref).set(D.serverTimestamp());current.departureArmed=true;if(room!==current){await D.onDisconnect(ref).cancel();return;}ready=true;await D.update(R(base+'/slots/'+current.slot),{ready:true});if(room===current)renderRoom(room.data)}catch(e){ready=false;throw e}};
 api.cancelPrepare=()=>{if(room&&!room.match){room.retryPrepare=!ready;$('roomPrepare').hidden=ready;$('roomPrepare').disabled=ready;if(ready)msg('roomStatus','Recursos listos · esperando a los demás jugadores.');if(!$('onlineRoom').open)$('onlineRoom').showModal()}};
-api.redeem=async(code)=>{if(!active||!user||!connected)throw Error('Inicia sesión y conéctate.');if(!/^[a-z0-9_-]{3,40}$/.test(code))throw Error('Código inválido.');await saveChain;const c=(await D.get(R('codes/'+code))).val();const tickets=c?.tickets??0,coins=c?.coins??0;if(!c?.enabled||!Number.isInteger(tickets)||tickets<0||tickets>100||!Number.isInteger(coins)||coins<0||coins>100000||!(tickets||coins)||c.expiresAt&&c.expiresAt<api.now())throw Error('Código no disponible.');if(code==='rpmodswelcome'&&(coins!==1000||tickets!==0||c.repeatable!==false))throw Error('Configuración incorrecta del código de bienvenida.');const uid=user.uid;const res=await D.runTransaction(R('users/'+uid),x=>{if(!x?.profile)return;let used=x.redemptions?.[code]||0;if(!c.repeatable&&used)return;return {...x,profile:{...x.profile,tickets:(Number(x.profile.tickets)||0)+tickets,coins:(Number(x.profile.coins)||0)+coins},redemptions:{...x.redemptions,[code]:used+1},updatedAt:Date.now()}},{applyLocally:false});if(!res.committed)throw Error('Código ya utilizado.');if(user?.uid===uid)window.CBGame.useProfile(res.snapshot.val().profile);return {tickets,coins}};
+// Keep a live subscription through the transaction: get() alone may not retain a populated local cache.
+api.redeem=async(code)=>{
+ if(!active||!user||!connected)throw Error('Inicia sesión y conéctate.');
+ if(!/^[a-z0-9_-]{3,40}$/.test(code))throw Error('Código inválido.');
+ const uid=user.uid, seq=session, sameSession=()=>active&&user?.uid===uid&&session===seq;
+ await saveChain;
+ if(!sameSession()||!connected||saveError)throw Error('Sincroniza tu perfil antes de canjear.');
+ const c=(await D.get(R('codes/'+code))).val(), tickets=c?.tickets??0, coins=c?.coins??0;
+ if(c?.enabled!==true||typeof c.repeatable!=='boolean'||!Number.isInteger(tickets)||tickets<0||tickets>100||!Number.isInteger(coins)||coins<0||coins>100000||!(tickets||coins)||(c.expiresAt&&c.expiresAt<api.now()))throw Error('Código no disponible.');
+ if(code==='rpmodswelcome'&&(coins!==1000||tickets!==0||c.repeatable!==false))throw Error('Configuración incorrecta del código de bienvenida.');
+ const ref=R('users/'+uid);
+ let off=()=>{},timer;
+ try{
+  await new Promise((resolve,reject)=>{
+   timer=setTimeout(()=>reject(Error('No se pudo cargar el perfil. Revisa la conexión e inténtalo de nuevo.')),12000);
+   off=D.onValue(ref,()=>resolve(),reject);
+  });
+  clearTimeout(timer);
+  const fresh=(await D.get(ref)).val();
+  if(!sameSession()||!connected)throw Error('Sesión o conexión cambiada. Inténtalo de nuevo.');
+  if(!fresh?.profile)throw Error('Perfil no disponible. Recarga tu cuenta.');
+  let result;
+  for(let attempt=0;attempt<2;attempt++){
+   if(!sameSession()||!connected)throw Error('Sesión o conexión cambiada. Inténtalo de nuevo.');
+   result=await D.runTransaction(ref,x=>{
+    if(!sameSession()||!x?.profile)return;
+    const used=x.redemptions?.[code]||0;
+    if(!c.repeatable&&used)return;
+    return {...x,profile:{...x.profile,tickets:(Number(x.profile.tickets)||0)+tickets,coins:(Number(x.profile.coins)||0)+coins},redemptions:{...x.redemptions,[code]:used+1},updatedAt:Date.now()};
+   },{applyLocally:false});
+   if(result.committed){
+    if(sameSession())window.CBGame.useProfile(result.snapshot.val().profile);
+    return {tickets,coins};
+   }
+   if(!sameSession())throw Error('Sesión cambiada. Vuelve a iniciar sesión.');
+   const latest=(await D.get(ref)).val();
+   if(!c.repeatable&&latest?.redemptions?.[code])throw Error('Código ya utilizado.');
+   if(!latest?.profile)throw Error('Perfil no disponible. Recarga tu cuenta.');
+  }
+  throw Error('No se pudo sincronizar el canje. Recarga tu cuenta e inténtalo de nuevo.');
+ }catch(e){throw Error(error(e));}
+ finally{clearTimeout(timer);off();}
+};
 function validProfile(p){if(!p||typeof p.name!=='string'||p.name.length>24||!chars.includes(p.char))return false;for(let k of ['coins','tickets','matches','wins'])if(!Number.isInteger(p[k])||p[k]<0||p[k]>1e8)return false;for(let k of ['owned','history','gachaHistory'])if(!Array.isArray(p[k])||p[k].length>5000)return false;if(!p.looks||typeof p.looks!=='object'||!p.best||typeof p.best!=='object')return false;return true;}
 function drawPrivatePreview(){const box=$('privatePreview');if(!box)return;const count=+$('ffaSize').value;box.replaceChildren();for(let i=0;i<count;i++){let card=document.createElement('div');card.className='private-seat';let icon=document.createElement('span');icon.textContent=i===0?'★':'＋';let b=document.createElement('b');b.textContent=i===0?'Tú':'Invitado '+i;card.append(icon,b);box.append(card)}box.style.setProperty('--count',count);}
 
