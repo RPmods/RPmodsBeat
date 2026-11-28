@@ -1,0 +1,10 @@
+#rpbMissionsDialog{width:min(760px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;box-sizing:border-box;background:#171e30;color:#f1edf8;padding:18px;border:1px solid #6a587f;border-radius:14px}
+#rpbMissionsDialog [hidden]{display:none!important}#rpbMissionsDialog .rpb-mission-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0}
+#rpbMissionsDialog .rpb-mission-tabs button{min-height:42px;white-space:normal;padding:6px;font-size:12px}#rpbMissionsDialog button[aria-pressed=true]{border-color:#e98ab7;background:#503a60;color:#fff}
+#rpbMissionsDialog .rpb-mission-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px;margin:7px 0;background:#252e46;border:1px solid #46516d;border-radius:9px}
+#rpbMissionsDialog .rpb-mission-card small{display:block;color:#c1c7db;margin:4px 0;overflow-wrap:anywhere}
+#rpbMissionsDialog .rpb-mission-card progress{width:100%;accent-color:#b99aef;height:9px}
+#rpbMissionsDialog #rpbSeasonTrack{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+#rpbMissionsDialog #rpbSeasonTrack .rpb-mission-card{grid-template-columns:1fr;margin:0}
+#rpbMissionsDialog #rpbMissionStatus{min-height:36px;color:#d6c8ef;font-size:12px}
+@media(max-width:700px){#rpbMissionsDialog{width:100%;max-width:none;margin:0 auto;max-height:100dvh;padding:12px 12px max(14px,env(safe-area-inset-bottom));border-radius:0}#rpbMissionsDialog .rpb-mission-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
