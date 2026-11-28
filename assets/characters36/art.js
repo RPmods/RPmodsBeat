@@ -69,7 +69,7 @@ function leg(c,p,m,side){let ink=m.dark,sk='url(#'+p+'skin)',pants=c==='zomby',b
  let shoe=path('M-11 23Q-15 29 -15 36Q-13 43 0 43Q14 43 15 36L10 24Z',c==='guizz'?'#30223e':c==='zomby'?'#20233b':'#3d2b38',ink,1.8)+path('M-13 38Q0 42 13 38','none',m.accent,1.1,'opacity=".7"')+path('M-8 28H8M-7 32H7','none',c==='guizz'?m.cloth[2]:m.accent,1.6,'opacity=".85"');
  if(c==='zomby')shoe+=star(0,31,4,m.accent);
  if(c==='guizz')lower+=path('M-12 11L-13 24L13 24L12 11Z',m.cloth[0],ink,1.6)+path('M-11 16H11','none',m.cloth[2],2);
- return group(side+'Leg',upper+group(side+'Shin',lower+shoe,'translate(0 34)'));
+ return group(side+'Leg',upper+group(side+'Shin',lower+group(side+'Shoe',shoe),'translate(0 34)'));
 }
 function body(c,p,m,cos){const ink=m.dark,cg='url(#'+p+'cloth)',sk='url(#'+p+'skin)',metal=m.accent;let s=path('M190 195L210 195L211 211L224 218Q200 232 176 218L189 211Z',sk,ink,1.7);
  if(c==='ruby'){
