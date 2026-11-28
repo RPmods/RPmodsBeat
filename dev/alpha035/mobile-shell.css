@@ -1,0 +1,44 @@
+/* Dev 4: independent portrait menu composition. Gameplay (#game) is deliberately untouched. */
+.rpb-mobile-nav{display:none!important}
+.rpb-wallet-icon{width:24px;height:24px;object-fit:contain;flex:none}
+#rpbMobileMenu .rpb-mobile-menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#rpbMobileMenu .rpb-mobile-menu-grid button{min-height:46px;white-space:normal}
+@media (max-width:700px) and (orientation:portrait){
+html[data-device=mobile] #shell:not(.hidden){display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important;overflow:hidden!important;gap:0!important}
+html[data-device=mobile] #shell .sidebar{display:none!important}
+html[data-device=mobile] #shell .main{height:auto!important;min-height:0!important;flex:1 1 auto!important;overflow-y:auto!important;overflow-x:hidden!important;padding:8px 8px calc(76px + env(safe-area-inset-bottom))!important;display:flex!important;flex-direction:column!important;gap:6px!important}
+html[data-device=mobile] #shell .main>.top{flex:0 0 auto!important;margin:0 0 4px!important;padding:4px 0!important;min-height:44px!important}
+html[data-device=mobile] #shell .main>.top .eyebrow{font-size:9px;letter-spacing:.06em}
+html[data-device=mobile] #shell .main>.top .wallet{min-height:40px}
+html[data-device=mobile] #shell .rpb-mobile-nav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;position:fixed;z-index:35;bottom:0;left:0;right:0;padding:5px 5px calc(6px + env(safe-area-inset-bottom));background:#171b30f7;border-top:1px solid #665578;box-shadow:0 -5px 24px #080a1859}
+html[data-device=mobile] #shell .rpb-mobile-nav button{min-width:0;min-height:52px;padding:4px 1px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;font-size:10px;font-weight:650;border:1px solid transparent;border-radius:9px;color:#c9cce2;background:transparent}
+html[data-device=mobile] #shell .rpb-mobile-nav button.active{background:#4a355b;color:#f9d2eb;border-color:#a77db6}
+html[data-device=mobile] #shell .rpb-mobile-nav svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+html[data-device=mobile] #shell #home.active{flex:1 0 auto!important;overflow:visible!important;min-height:0!important}
+html[data-device=mobile] #shell #home .live-lobby{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(150px,1fr) auto auto!important;min-height:0!important;max-height:none!important;height:auto!important;gap:6px!important;padding:9px!important;background-position:center}
+html[data-device=mobile] #shell #home .lobby-left{grid-row:1!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important}
+html[data-device=mobile] #shell #home .lobby-left .lobby-kicker{grid-column:1/-1;font-size:9px;letter-spacing:.07em}
+html[data-device=mobile] #shell #home .lobby-left h1{grid-column:1/-1;font-size:clamp(24px,8.4vw,44px)!important;line-height:1!important;margin:0!important;white-space:normal}
+html[data-device=mobile] #shell #home .lobby-left h1 br{display:none}html[data-device=mobile] #shell #home .lobby-left h1 em:before{content:" "}
+html[data-device=mobile] #shell #home .lobby-left [data-page=shop],html[data-device=mobile] #shell #home .lobby-left [data-page=inventory]{display:none!important}
+html[data-device=mobile] #shell #home .lobby-left .lobby-event{grid-column:1/-1!important;padding:7px 10px!important;min-height:42px!important;display:flex!important;align-items:center;gap:6px;flex-wrap:wrap}
+html[data-device=mobile] #shell #home .lobby-event span{font-size:8px}html[data-device=mobile] #shell #home .lobby-event strong{font-size:13px}html[data-device=mobile] #shell #home .lobby-event small{display:none}
+html[data-device=mobile] #shell #home #rpbMissionsOpen,html[data-device=mobile] #shell #home #event01Open{min-width:0;min-height:42px!important;padding:5px 6px!important;font-size:11px!important;overflow-wrap:anywhere}
+html[data-device=mobile] #shell #home #event01Open .event01-teaser-copy small{font-size:8px}html[data-device=mobile] #shell #home #event01Open strong{font-size:10px}
+html[data-device=mobile] #shell #home .lobby-stage{grid-row:2!important;min-height:150px!important;height:clamp(150px,calc(100dvh - 460px),380px)!important;max-height:none!important;grid-template-rows:minmax(0,1fr) auto}
+html[data-device=mobile] #shell #home .lobby-dancer{height:100%!important;max-height:none!important;min-height:0!important}
+html[data-device=mobile] #shell #home .lobby-name{padding:3px 8px!important;gap:2px!important}
+html[data-device=mobile] #shell #home .lobby-name span,html[data-device=mobile] #shell #home .lobby-name small{display:none!important}
+html[data-device=mobile] #shell #home .lobby-name strong{font-size:13px!important}
+html[data-device=mobile] #shell #home .lobby-right{grid-row:3!important;display:block!important}
+html[data-device=mobile] #shell #home .lobby-right>.mini,html[data-device=mobile] #shell #home .lobby-new{display:none!important}
+html[data-device=mobile] #shell #home #lobbyCast{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important}
+html[data-device=mobile] #shell #home .lobby-artist{min-width:0;min-height:44px!important;height:auto!important;padding:2px!important;display:flex!important;flex-direction:column;align-items:center;gap:2px!important}
+html[data-device=mobile] #shell #home .lobby-thumb{width:30px!important;height:30px!important;min-height:0!important;flex:none!important}
+html[data-device=mobile] #shell #home .lobby-artist b{font-size:8px!important;line-height:1.1!important;word-break:normal;overflow-wrap:anywhere;text-align:center}
+html[data-device=mobile] #shell #home .lobby-bottom{grid-row:4!important;grid-template-columns:1fr 1.6fr!important;gap:5px!important;padding-top:5px!important}
+html[data-device=mobile] #shell #home .lobby-bottom .lobby-song,html[data-device=mobile] #shell #home .lobby-bottom [data-page=profile]{display:none!important}
+html[data-device=mobile] #shell #home .lobby-bottom .lobby-play{grid-column:auto!important;padding:7px 9px!important;min-height:46px!important}
+html[data-device=mobile] #shell #home .lobby-play span,html[data-device=mobile] #shell #home .lobby-play small{display:none!important}
+html[data-device=mobile] #shell #home .lobby-play strong{font-size:19px!important}
+}
