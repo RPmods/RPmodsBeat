@@ -15,4 +15,6 @@ assert.throws(()=>D.rankedSettlement(s,{...match,id:"m2",nova:[{uid:"a",simulate
 assert.throws(()=>D.rankedSettlement(s,{...match,id:"m2",mode:"casual"}));
 assert.throws(()=>D.rankedSettlement(s,{...match,id:"m2",complete:false}));
 for(let n=1;n<=5;n++){const m={...match,id:"team"+n,cherry:Array.from({length:n},(_,i)=>({uid:"a"+i,simulated:false})),nova:Array.from({length:n},(_,i)=>({uid:"b"+i,simulated:false}))};const next=D.rankedSettlement({ratings:{},processed:{}},m);assert.equal(Object.keys(next.ratings).length,n*2);assert.equal(Object.values(next.ratings).reduce((v,p)=>v+p.mmr,0),n*2000)}
+assert.throws(()=>D.rankedSettlement(s,{...match,id:"__proto__"}));
+assert.throws(()=>D.rankedSettlement(s,{...match,id:"m3",nova:[{uid:"constructor",simulated:false}]}));
 console.log("PASS server reward and ranked domain; no deployment");
