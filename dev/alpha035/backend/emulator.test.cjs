@@ -8,7 +8,7 @@ if(process.env.FIREBASE_AUTH_EMULATOR_HOST!=="127.0.0.1:9099"||process.env.FIREB
 initializeApp({projectId:project,databaseURL:"https://"+ns+".firebaseio.com"});
 const authUrl="http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signUp?key=demo-key",callUrl="http://127.0.0.1:5001/"+project+"/us-central1/claimAccountRewards";
 async function signup(name){const r=await fetch(authUrl,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({email:name+"-"+Date.now()+"@example.invalid",password:"TestOnly-12345",returnSecureToken:true})});const v=await r.json();assert.equal(r.status,200,JSON.stringify(v));return v}
-async function call(token,data={}){const r=await fetch(callUrl,{method:"POST",headers:{"content-type":"application/json",...(token?{authorization:"Bearer "+token}:{})},body:JSON.stringify({data})});return {status:r.status,body:await r.json()}}
+async function call(token,data={},endpoint="claimAccountRewards"){const r=await fetch(callUrl.replace("claimAccountRewards",endpoint),{method:"POST",headers:{"content-type":"application/json",...(token?{authorization:"Bearer "+token}:{})},body:JSON.stringify({data})});return {status:r.status,body:await r.json()}}
 async function run(){
  const a=await signup("alpha"),b=await signup("beta");const reject=await call(null);assert.equal(reject.status,401,JSON.stringify(reject.body));
  const concurrent=await Promise.all(Array.from({length:5},()=>call(a.idToken,{coins:999999,uid:b.localId,emailVerified:true})));
@@ -24,6 +24,14 @@ async function run(){
  const foreign=await fetch(dburl(a.localId,b.idToken));assert.ok([401,403].includes(foreign.status),await foreign.text());
  assert.equal((await getDatabase().ref("rpbSecure/users/"+b.localId).get()).exists(),false);
  assert.deepEqual((await ref.get()).val().wallet,{coins:1500,crystals:15});
+ const draw={banner:"classic",count:10,requestId:"emulator-draw-0001"};
+ const unverified=await call(b.idToken,draw,"drawBanner");assert.equal(unverified.status,400,JSON.stringify(unverified.body));
+ const pulls=await Promise.all(Array.from({length:4},()=>call(a.idToken,draw,"drawBanner")));
+ for(const x of pulls){assert.equal(x.status,200,JSON.stringify(x.body));assert.equal(x.body.result.wallet.crystals,5);assert.deepEqual(x.body.result.receipt,pulls[0].body.result.receipt)}
+ const tooMuch=await call(a.idToken,{...draw,requestId:"emulator-draw-0002"},"drawBanner");assert.equal(tooMuch.status,400,JSON.stringify(tooMuch.body));
+ const mismatch=await call(a.idToken,{...draw,count:1},"drawBanner");assert.equal(mismatch.status,409,JSON.stringify(mismatch.body));
+ const final=(await ref.get()).val();assert.equal(final.wallet.crystals,5);assert.equal(Object.keys(final.draws).length,1);assert.equal(final.draws[draw.requestId].results.length,10);
+ console.log("PASS Firebase emulator: actual gacha transaction, concurrent retry, insufficient funds, request conflict");
  console.log("PASS Firebase emulator: concurrent claims, verified identity, tampered payload ignored, own read, denied writes/cross-account read");
 }
 run().then(()=>process.exit(0),e=>{console.error(e);process.exit(1)});
