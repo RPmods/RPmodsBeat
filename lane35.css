@@ -1,37 +1,37 @@
 /* 0.35: vertical rhythm field. Presentation only: no scoring or input changes.
    Readable fixed receptors, lane contrast, and light on the actual pressed key. */
 #game[data-mobile-layout=no][data-lane=vertical] .hud{--pc-lane:clamp(268px,26vw,420px);--pc-gap:clamp(8px,1.3vw,24px)}
-#game[data-lane=vertical] .runway{
+#game[data-mobile-layout][data-lane=vertical] .runway{
  background:repeating-linear-gradient(to right,#11192de8 0%,#11192de8 calc(12.5% - 1px),#131d34e8 calc(12.5% - 1px),#131d34e8 calc(25% - 1px),#8393b566 calc(25% - 1px),#8393b566 25%)!important;
  isolation:isolate;
 }
-#game[data-lane=vertical] .runway::after{
+#game[data-mobile-layout][data-lane=vertical] .runway::after{
  content:'';position:absolute;left:0;right:0;bottom:calc(8px + var(--vertical-note-size,44px)/2);height:2px;
  background:#f3eff6a6;pointer-events:none;z-index:2
 }
-#game[data-lane=vertical] .vertical-targets span{
+#game[data-mobile-layout][data-lane=vertical] .vertical-targets span{
  box-sizing:border-box;position:relative;overflow:visible;
  background:#12192ce8!important;border:2px solid var(--lane-color);border-radius:7px;
  color:var(--lane-color);font-weight:900;transition:background-color 80ms,box-shadow 100ms
 }
-#game[data-lane=vertical] .vertical-targets[data-dir] span{background:#12192ce8!important}
-#game[data-lane=vertical] .vertical-targets span:is(.key-held,.hold-active){
+#game[data-mobile-layout][data-lane=vertical] .vertical-targets[data-dir] span{background:#12192ce8!important}
+#game[data-mobile-layout][data-lane=vertical] .vertical-targets span:is(.key-held,.hold-active){
  background:var(--lane-color)!important;color:#0b1224;box-shadow:0 0 12px color-mix(in srgb,var(--lane-color),transparent 35%)
 }
-#game[data-lane=vertical] .vertical-targets span.key-held::before{
+#game[data-mobile-layout][data-lane=vertical] .vertical-targets span.key-held::before{
  content:'';position:absolute;bottom:50%;left:50%;width:85%;height:140px;transform:translateX(-50%);
  background:linear-gradient(0deg,color-mix(in srgb,var(--lane-color),transparent 78%),transparent);pointer-events:none;z-index:-1
 }
-#game[data-lane=vertical][data-mobile-hud-effects=off] .vertical-targets span.key-held::before,
-#game[data-lane=vertical][data-mobile-filters=off] .vertical-targets span.key-held::before{display:none}
-#game[data-lane=vertical][data-mobile-filters=off] .vertical-targets span{box-shadow:none!important;transition:none}
-#game[data-lane=vertical].is-paused .vertical-targets span.key-held::before{display:none}
-#game[data-lane=vertical] .note{border:1px solid #fff8!important;box-shadow:0 2px 2px #0007!important}
-#game[data-lane=vertical] .note strong{text-shadow:0 1px 2px #0a1022!important}
-#game[data-lane=vertical] .note.sync-note{outline:2px solid #ffe2a0;outline-offset:-2px}
-#game[data-lane=vertical] .hold-tail{border:1px solid #ffffff88!important;background:var(--dir)!important;opacity:.78;border-radius:5px!important}
-#game[data-lane=vertical] .hold-tail.held{opacity:1}
-#game[data-lane=vertical] .runway .board-turn-count:not(:empty){background:#171d30ed;box-shadow:none;z-index:2}
+#game[data-mobile-layout][data-lane=vertical][data-mobile-hud-effects=off] .vertical-targets span.key-held::before,
+#game[data-mobile-layout][data-lane=vertical][data-mobile-filters=off] .vertical-targets span.key-held::before{display:none}
+#game[data-mobile-layout][data-lane=vertical][data-mobile-filters=off] .vertical-targets span{box-shadow:none!important;transition:none}
+#game[data-mobile-layout][data-lane=vertical].is-paused .vertical-targets span.key-held::before{display:none}
+#game[data-mobile-layout][data-lane=vertical] .note{border:1px solid #fff8!important;box-shadow:0 2px 2px #0007!important}
+#game[data-mobile-layout][data-lane=vertical] .note strong{text-shadow:0 1px 2px #0a1022!important}
+#game[data-mobile-layout][data-lane=vertical] .note.sync-note{outline:2px solid #ffe2a0;outline-offset:-2px}
+#game[data-mobile-layout][data-lane=vertical] .hold-tail{border:1px solid #ffffff88!important;background:var(--dir)!important;opacity:.78;border-radius:5px!important}
+#game[data-mobile-layout][data-lane=vertical] .hold-tail.held{opacity:1}
+#game[data-mobile-layout][data-lane=vertical] .runway .board-turn-count:not(:empty){background:#171d30ed;box-shadow:none;z-index:2}
 #game[data-mobile-layout=no][data-lane=vertical] .rhythm{background:#111827d1;box-shadow:0 8px 25px #060a1433}
 #game[data-mobile-layout=no][data-lane=vertical] .rhythm-head{padding:4px 3px;min-height:30px}
 #game[data-mobile-layout=no][data-lane=vertical] .rhythm-head .mini{display:none}
@@ -41,7 +41,10 @@
 #game[data-mobile-layout=no][data-lane=vertical] .rhythm-foot>span:first-child{font-size:10px;color:#c3c8e2}
 @media(max-width:760px){#game[data-mobile-layout=no][data-lane=vertical] .hud{--pc-lane:44vw;--pc-gap:4px}}
 @media(max-height:620px){#game[data-mobile-layout=no][data-lane=vertical] .rhythm-head{min-height:0;padding:0 2px}}
-@media(prefers-reduced-motion:reduce){#game[data-lane=vertical] .vertical-targets span{transition:none}#game[data-lane=vertical] .vertical-targets span.key-held::before{display:none}}
+@media(prefers-reduced-motion:reduce){#game[data-mobile-layout][data-lane=vertical] .vertical-targets span{transition:none}#game[data-mobile-layout][data-lane=vertical] .vertical-targets span.key-held::before{display:none}}
 /* The new engine does not need drop-shadow filtering on budget devices. */
 html[data-device=mobile] .motion-canvas{filter:none!important}
 #game[data-mobile-filters=off] .motion-canvas{filter:none!important}
+
+#game[data-mobile-layout][data-lane=vertical][data-mobile-filters=off] .note{box-shadow:none!important;text-shadow:none!important}
+#game[data-mobile-layout][data-lane=vertical].is-paused .vertical-targets span:is(.key-held,.hold-active){background:#12192ce8!important;color:var(--lane-color);box-shadow:none!important}
