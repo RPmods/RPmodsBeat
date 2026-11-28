@@ -1,4 +1,4 @@
-# RPmods Beat — Alpha 0.35 Dev 3
+# RPmods Beat — Alpha 0.35 Dev 4
 **Estado:** desarrollo experimental; no es una versión candidata a publicar en Pages.
 **Base estable:** f784ee3f36b896abea3bdf72ea6631e76f98f98c.
 **Temporada 0 — Los Inicios:** indefinida, acceso gratuito, 50 niveles iniciales propuestos.
@@ -30,6 +30,14 @@ La raíz de esta rama experimental no carga firebase-config.js y desactiva Fireb
 - Checks in current environment: 33 existing domain checks + 22 local integration domain checks + 2 actual spin-function mocked checks. Syntax and HTML IDs verified. Full repository browser suite, real GPU/audio and emulator tests still not run (GitHub connector provides files but local container cannot resolve github.com). Do not claim full game is verified.
 - Reproducible: node dev/alpha035/local-integration.test.mjs; node dev/alpha035/spin-integration.test.mjs; prior core and regression tests. Browser smoke test is intended for a full checkout and local HTTP server.
 - A production deployment must replace the development guard only after implementing and testing authoritative backend and data migration. No merge to main now.
+
+## Dev 4: real game layout, local queue and event foundation
+- Dev 3 CI run 46171681787 completed successfully: logic, mesh regression and lab browser checks on seven viewports.
+- Real game mobile portrait has independent five-item bottom navigation, compact lobby, and More dialog. Desktop navigation unchanged; gameplay HUD not yet migrated. Existing characters retained. Wallet uses the PNG coin.
+- New full-game browser check: 360x640, 393x873, 1366x768, 1920x1080; boot, actual navigation, local claims and gacha, account forms, queue cancel, audio-only practice smoke on two viewports. First run 46171909887 exposed real mobile gacha overlap: probability panel intercepted buyTicket. Fix applied via natural-height single-column layout; rerun required. Do not mark current Dev 4 browser suite passed until final CI conclusion.
+- Local 1v1–5v5 queue now shows two teams with progressively filled slots, cancellation token, visible simulation identification. Existing online implementation unchanged; two real teams still pending.
+- Cosmetic event engine version 1 integrated against audio clock, with dialogue/caption/light cues, difficulty filters, overlap/invalid format validation, seek-safe sampling and cleanup. 16 assertions passed. Existing songs unchanged. Camera choreography, interactive conditions, timeline editor and CO-OP gameplay remain pending.
+- Reproducible new tests: node dev/alpha035/event-engine.test.mjs; python dev/alpha035/game-smoke.py. Full test coverage is not performance measurement or actual Android device testing.
 
 ## Pendiente, obligatorio antes de producción
 1. Capturar referencia visual y métricas reales de Alpha 0.34.3 (mismo mapa, misma máquina, 1v1–5v5); ejecutar pruebas en navegadores móviles y PC.
