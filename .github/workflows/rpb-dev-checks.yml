@@ -32,6 +32,7 @@ jobs:
           node dev/alpha035/pixi-notes.test.mjs
           node dev/alpha035/route-index.test.mjs
           node dev/alpha035/backend/domain.test.mjs
+          node dev/alpha035/backend/gacha.test.cjs
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
