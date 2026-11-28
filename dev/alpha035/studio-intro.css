@@ -1,0 +1,24 @@
+#alphaNotice[data-intro-pending]{animation:none;visibility:hidden;pointer-events:none}
+#rpbStudioIntro[hidden]{display:none!important}
+#rpbStudioIntro{position:fixed;inset:0;z-index:1700;background:#080b12;color:#f4f2fa;overflow:hidden;text-align:center;isolation:isolate;display:grid;place-items:center}
+#rpbStudioIntro .rpb-intro-scene{position:absolute;inset:0;display:grid;place-items:center;padding:clamp(16px,4vw,48px);box-sizing:border-box;opacity:0;pointer-events:none}
+#rpbStudioIntro .rpb-intro-scene small{display:block;letter-spacing:.32em;font:500 clamp(8px,1.4vw,12px)/1.6 system-ui,sans-serif;color:#c0bfd0;margin-top:12px}
+#rpbStudioIntro .rpb-intro-projects{animation:rpbProjects 7s both}
+#rpbStudioIntro .rpb-intro-projects strong{font:400 clamp(24px,4.5vw,56px)/1.15 system-ui,sans-serif;letter-spacing:-.04em}
+#rpbStudioIntro .rpb-intro-projects small{padding-top:12px;border-top:1px solid #777e90}
+#rpbStudioIntro .rpb-intro-games{animation:rpbGames 7s both;background:radial-gradient(ellipse at center,#392b5366,transparent 60%)}
+#rpbStudioIntro .rpb-intro-beat{animation:rpbBeat 7s both;background:radial-gradient(ellipse at center,#67375966,transparent 65%)}
+#rpbStudioIntro .rpb-intro-title{z-index:1}
+#rpbStudioIntro .rpb-intro-title img{display:block;width:clamp(65px,12vw,135px);height:auto;margin:0 auto 20px;filter:drop-shadow(0 0 20px #a78bda55)}
+#rpbStudioIntro .rpb-intro-title strong{display:block;font:800 clamp(26px,5.8vw,74px)/1.1 system-ui,sans-serif;letter-spacing:-.045em}
+#rpbStudioIntro .rpb-intro-beat strong{font-style:italic}
+#rpbStudioIntro .rpb-intro-beat em{color:#e98ab7}
+#rpbStudioIntro .rpb-intro-orbit{position:absolute;width:min(65vw,70vh);aspect-ratio:1;border-radius:50%;border:1px solid #b7a2dc44;border-right-color:#e98ab7;border-left-color:transparent;animation:rpbOrbit 2.7s linear infinite}
+#rpbStudioIntro .rpb-intro-particles{position:absolute;inset:8%;background:radial-gradient(circle at 12% 27%,#c4abf2 0 2px,transparent 3px),radial-gradient(circle at 83% 38%,#e98ab7 0 3px,transparent 4px),radial-gradient(circle at 74% 80%,#78a9e8 0 2px,transparent 3px),radial-gradient(circle at 32% 71%,#e98ab7 0 2px,transparent 3px);animation:rpbOrbit 5s linear infinite}
+#rpbIntroSkip{position:absolute;bottom:max(18px,env(safe-area-inset-bottom));right:max(18px,env(safe-area-inset-right));z-index:3;color:#ccc3df;background:#161b2a;border:1px solid #69627c;border-radius:8px;padding:10px 18px;font-size:12px;cursor:pointer}
+@keyframes rpbProjects{0%{opacity:0;transform:translateY(6px)}8%,23%{opacity:1;transform:none}29%,100%{opacity:0}}
+@keyframes rpbGames{0%,29%{opacity:0;transform:scale(.94)}36%,59%{opacity:1;transform:none}65%,100%{opacity:0}}
+@keyframes rpbBeat{0%,65%{opacity:0;transform:scale(.96)}72%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes rpbOrbit{to{transform:rotate(360deg)}}
+@media(orientation:portrait){#rpbStudioIntro .rpb-intro-title strong{font-size:clamp(26px,9vw,58px)}#rpbStudioIntro .rpb-intro-title img{width:clamp(80px,22vw,150px)}#rpbStudioIntro .rpb-intro-orbit{width:min(86vw,54vh)}#rpbStudioIntro .rpb-intro-particles{inset:8% 18%;animation-name:rpbPortraitParticles}@keyframes rpbPortraitParticles{0%{transform:translateY(15%);opacity:.3}50%{opacity:1}100%{transform:translateY(-15%);opacity:.3}}}
+@media(prefers-reduced-motion:reduce){#rpbStudioIntro .rpb-intro-orbit,#rpbStudioIntro .rpb-intro-particles{animation:none}#rpbStudioIntro .rpb-intro-scene{transform:none!important}}
