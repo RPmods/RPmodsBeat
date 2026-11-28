@@ -4,7 +4,8 @@ const {initializeApp}=require("firebase-admin/app");
 const {getAuth}=require("firebase-admin/auth");
 const {getDatabase}=require("firebase-admin/database");
 const {accountRewards}=require("./domain.cjs");
-initializeApp();
+const demo=process.env.FUNCTIONS_EMULATOR==="true"&&process.env.GCLOUD_PROJECT==="demo-rpb-alpha035";
+initializeApp(demo?{projectId:"demo-rpb-alpha035",databaseURL:"https://demo-rpb-alpha035-default-rtdb.firebaseio.com"}:undefined);
 exports.claimAccountRewards=onCall({region:"us-central1",maxInstances:5},async request=>{
  if(!request.auth)throw new HttpsError("unauthenticated","Inicia sesión primero.");
  const uid=request.auth.uid;
