@@ -1,0 +1,4 @@
+/* Opt-in layer: original DOM notes remain available for instant recovery. */
+#notesLayer .rpb-note-canvas{position:absolute!important;inset:0!important;display:block;max-width:none!important;max-height:none!important;pointer-events:none!important;z-index:3}
+#notesLayer .rpb-note-canvas[hidden]{display:none!important}
+#notesLayer.rpb-pixi-active>.note,#notesLayer.rpb-pixi-active>.hold-tail{visibility:hidden!important}

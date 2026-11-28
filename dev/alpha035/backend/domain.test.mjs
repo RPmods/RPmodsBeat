@@ -1,0 +1,20 @@
+import assert from "node:assert/strict";
+import {createRequire} from "node:module";
+const require=createRequire(import.meta.url),D=require("./domain.cjs");
+const identity={uid:"abc",email:"test@example.invalid",emailVerified:false,disabled:false},now=1700000000000;
+let r=D.accountRewards(null,identity,now);assert.deepEqual(r.record.wallet,{coins:500,crystals:5});assert.deepEqual(r.awarded,["register"]);
+let repeat=D.accountRewards(r.record,identity,now+1);assert.equal(repeat.record,r.record);assert.deepEqual(repeat.awarded,[]);
+r=D.accountRewards(r.record,{...identity,emailVerified:true},now+2);assert.deepEqual(r.record.wallet,{coins:1500,crystals:15});assert.deepEqual(r.awarded,["verify"]);
+assert.equal(D.accountRewards(r.record,{...identity,emailVerified:true},now+3).record,r.record);
+assert.throws(()=>D.accountRewards(null,{...identity,disabled:true},now));assert.throws(()=>D.accountRewards(null,{...identity,email:""},now));
+assert.equal(D.rankFor(0).tier,"Rookie");assert.equal(D.rankFor(799).division,"I");assert.equal(D.rankFor(800).tier,"Rhythm");assert.equal(D.rankFor(2300).tier,"Idol Legend");
+const match={id:"m1",mode:"ranked",complete:true,winner:"cherry",cherry:[{uid:"a",simulated:false}],nova:[{uid:"b",simulated:false}]};
+let s=D.rankedSettlement({ratings:{},processed:{}},match);assert.equal(s.ratings.a.mmr,1016);assert.equal(s.ratings.b.mmr,984);assert.equal(D.rankedSettlement(s,match),s);
+assert.throws(()=>D.rankedSettlement(s,{...match,id:"m2",nova:[{uid:"b",simulated:true}]}));
+assert.throws(()=>D.rankedSettlement(s,{...match,id:"m2",nova:[{uid:"a",simulated:false}]}));
+assert.throws(()=>D.rankedSettlement(s,{...match,id:"m2",mode:"casual"}));
+assert.throws(()=>D.rankedSettlement(s,{...match,id:"m2",complete:false}));
+for(let n=1;n<=5;n++){const m={...match,id:"team"+n,cherry:Array.from({length:n},(_,i)=>({uid:"a"+i,simulated:false})),nova:Array.from({length:n},(_,i)=>({uid:"b"+i,simulated:false}))};const next=D.rankedSettlement({ratings:{},processed:{}},m);assert.equal(Object.keys(next.ratings).length,n*2);assert.equal(Object.values(next.ratings).reduce((v,p)=>v+p.mmr,0),n*2000)}
+assert.throws(()=>D.rankedSettlement(s,{...match,id:"__proto__"}));
+assert.throws(()=>D.rankedSettlement(s,{...match,id:"m3",nova:[{uid:"constructor",simulated:false}]}));
+console.log("PASS server reward and ranked domain; no deployment");

@@ -1,0 +1,54 @@
+name: RPB Alpha 0.35 checks
+on:
+  pull_request:
+    paths:
+      - 'dev/alpha035/**'
+      - 'game.js'
+      - 'index.html'
+      - 'motion.js'
+      - 'online.js'
+      - '.github/workflows/rpb-dev-checks.yml'
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Logic and integration regressions
+        run: |
+          node dev/alpha035/core.test.mjs
+          node dev/alpha035/local-integration.test.mjs
+          node dev/alpha035/spin-integration.test.mjs
+          node dev/alpha035/regression.test.mjs
+          node dev/alpha035/event-engine.test.mjs
+          node dev/alpha035/pixi-notes.test.mjs
+          node dev/alpha035/route-index.test.mjs
+          node dev/alpha035/backend/domain.test.mjs
+          node dev/alpha035/backend/gacha.test.cjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Chromium test runner
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Fetch pinned PixiJS browser bundle for isolated test
+        run: |
+          mkdir -p /tmp/rpb-pixi
+          npm pack pixi.js@8.19.0 --pack-destination /tmp/rpb-pixi
+          tar -xzf /tmp/rpb-pixi/pixi.js-8.19.0.tgz -C /tmp/rpb-pixi
+      - name: Browser smoke tests (lab, game and experimental renderer)
+        run: |
+          python -m http.server 8000 --bind 127.0.0.1 > /tmp/rpb-http.log 2>&1 &
+          for i in $(seq 1 20); do curl --fail --silent http://127.0.0.1:8000/dev/alpha035/ > /dev/null && break; sleep 1; done
+          python dev/alpha035/browser-smoke.py
+          python dev/alpha035/game-smoke.py
+          python dev/alpha035/pixi-smoke.py

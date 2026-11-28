@@ -1,0 +1,24 @@
+{
+  "functions": {
+    "source": ".",
+    "runtime": "nodejs22"
+  },
+  "database": {
+    "rules": "database.emulator.rules.json"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "database": {
+      "port": 9000
+    },
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": false
+    },
+    "singleProjectMode": true
+  }
+}

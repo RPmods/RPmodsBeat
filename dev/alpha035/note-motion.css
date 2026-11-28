@@ -1,0 +1,3 @@
+/* Keep note motion composited; the existing clock, lane coordinates and hit logic are unchanged.
+   Horizontal only. Vertical selectors in mobile31/desktop342 still own their transform. */
+#game[data-lane=horizontal] .note{transform:translate3d(calc(var(--rpb-note-x,0px) - 50%),-50%,0)}

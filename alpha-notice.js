@@ -11,5 +11,6 @@
  notice.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();dismiss();}});
  content.inert=true;
  notice.classList.add('is-managed');
- autoTimer=setTimeout(dismiss,6000);
+ const start=()=>{autoTimer=setTimeout(dismiss,6000)};
+ if(notice.dataset.introPending)document.addEventListener('rpb-intro-finished',start,{once:true});else start();
 })();

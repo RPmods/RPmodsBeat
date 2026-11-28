@@ -1,0 +1,11 @@
+/* Cosmetic timeline only. No event layer may intercept notes or inputs. */
+#rpbEventLight{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0;transition:opacity .2s;background:radial-gradient(ellipse at 50% 20%,var(--rpb-light,transparent),transparent 65%)}
+#game[data-rpb-light] #rpbEventLight{opacity:.25}
+#game[data-rpb-light=cherry]{--rpb-light:#d477ae}
+#game[data-rpb-light=nova]{--rpb-light:#5da4df}
+#game[data-rpb-light=violet]{--rpb-light:#9874df}
+#game[data-rpb-light=gold]{--rpb-light:#e5b66b}
+#rpbEventCaption{position:absolute;top:max(8px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:80;max-width:min(640px,80vw);width:max-content;pointer-events:none;background:#11172ee8;color:#fff;padding:7px 12px;border:1px solid #a28bc6;border-radius:9px;text-align:center;font-size:clamp(11px,2vw,17px);overflow-wrap:anywhere}
+#rpbEventCaption strong{display:block;color:#e9acd4;font-size:.8em}
+#rpbEventCaption[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){#rpbEventLight{transition:none}}
