@@ -18,7 +18,9 @@ export const MISSIONS = Object.freeze([
  {id:"season-versus",period:"season",label:"Completa 30 partidas Versus",metric:"versus",target:30,coins:1000,crystals:5},
  {id:"beginner-first",period:"once",label:"Completa tu primera canción",metric:"songs",target:1,coins:500,crystals:0}
 ]);
-export const SEASON_REWARDS=Object.freeze({1:{coins:500},5:{crystals:5},10:{cosmetic:"Marco Los Inicios"},15:{crystals:10},20:{cosmetic:"Accesorio épico S0"},25:{coins:3000},30:{crystals:15},35:{cosmetic:"Artista Fundador"},40:{cosmetic:"Legendario S0"},45:{crystals:20},50:{cosmetic:"Genesis"}});
+const milestoneRewards={1:{coins:500},5:{crystals:5},10:{cosmetic:"Marco Los Inicios"},15:{crystals:10},20:{cosmetic:"Accesorio épico S0"},25:{coins:3000},30:{crystals:15},35:{cosmetic:"Artista Fundador"},40:{cosmetic:"Legendario S0"},45:{crystals:20},50:{cosmetic:"Genesis"}};
+// All 50 levels have claimable rewards. Values are provisional, not production economy.
+export const SEASON_REWARDS=Object.freeze(Object.fromEntries(Array.from({length:SEASON.levels},(_,i)=>[i+1,milestoneRewards[i+1]||{coins:100+(Math.floor(i/10)*50)}])));
 export function periodKey(period,ms){
  if(!Number.isFinite(ms))throw Error("Hora inválida");
  const d=new Date(ms);
@@ -34,7 +36,7 @@ export function recordResult(state,result,ms){
  if(!result||typeof result.id!=="string"||!result.id||result.id.length>128||Object.prototype.hasOwnProperty.call(state.processed,result.id))return state;
  if(result.completed!==true)return state;
  const bounded=(n,max)=>Number.isFinite(n)?Math.max(0,Math.min(max,Math.floor(n))):0;
- const accuracy=bounded(result.accuracy,100), metrics={songs:1,perfect:bounded(result.perfect,10000),combo:bounded(result.combo,10000),versus:result.versus?1:0,wins:result.versus&&result.win?1:0,expert:result.expert?1:0,accuracy90:accuracy>=90?1:0,accuracy95:accuracy>=95?1:0};
+ const accuracy=bounded(result.accuracy,100), metrics={songs:1,perfect:bounded(result.perfect,10000),combo:bounded(result.combo,10000),versus:result.versus===true?1:0,wins:result.versus===true&&result.win===true?1:0,expert:result.expert===true?1:0,accuracy90:accuracy>=90?1:0,accuracy95:accuracy>=95?1:0};
  const next={...state,processed:{...state.processed,[result.id]:true},progress:{...state.progress},xp:state.xp+100,seasonXP:state.seasonXP+100};
  for(const m of MISSIONS){const k=missionKey(m,ms),old=next.progress[k]||0;next.progress[k]=Math.min(m.target,m.metric==="combo"?Math.max(old,metrics.combo):old+metrics[m.metric]);}
  return next;
@@ -51,6 +53,7 @@ export function claimBonus(state,period,ms){
  return {...state,crystals:state.crystals+(period==="day"?2:5),claimed:{...state.claimed,[k]:true}};
 }
 export function claimSeason(state,level){
+ if(!Number.isInteger(level)||level<1||level>SEASON.levels)return state;
  const reward=SEASON_REWARDS[level],key="season:"+SEASON.id+":"+level;
  if(!reward||state.claimed[key]||Math.min(SEASON.levels,1+Math.floor(state.seasonXP/1000))<level)return state;
  return {...state,coins:state.coins+(reward.coins||0),crystals:state.crystals+(reward.crystals||0),owned:reward.cosmetic?[...new Set([...state.owned,reward.cosmetic])]:state.owned,claimed:{...state.claimed,[key]:true}};
@@ -58,7 +61,7 @@ export function claimSeason(state,level){
 // 2% base, +4 percentage points per pull beginning at 45; forced at 60.
 export function exoticRate(counter){const n=counter+1;return n>=60?1:n>=45?Math.min(.98,.02+.04*(n-44)):.02}
 export function pull(state,banner,rng=Math.random){
- if(!banner||typeof banner.group!=="string"||!banner.featured||!Array.isArray(banner.offBanner)||!banner.offBanner.length)throw Error("Banner inválido");
+ if(!banner||typeof banner.group!=="string"||!["limited","standard"].includes(banner.group)||!banner.featured||!Array.isArray(banner.offBanner)||!banner.offBanner.length)throw Error("Banner inválido");
  if(!Number.isInteger(state.crystals)||state.crystals<1)throw Error("Cristales insuficientes");
  const p=state.pity[banner.group]||{exotic:0,epic:0,guaranteed:false};
  const roll=rng(),rate=exoticRate(p.exotic);
@@ -85,4 +88,13 @@ export function balanceTeams(players,size){
  const total=ordered.reduce((a,p)=>a+p.mmr,0);let best=null;
  function visit(i,a,sum){if(a.length===size){const diff=Math.abs(total-2*sum);if(!best||diff<best.diff)best={a:[...a],diff};return;}if(ordered.length-i<size-a.length)return;visit(i+1,[...a,i],sum+ordered[i].mmr);visit(i+1,a,sum);}
  visit(1,[0],ordered[0].mmr);const selected=new Set(best.a);return {cherry:ordered.filter((_,i)=>selected.has(i)),nova:ordered.filter((_,i)=>!selected.has(i)),difference:best.diff};
+}
+
+// Preserve premade groups; return null when no valid partition exists (never split friends).
+export function balanceParties(parties,size){
+ if(!Number.isInteger(size)||size<1||size>5||!Array.isArray(parties)||!parties.length||parties.some(p=>!Array.isArray(p)||!p.length||p.length>size))throw Error("Grupos inválidos");
+ const all=parties.flat();if(all.length!==2*size||new Set(all.map(p=>p.id)).size!==all.length||all.some(p=>!Number.isFinite(p.mmr)))throw Error("Participantes inválidos");
+ let best=null;const total=all.reduce((a,p)=>a+p.mmr,0);
+ for(let mask=1;mask<(1<<parties.length);mask+=2){const cherry=[],nova=[];for(let i=0;i<parties.length;i++)(mask&(1<<i)?cherry:nova).push(...parties[i]);if(cherry.length!==size||nova.length!==size)continue;const difference=Math.abs(total-2*cherry.reduce((a,p)=>a+p.mmr,0));if(!best||difference<best.difference)best={cherry,nova,difference};}
+ return best;
 }
