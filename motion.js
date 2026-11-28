@@ -18,15 +18,23 @@ window.CherryMotion=(()=>{
   const promise=Promise.all([...urls.map(image),image('assets/rig/'+c+'/face-happy.png'),image('assets/rig/'+c+'/face-sad.png')]).then(ims=>{
    if(!ims[0])return null;let cv=canvas(768),ctx=cv.getContext('2d',{willReadFrequently:true});for(let im of ims.slice(0,urls.length))if(im)ctx.drawImage(im,0,0,768,768);ctx.globalCompositeOperation='destination-in';ctx.drawImage(ims[0],0,0,768,768);ctx.globalCompositeOperation='source-over';
    let rect=M.cast[c].mouth,[x,y,X,Y]=rect,w=X-x,h=Y-y,face=[null,null];try{const base=ctx.getImageData(x,y,w,h);for(let j=0;j<2;j++){const im=ims[urls.length+j];if(!im)continue;const p=document.createElement('canvas');p.width=w;p.height=h;const pc=p.getContext('2d',{willReadFrequently:true});pc.drawImage(im,x,y,w,h,0,0,w,h);const layer=pc.getImageData(0,0,w,h);layer.data.set(M.repair(base.data,layer.data,rect));pc.putImageData(layer,0,0);face[j]=p}}catch(e){/* file:// or tainted source: preserve base art, skip expression rather than warp it. */}
-   return {base:cv,face,rect};
-  }).catch(()=>null);textures.set(key,promise);if(textures.size>24)textures.delete(textures.keys().next().value)
+   let parts=null;try{
+    const cut=M.cast[c].cut,top=Math.max(0,Math.floor((Math.min(...cut.map(p=>p[1]))-10)*1.6)),bottom=Math.min(768,Math.ceil((Math.max(...cut.map(p=>p[1]))+11)*1.6));
+    const make=(y,h,head)=>{const part=document.createElement('canvas');part.width=768;part.height=h;const pc=part.getContext('2d',{willReadFrequently:true});pc.drawImage(cv,0,y,768,h,0,0,768,h);const im=pc.getImageData(0,0,768,h);for(let x=0;x<768;x++){const seam=M.seamAt(c,(x+.5)/1.6);for(let row=0;row<h;row++){const v=(row+y+.5)/1.6,f=head?1-ease((v-seam+2)/10):v>=seam-9?1:0;im.data[(row*768+x)*4+3]*=f}}pc.putImageData(im,0,0);return part};
+    parts={head:make(0,bottom,true),body:make(top,768-top,false),top};
+   }catch(e){/* Keep the unmodified original if reading the image is restricted. */}
+   return {base:cv,face,rect,parts};
+  }).catch(()=>null);textures.set(key,promise);if(textures.size>(document.documentElement.dataset.device==='mobile'?8:12))textures.delete(textures.keys().next().value)
  }
  return textures.get(key)
  }
  function render(i,a){
- if(!i.tex)return;const ctx=i.ctx,sc=i.cv.width/480,m=M.matrix(i.c,a);ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,i.cv.width,i.cv.height);ctx.setTransform(sc*m[0],sc*m[1],sc*m[2],sc*m[3],sc*m[4],sc*m[5]);ctx.imageSmoothingEnabled=true;ctx.globalAlpha=clamp(a.alpha);ctx.drawImage(i.tex.base,0,0,480,480);
+ if(!i.tex)return;const ctx=i.ctx,sc=i.cv.width/480,m=M.matrix(i.c,a);ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,i.cv.width,i.cv.height);ctx.setTransform(sc*m[0],sc*m[1],sc*m[2],sc*m[3],sc*m[4],sc*m[5]);ctx.imageSmoothingEnabled=true;ctx.globalAlpha=clamp(a.alpha);
+ const parts=i.tex.parts,split=parts&&Math.abs(a.head)>.045&&a.alpha>.99;
+ if(split){ctx.drawImage(parts.body,0,parts.top/1.6,480,parts.body.height/1.6);const [nx,ny]=M.cast[i.c].neck;ctx.save();ctx.translate(nx,ny);ctx.rotate(a.head*Math.PI/180);ctx.translate(-nx,-ny);ctx.drawImage(parts.head,0,0,480,parts.head.height/1.6)}
+ else ctx.drawImage(i.tex.base,0,0,480,480);
  const face=i.tex.face[a.face<0?1:0];if(face&&Math.abs(a.face)>.01){let [x,y,X,Y]=i.tex.rect;ctx.globalAlpha=clamp(a.alpha*Math.abs(a.face));ctx.drawImage(face,x/1.6,y/1.6,(X-x)/1.6,(Y-y)/1.6)}
- ctx.globalAlpha=clamp(a.alpha);if(i.iconImage){const crown=i.icon==='crown',sz=crown?42:32,x=crown?219:322,y=crown?26:85;ctx.drawImage(i.iconImage,x,y,sz,sz)}ctx.globalAlpha=1;ctx.setTransform(1,0,0,1,0,0);
+ ctx.globalAlpha=clamp(a.alpha);if(i.iconImage){const crown=i.icon==='crown',sz=crown?42:32,x=crown?219:322,y=crown?26:85;ctx.drawImage(i.iconImage,x,y,sz,sz)}if(split)ctx.restore();ctx.globalAlpha=1;ctx.setTransform(1,0,0,1,0,0);
  }
  function mount(el,c,l={}){
  c=data[c]?c:'ruby';const key=c+'|'+assets(c,l).join('|')+'|'+(l.accessory||'original'),old=instances.get(el);
