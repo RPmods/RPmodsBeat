@@ -3,7 +3,7 @@
 'use strict';
 window.CherryMotion=(()=>{
  const A=window.CBArt36,P=window.CBPoses36,instances=new WeakMap(),staticCache=new Map();let serial=0;
- const normalize=(c,l={})=>{c=A.cast[c]?c:'ruby';return {c,l:{hair:A.hair[l.hair]?l.hair:'original',cloth:A.cloth[l.cloth]&&(!l.cloth.startsWith('zomby-')||c==='zomby')?l.cloth:'original',eyes:A.eyes[l.eyes]?l.eyes:'original',accessory:A.appearance(c,l).outfit!=='original'?'fx-'+A.appearance(c,l).outfit:A.appearance(c,l).icon||'original'}}};
+ const normalize=(c,l={})=>{c=Object.hasOwn(A.cast,c)?c:'ruby';return {c,l:{hair:Object.hasOwn(A.hair,l.hair)?l.hair:'original',cloth:Object.hasOwn(A.cloth,l.cloth)&&(!l.cloth.startsWith('zomby-')||c==='zomby')?l.cloth:'original',eyes:Object.hasOwn(A.eyes,l.eyes)?l.eyes:'original',accessory:A.appearance(c,l).outfit!=='original'?'fx-'+A.appearance(c,l).outfit:A.appearance(c,l).icon||'original'}}};
  const key=(c,l)=>c+'|'+l.hair+'|'+l.cloth+'|'+l.eyes+'|'+l.accessory;
  function poseMarkup(svg,a){
   const transforms=P.transforms(a),visible=P.visibility(a);
