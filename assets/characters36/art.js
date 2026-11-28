@@ -15,8 +15,8 @@ const cloth={mint:['#124d4c','#369b89','#a6f4d3'],violet:['#34205b','#8062b5','#
 const eyes={aqua:'#41aebf',amber:'#d89c42',violet:'#9c72d9',emerald:'#4a9c70',rose:'#d66194'};
 const icons=['crown','moon','heart','notes','bow','aura'];
 const fxIcons={'legend-nebula':'crown','legend-rose':'moon','legend-midnight':'notes','epic-ocean':'moon','epic-dream':'notes','exotic-galaxy':'aura','zomby-starmap':'aura','zomby-void':'aura','zomby-astral':'aura','zomby-night':'aura','zomby-nexus':'aura'};
-function appearance(c,l={}){const a=typeof l.accessory==='string'?l.accessory:'original';let outfit=a.startsWith('fx-')?a.slice(3):'original';if(outfit.startsWith('zomby-')&&c!=='zomby')outfit='original';return {outfit,icon:fxIcons[outfit]||(icons.includes(a)?a:null),fx:fxIcons[outfit]==='aura'||a==='aura'?'aura':null,cloth:l.cloth||'original'}}
-function materials(c,l={}){const d=cast[c]||cast.ruby;return {hair:hair[l.hair]||d.hair,cloth:(!String(l.cloth).startsWith('zomby-')||c==='zomby')&&cloth[l.cloth]||d.cloth,eye:eyes[l.eyes]||d.eye,skin:d.skin,dark:d.dark,accent:d.accent}}
+function appearance(c,l={}){const a=typeof l.accessory==='string'?l.accessory:'original';let outfit=a.startsWith('fx-')?a.slice(3):'original';if(!Object.hasOwn(fxIcons,outfit)||outfit.startsWith('zomby-')&&c!=='zomby')outfit='original';return {outfit,icon:fxIcons[outfit]||(icons.includes(a)?a:null),fx:fxIcons[outfit]==='aura'||a==='aura'?(outfit==='original'?'aura':outfit):null,cloth:l.cloth||'original'}}
+function materials(c,l={}){const d=Object.hasOwn(cast,c)?cast[c]:cast.ruby;return {hair:Object.hasOwn(hair,l.hair)?hair[l.hair]:d.hair,cloth:Object.hasOwn(cloth,l.cloth)&&(!String(l.cloth).startsWith('zomby-')||c==='zomby')?cloth[l.cloth]:d.cloth,eye:Object.hasOwn(eyes,l.eyes)?eyes[l.eyes]:d.eye,skin:d.skin,dark:d.dark,accent:d.accent}}
 const path=(d,f,stroke='#35283b',w=1.8,extra='')=>'<path d="'+d+'" fill="'+f+'" stroke="'+stroke+'" stroke-width="'+w+'" stroke-linejoin="round" stroke-linecap="round" '+extra+'/>';
 const circle=(x,y,r,f,stroke='none',w=1)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'" stroke="'+stroke+'" stroke-width="'+w+'"/>';
 const ellipse=(x,y,rx,ry,f,stroke='none',w=1)=>'<ellipse cx="'+x+'" cy="'+y+'" rx="'+rx+'" ry="'+ry+'" fill="'+f+'" stroke="'+stroke+'" stroke-width="'+w+'"/>';
@@ -32,7 +32,17 @@ function accessory(which,p,accent){const white='#fff0c8',ink='#514069';
  if(which==='notes')return group('accessory',path('M279 91V70L294 66V86','none',accent,3)+ellipse(274,91,6,4,accent)+ellipse(289,86,6,4,accent)+star(305,72,3,white));
  return ''
 }
-function aura(accent){return '<g opacity=".70">'+ellipse(200,222,101,148,'none',accent,1.1)+path('M91 252Q200 306 309 252','none',accent,1.4,'opacity=".6" stroke-dasharray="3 7"')+star(106,110,7,accent)+star(294,118,6,accent)+star(91,268,5,accent)+star(307,244,5,accent)+'</g>'}
+function aura(which,accent){
+ const colors={'zomby-starmap':'#86c6ff','zomby-void':'#9d8cfa','zomby-astral':'#ffdf9b','zomby-night':'#c5a6ff','zomby-nexus':'#8eeafa','exotic-galaxy':'#a9e9ff'},a=colors[which]||accent;
+ let s=ellipse(200,222,101,148,'none',a,1.1)+star(106,110,7,a)+star(294,118,6,a)+star(91,268,5,a)+star(307,244,5,a);
+ if(which==='zomby-starmap')s+=path('M106 110L88 175L116 214L91 268M294 118L315 159L287 193L307 244','none',a,1.8)+[ [88,175],[116,214],[315,159],[287,193] ].map(([x,y])=>circle(x,y,3,a)).join('');
+ else if(which==='zomby-void')s+=path('M200 22L321 128L333 252L200 389L67 252L79 128Z M200 46L307 138L317 248L200 365L83 248L93 138Z','none',a,1.5,'opacity=".62"');
+ else if(which==='zomby-astral')s+=ellipse(200,222,112,130,'none',a,2)+ellipse(200,271,125,32,'none',a,1.4)+star(200,28,10,a)+star(200,378,7,a);
+ else if(which==='zomby-night')s+=path('M82 195Q60 125 116 82Q81 131 110 195Q102 211 82 195Z',a,'none',0)+path('M318 195Q340 125 284 82Q319 131 290 195Q298 211 318 195Z',a,'none',0)+star(200,25,7,a);
+ else if(which==='zomby-nexus')s+=path('M92 138L74 206L106 280L153 322M308 138L326 206L294 280L247 322','none',a,2,'stroke-dasharray="6 5"')+star(74,206,9,a)+star(326,206,9,a);
+ else s+=path('M91 252Q200 306 309 252','none',a,1.4,'opacity=".6" stroke-dasharray="3 7"');
+ return '<g opacity=".70">'+s+'</g>'
+}
 const hairstyles={
  ruby:{back:'M121 175Q92 162 108 139Q97 111 116 77Q142 44 198 45Q253 42 280 76Q302 112 289 138Q304 160 286 172L298 184Q278 196 267 187L270 202Q248 211 235 190L165 190Q145 207 131 199L134 185Q113 193 105 182Z',front:'M111 127Q100 84 132 61Q158 41 196 48Q241 34 274 63Q296 86 290 129L281 155L273 118Q252 107 241 85Q243 119 224 130Q210 119 203 100L193 129Q171 130 162 102Q145 128 128 140L124 164Q113 150 111 127Z',locks:'M132 71Q116 96 128 125M155 60Q139 93 145 113M182 54Q165 84 175 112M211 55Q221 81 218 111M249 62Q270 90 272 119'},
  neko:{back:'M114 172Q96 136 105 100Q107 55 157 43Q205 29 248 50Q293 67 297 115L290 179Q272 200 249 193L152 193Q121 204 114 172Z',front:'M110 129Q102 74 143 51Q181 34 219 48Q278 44 289 95L282 146L267 112Q248 94 239 82Q243 117 220 130Q211 115 202 97L194 126Q167 128 159 99Q146 119 128 136L124 161Z',locks:'M132 67Q116 100 128 130M161 51Q143 84 150 112M187 52Q178 81 183 114M218 54Q225 78 220 111M250 60Q276 87 276 115'},
@@ -45,7 +55,7 @@ function head(c,p,m,a){const h=hairstyles[c],ink=m.dark,skin='url(#'+p+'skin)',h
  let back=path(h.back,hg,ink,2.1)+path('M120 143Q128 181 147 187M280 143Q272 181 253 187','none',m.hair[0],1.5);
  if(c==='neko')back+=path('M121 81L111 40Q111 31 123 36L153 55M279 81L289 40Q289 31 277 36L247 55','#fbf0f4',ink,2.4)+path('M120 45L128 67L145 57ZM280 45L272 67L255 57Z','#e6a0bb',ink,1);
  let face=ellipse(128,150,12,16,skin,ink,1.6)+ellipse(272,150,12,16,skin,ink,1.6)+path('M134 94Q146 68 200 70Q254 68 266 94L267 148Q264 185 226 199Q200 209 174 199Q136 185 133 148Z',skin,ink,2.2)+ellipse(155,166,12,5,'#eaa29c88')+ellipse(245,166,12,5,'#eaa29c88')+path('M197 163Q200 166 203 163','none','#c2827d',1.5);
- face+=group('eyes-open',eye(169,false,ink,iris)+eye(231,true,ink,iris)+path('M148 119Q163 113 179 119M221 119Q237 113 252 119','none',m.hair[0],2.4));
+ const eyeHeight={ruby:1.06,neko:1,guizz:.87,meli:.92,zomby:.75}[c];face+=group('eyes-open','<g transform="translate(0 144) scale(1 '+eyeHeight+') translate(0 -144)">'+eye(169,false,ink,iris)+eye(231,true,ink,iris)+'</g>'+path('M148 119Q163 113 179 119M221 119Q237 113 252 119','none',m.hair[0],2.4));
  face+=group('eyes-closed',path('M149 144Q169 155 189 144M211 144Q231 155 251 144','none',ink,3.5),'') .replace('data-part="eyes-closed"','data-part="eyes-closed" display="none"');
  face+=group('mouth-neutral',path('M194 181Q200 185 206 181','none','#954f60',1.9));
  face+=group('mouth-happy',path('M190 178Q200 181 210 178Q209 190 200 191Q191 190 190 178Z','#80384b',ink,1.3)+ellipse(200,187,5,2.7,'#f7a0ad')).replace('data-part="mouth-happy"','data-part="mouth-happy" display="none"');
@@ -93,9 +103,9 @@ function body(c,p,m,cos){const ink=m.dark,cg='url(#'+p+'cloth)',sk='url(#'+p+'sk
  if(cos.cloth&&/galaxy|legend|zomby|epic/.test(cos.cloth)){for(const [x,y,r] of [[180,226,3],[218,225,4],[188,245,2],[213,241,3]])s+=star(x,y,r,metal)}
  return s
 }
-function art(c,l={},prefix='cb',includeFx=true){c=cast[c]?c:'ruby';const p=String(prefix).replace(/[^a-zA-Z0-9_-]/g,'')||'cb',m=materials(c,l),a=appearance(c,l);
- const defs=gradient(p+'hair',m.hair)+gradient(p+'cloth',m.cloth)+gradient(p+'skin',[m.skin[0],m.skin[1], '#fff6e9'])+'<linearGradient id="'+p+'eye" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#38243f"/><stop offset=".52" stop-color="'+m.eye+'"/><stop offset="1" stop-color="#f1d9ec"/></linearGradient>';
- return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>'+defs+'</defs>'+group('effect',includeFx&&a.fx?aura(m.accent):'')+group('actor',group('legs',leg(c,p,m,'left')+leg(c,p,m,'right'))+group('upper',arm(c,p,m,'left')+arm(c,p,m,'right')+body(c,p,m,l)+head(c,p,m,a)))+'</svg>';
+function art(c,l={},prefix='cb',includeFx=true){c=Object.hasOwn(cast,c)?c:'ruby';const p=String(prefix).replace(/[^a-zA-Z0-9_-]/g,'')||'cb',m=materials(c,l),a=appearance(c,l);
+ const defs='<linearGradient id="'+p+'hair" x1="0" y1="0" x2=".18" y2="1"><stop offset="0" stop-color="'+m.hair[0]+'"/><stop offset=".45" stop-color="'+m.hair[1]+'"/><stop offset="1" stop-color="'+(c==='ruby'?m.hair[2]:m.hair[0])+'"/></linearGradient>'+gradient(p+'cloth',m.cloth)+gradient(p+'skin',[m.skin[0],m.skin[1], '#fff6e9'])+'<linearGradient id="'+p+'eye" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#38243f"/><stop offset=".52" stop-color="'+m.eye+'"/><stop offset="1" stop-color="#f1d9ec"/></linearGradient>';
+ return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>'+defs+'</defs>'+group('effect',includeFx&&a.fx?aura(a.fx,m.accent):'')+group('actor',group('legs',leg(c,p,m,'left')+leg(c,p,m,'right'))+group('upper',arm(c,p,m,'left')+arm(c,p,m,'right')+body(c,p,m,l)+head(c,p,m,a)))+'</svg>';
 }
 const api={cast,hair,cloth,eyes,appearance,materials,art};if(typeof module==='object'&&module.exports)module.exports=api;else root.CBArt36=api;
 })(typeof window==='object'?window:globalThis);
