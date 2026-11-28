@@ -1,0 +1,15 @@
+/* Small lobby teaser; does not alter the song catalog, stage or character art. */
+#home .event01-teaser{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-width:0;box-sizing:border-box;padding:7px 9px;min-height:42px;border:1px solid #8b8ab64d;border-radius:9px;background:#1c2238bf;color:#e3e1f0;text-align:left;grid-column:1/-1;box-shadow:none;flex:none}
+#home .event01-teaser:hover,#home .event01-teaser:focus-visible{border-color:#a9a0cc;background:#292e48}
+#home .event01-teaser-copy{display:grid;gap:2px;min-width:0}
+#home .event01-teaser-copy small{font-size:8px;letter-spacing:.08em;color:#bcb9d6;font-weight:700;line-height:1.15}
+#home .event01-teaser-copy strong{font-size:12px;line-height:1.2;white-space:normal}
+#home .event01-teaser-copy strong span{color:#b5bbd4;font-size:10px;font-weight:500}
+#home .event01-playmark{flex:none;width:25px;height:25px;display:grid;place-items:center;border-radius:50%;border:1px solid #8e8eb66b;color:#dfc9ed;font-size:14px}
+#event01Dialog{width:min(390px,calc(100vw - 28px));max-width:100%;box-sizing:border-box;padding:16px;border:1px solid #8c87b966;border-radius:14px;background:#1a2036;color:#f4efff}
+#event01Dialog h2{font-size:20px;line-height:1.2;margin:3px 0}
+#event01Dialog .event01-cast{color:#dcc9e8;font-weight:700;margin:12px 0 6px;font-size:12px}
+#event01Dialog p{font-size:12px;line-height:1.4}
+#event01Dialog audio{width:100%;max-width:100%;margin:10px 0 2px;display:block}
+#event01Dialog .event01-status{color:#b8bcd1;font-size:11px;margin:5px 0 0}
+@media(max-height:520px){#home .event01-teaser{padding:4px 6px;min-height:30px}#home .event01-playmark{width:20px;height:20px;font-size:11px}#home .event01-teaser-copy small{font-size:7px}#home .event01-teaser-copy strong{font-size:10px}}
