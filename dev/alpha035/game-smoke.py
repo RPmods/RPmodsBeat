@@ -58,6 +58,8 @@ with sync_playwright() as p:
         assert page.evaluate("CBGame.profile().coins")==650
         page.locator("#rpbMissionClose").click()
         click_page("gacha")
+        left=page.locator("#gacha .gacha-left").bounding_box();right=page.locator("#gacha .gacha-right").bounding_box()
+        if device=="mobile": assert left["y"]+left["height"] <= right["y"]+1,(left,right,"gacha overlap")
         page.locator("#buyTicket").click()
         assert page.evaluate("CBGame.profile().tickets")==1
         page.locator("#spinGacha").click()
