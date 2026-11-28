@@ -1,0 +1,16 @@
+/* One-time startup notice per page load, independent of game initialization. */
+#alphaNotice{position:fixed;inset:0;z-index:1600;display:grid;place-items:center;box-sizing:border-box;overflow:auto;overscroll-behavior:contain;padding:clamp(16px,5vw,38px);background:radial-gradient(ellipse at 50% 35%,#2a2743 0%,#13172b 55%,#0c1020 100%);color:#f5efff;text-align:center;opacity:1;transition:opacity .55s ease,visibility .55s;animation:alphaNoticeFallback 8s step-end forwards}
+#alphaNotice[hidden]{display:none!important}
+#alphaNotice.is-managed{animation:none}
+#alphaNotice.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+#alphaNotice .alpha-notice-inner{width:min(100%,520px);min-width:0;margin:auto;display:grid;justify-items:center;gap:12px}
+#alphaNotice .alpha-notice-mark{font-size:32px;color:#e5bbef;line-height:1}
+#alphaNotice .alpha-notice-kicker{font-size:10px;letter-spacing:.18em;font-weight:800;color:#cebce5;margin:0}
+#alphaNotice h2{font-size:clamp(25px,5vw,40px);line-height:1.15;letter-spacing:-.025em;margin:0}
+#alphaNotice #alphaNoticeText{font-size:clamp(13px,2.8vw,16px);line-height:1.65;color:#d9d8e9;max-width:50ch;margin:0;overflow-wrap:anywhere}
+#alphaNotice .alpha-notice-thanks{font-size:12px;color:#a9acc6;line-height:1.4;margin:0}
+#alphaNoticeContinue{font-size:12px;color:#e5daff;background:#252a43;border:1px solid #81749c80;border-radius:8px;min-height:40px;padding:7px 18px;margin-top:6px;cursor:pointer}
+#alphaNoticeContinue:hover,#alphaNoticeContinue:focus-visible{background:#353451;border-color:#cbb2e9}
+@keyframes alphaNoticeFallback{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(max-height:420px){#alphaNotice{padding:10px 16px}#alphaNotice .alpha-notice-inner{gap:6px}#alphaNotice .alpha-notice-mark{font-size:20px}#alphaNotice h2{font-size:24px}#alphaNotice #alphaNoticeText{font-size:12px;line-height:1.35}#alphaNoticeContinue{min-height:34px;margin-top:0}}
+@media(prefers-reduced-motion:reduce){#alphaNotice{transition:none}}
