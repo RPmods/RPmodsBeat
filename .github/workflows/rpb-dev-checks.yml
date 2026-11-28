@@ -28,6 +28,7 @@ jobs:
           node dev/alpha035/local-integration.test.mjs
           node dev/alpha035/spin-integration.test.mjs
           node dev/alpha035/regression.test.mjs
+          node dev/alpha035/event-engine.test.mjs
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
