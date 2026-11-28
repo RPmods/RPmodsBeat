@@ -1,0 +1,10 @@
+#gachaMachine.rpb-banner-mode #gachaWheel{display:none!important}
+#gachaMachine.rpb-banner-mode{min-height:100px}
+#gachaMachine.rpb-banner-mode.rpb-summoning{min-height:180px;isolation:isolate;background:radial-gradient(ellipse,#6d4aa45c,#151629 66%)}
+#gachaMachine.rpb-summoning:before{content:"";position:absolute;z-index:0;width:76px;height:76px;left:50%;top:16%;border-radius:14px;background:url(assets/beat-crystal.png) center/contain no-repeat;animation:rpb-summon-pulse .8s ease-in-out infinite alternate;pointer-events:none}
+#gachaMachine.rpb-summoning #gachaResult{position:relative;margin-top:105px;z-index:1}
+#rpbGachaSkip{position:relative;z-index:2;min-height:40px;margin:6px auto}
+#rpbGachaSkip[hidden],#rpbGachaPity[hidden],#rpbGachaRates[hidden]{display:none!important}
+#rpbGachaPity{font-size:12px;color:#e3c5fd;padding:9px;border:1px solid #78628c;border-radius:8px;overflow-wrap:anywhere}
+@keyframes rpb-summon-pulse{from{transform:translateX(-50%) scale(.78);opacity:.6}to{transform:translateX(-50%) scale(1.1);opacity:1}}
+@media(prefers-reduced-motion:reduce){#gachaMachine.rpb-summoning:before{animation:none;transform:translateX(-50%)}}
