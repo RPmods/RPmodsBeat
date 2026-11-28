@@ -30,6 +30,7 @@ jobs:
           node dev/alpha035/regression.test.mjs
           node dev/alpha035/event-engine.test.mjs
           node dev/alpha035/pixi-notes.test.mjs
+          node dev/alpha035/route-index.test.mjs
           node dev/alpha035/backend/domain.test.mjs
       - uses: actions/setup-python@v5
         with:
