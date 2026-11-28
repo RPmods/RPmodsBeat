@@ -1,5 +1,0 @@
-/* Vector character sprites: exact viewBox, no CSS stretching or old mesh effects. */
-.motion-mounted .character-vector{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;pointer-events:none;transform:none!important;overflow:visible!important}
-.motion-mounted.motion-ready{background-image:none!important}
-html[data-device=mobile] .character-vector,#game[data-mobile-filters=off] .character-vector{filter:none!important}
-#game[data-mobile-motion=reduced] .motion-mounted:not(.local-player) .character-vector{filter:none}
