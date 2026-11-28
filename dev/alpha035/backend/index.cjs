@@ -12,7 +12,7 @@ exports.claimAccountRewards=onCall({region:"us-central1",maxInstances:5},async r
  if(identity.disabled||!identity.email)throw new HttpsError("failed-precondition","Cuenta no elegible.");
  const ref=getDatabase().ref("rpbSecure/users").child(uid),now=Date.now();
  try{
-  const result=await ref.transaction(current=>{const next=accountRewards(current,identity,now);return next.awarded.length?next.record:undefined});
+  const result=await ref.transaction(current=>{const next=accountRewards(current,identity,now);return next.record});
   const record=result.snapshot.val()||{};
   return {wallet:record.wallet||{coins:0,crystals:0},registrationClaimed:!!record.claims?.register,verificationClaimed:!!record.claims?.verify,emailVerified:identity.emailVerified===true};
  }catch(e){console.error("claimAccountRewards failed",e?.code||"unknown");throw new HttpsError("internal","No se pudo comprobar la recompensa.");}
