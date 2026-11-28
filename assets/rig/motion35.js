@@ -5,9 +5,9 @@
 'use strict';
 const cast={
  ruby:{neck:[240,232],cut:[[0,253],[165,253],[197,241],[222,230],[258,230],[283,241],[315,253],[480,253]],pivot:[240,447],mouth:[363,324,420,362],sway:2.3,step:12,lift:24,energy:1.08,phase:0},
- neko:{neck:[240,226],cut:[[0,253],[170,253],[204,243],[222,225],[259,225],[282,243],[310,253],[480,253]],pivot:[240,447],mouth:[359,318,420,356],sway:2.7,step:14,lift:27,energy:1.12,phase:.5},
- guizz:{neck:[240,242],cut:[[0,266],[170,266],[203,257],[222,241],[258,241],[278,257],[310,266],[480,266]],pivot:[240,449],mouth:[363,347,417,385],sway:1.65,step:10,lift:18,energy:.90,phase:1.3},
- meli:{neck:[240,235],cut:[[0,254],[175,254],[207,247],[222,233],[258,233],[276,247],[305,254],[480,254]],pivot:[240,448],mouth:[363,335,423,373],sway:1.5,step:9,lift:16,energy:.85,phase:2.1},
+ neko:{neck:[240,226],cut:[[0,253],[170,253],[204,243],[222,227],[259,227],[282,243],[310,253],[480,253]],pivot:[240,447],mouth:[359,318,420,356],sway:2.7,step:14,lift:27,energy:1.12,phase:.5},
+ guizz:{neck:[240,242],cut:[[0,266],[170,266],[203,257],[222,244],[258,244],[278,257],[310,266],[480,266]],pivot:[240,449],mouth:[363,347,417,385],sway:1.65,step:10,lift:18,energy:.90,phase:1.3},
+ meli:{neck:[240,235],cut:[[0,254],[175,254],[207,247],[222,236],[258,236],[276,247],[305,254],[480,254]],pivot:[240,448],mouth:[363,335,423,373],sway:1.5,step:9,lift:16,energy:.85,phase:2.1},
  zomby:{neck:[238,211],cut:[[0,228],[171,228],[203,218],[226,210],[258,214],[284,224],[313,230],[480,230]],pivot:[240,451],mouth:[385,297,439,335],sway:1.25,step:8,lift:15,energy:.80,phase:2.8}
 };
 const durations={left:.65,right:.65,up:.82,down:.55,entry:1.8,exit:1.5,victory:3.6,defeat:3.1,miss:1.2,perfect:1.25,'look-left':1.3,'look-right':1.3,'idle-breathe':6,'idle-tired':6.8,'idle-dance':6.8,'idle-excited':5.8,...Object.fromEntries(['wave','bow','spin','dance','think','pose','cheer'].map(x=>['wardrobe-'+x,4.7])),...Object.fromEntries(Array.from({length:5},(_,i)=>['fail-'+(i+1),1.4+i*.1])),...Object.fromEntries(Array.from({length:5},(_,i)=>['cheer-'+(i+1),1.3+i*.1]))};
