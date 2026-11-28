@@ -1,4 +1,4 @@
-# RPmods Beat — Alpha 0.35 Dev 4
+# RPmods Beat — Alpha 0.35 Dev 5
 **Estado:** desarrollo experimental; no es una versión candidata a publicar en Pages.
 **Base estable:** f784ee3f36b896abea3bdf72ea6631e76f98f98c.
 **Temporada 0 — Los Inicios:** indefinida, acceso gratuito, 50 niveles iniciales propuestos.
@@ -38,6 +38,13 @@ La raíz de esta rama experimental no carga firebase-config.js y desactiva Fireb
 - Local 1v1–5v5 queue now shows two teams with progressively filled slots, cancellation token, visible simulation identification. Existing online implementation unchanged; two real teams still pending.
 - Cosmetic event engine version 1 integrated against audio clock, with dialogue/caption/light cues, difficulty filters, overlap/invalid format validation, seek-safe sampling and cleanup. 16 assertions passed. Existing songs unchanged. Camera choreography, interactive conditions, timeline editor and CO-OP gameplay remain pending.
 - Reproducible new tests: node dev/alpha035/event-engine.test.mjs; python dev/alpha035/game-smoke.py. Full test coverage is not performance measurement or actual Android device testing.
+
+## Dev 5: verification and rendering/backend foundation
+- Dev 4 corrected CI run 46172361867 completed successfully. Seven lab viewports plus four real-game viewports (360x640, 393x873, 1366x768, 1920x1080); gacha, local claims, navigation, account screen and queue cancel; audio start/pause/quit tested at 393x873 and 1366x768. First post-fix run passed 360x640 but the test incorrectly waited for manual start while audio was already playing. The test now accepts actual automatic start or manual start. No physical Android or complete-song performance measurement.
+- Optional real-game PixiJS note rendering on both orientations: add `?rpb-pixi=1&rpb-perf=1` to the root URL. Loads pinned PixiJS 8.19.0, uses pooled sprites and cached textures, one shared canvas for notes, and original audio timing/input/scoring. Default remains DOM. On load/render failure or context loss it returns to DOM. Character meshes still use the existing optimized CherryMotion engine. New note art is provisional; DOM nodes remain as a fallback, not a full rewrite.
+- Geometry regression covers 48 combinations / 144 assertions for both orientations, four directions, active hold and time. New Chromium test uses pinned bundle and software WebGL and simulates context loss. Full Dev 5 browser result pending at initial documentation; check exact head CI before release. No measured FPS gain.
+- Isolated backend draft: callable account bonuses (server identity/verified email, atomic claim, separate protected ledger); 7 rank tiers and team Elo settlement domain, no bots/duplicate match IDs, 32 assertions. No deployment, no legacy profile balance migration, no ranked adjudicator, no client connection. Firebase emulators and dependency runtime still require testing. See backend/README.md.
+- Run `node dev/alpha035/pixi-notes.test.mjs` and `node dev/alpha035/backend/domain.test.mjs` for new pure tests. CI also installs the pinned PixiJS bundle for browser checks. Test-only software WebGL is not a phone GPU benchmark.
 
 ## Pendiente, obligatorio antes de producción
 1. Capturar referencia visual y métricas reales de Alpha 0.34.3 (mismo mapa, misma máquina, 1v1–5v5); ejecutar pruebas en navegadores móviles y PC.
