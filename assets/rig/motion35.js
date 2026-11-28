@@ -4,25 +4,25 @@
 (function(root){
 'use strict';
 const cast={
- ruby:{pivot:[240,447],mouth:[363,324,420,362],sway:2.3,step:12,lift:24,energy:1.08,phase:0},
- neko:{pivot:[240,447],mouth:[359,318,420,356],sway:2.7,step:14,lift:27,energy:1.12,phase:.5},
- guizz:{pivot:[240,449],mouth:[363,347,417,385],sway:1.65,step:10,lift:18,energy:.90,phase:1.3},
- meli:{pivot:[240,448],mouth:[363,335,423,373],sway:1.5,step:9,lift:16,energy:.85,phase:2.1},
- zomby:{pivot:[240,451],mouth:[385,297,439,335],sway:1.25,step:8,lift:15,energy:.80,phase:2.8}
+ ruby:{neck:[240,232],cut:[[0,253],[165,253],[197,241],[222,230],[258,230],[283,241],[315,253],[480,253]],pivot:[240,447],mouth:[363,324,420,362],sway:2.3,step:12,lift:24,energy:1.08,phase:0},
+ neko:{neck:[240,226],cut:[[0,253],[170,253],[204,243],[222,225],[259,225],[282,243],[310,253],[480,253]],pivot:[240,447],mouth:[359,318,420,356],sway:2.7,step:14,lift:27,energy:1.12,phase:.5},
+ guizz:{neck:[240,242],cut:[[0,266],[170,266],[203,257],[222,241],[258,241],[278,257],[310,266],[480,266]],pivot:[240,449],mouth:[363,347,417,385],sway:1.65,step:10,lift:18,energy:.90,phase:1.3},
+ meli:{neck:[240,235],cut:[[0,254],[175,254],[207,247],[222,233],[258,233],[276,247],[305,254],[480,254]],pivot:[240,448],mouth:[363,335,423,373],sway:1.5,step:9,lift:16,energy:.85,phase:2.1},
+ zomby:{neck:[238,211],cut:[[0,228],[171,228],[203,218],[226,210],[258,214],[284,224],[313,230],[480,230]],pivot:[240,451],mouth:[385,297,439,335],sway:1.25,step:8,lift:15,energy:.80,phase:2.8}
 };
 const durations={left:.65,right:.65,up:.82,down:.55,entry:1.8,exit:1.5,victory:3.6,defeat:3.1,miss:1.2,perfect:1.25,'look-left':1.3,'look-right':1.3,'idle-breathe':6,'idle-tired':6.8,'idle-dance':6.8,'idle-excited':5.8,...Object.fromEntries(['wave','bow','spin','dance','think','pose','cheer'].map(x=>['wardrobe-'+x,4.7])),...Object.fromEntries(Array.from({length:5},(_,i)=>['fail-'+(i+1),1.4+i*.1])),...Object.fromEntries(Array.from({length:5},(_,i)=>['cheer-'+(i+1),1.3+i*.1]))};
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),ease=x=>{x=clamp(x);return x*x*(3-2*x)},TAU=Math.PI*2;
-const neutral=()=>({x:0,y:0,angle:0,scale:1,alpha:1,face:0,fx:0});
+const neutral=()=>({x:0,y:0,angle:0,scale:1,alpha:1,face:0,fx:0,head:0});
 function sample(action,time,side=1,char='ruby'){
  const c=cast[char]||cast.ruby,a=neutral(),t=Math.max(0,Number(time)||0),d=durations[action]||1,q=clamp(t/d),p=TAU*q;
  const w=Math.sin(Math.PI*q),s=Math.sin(p),pulse=(rise=.20,fall=.60)=>ease(q/rise)*(1-ease((q-fall)/(1-fall))),h=pulse(),beat=Math.sin(TAU*t/4.8+c.phase);
  if(action.startsWith('idle-')){
   const cycle=TAU*t/d+c.phase,soft=(1-Math.cos(cycle))/2;
-  a.angle=c.sway*.42*Math.sin(cycle);a.y=-1.7*soft;
+  a.angle=c.sway*.42*Math.sin(cycle);a.y=-1.7*soft;a.head=-.85*Math.sin(cycle+.35);
   if(action==='idle-dance'){a.angle=c.sway*.9*Math.sin(cycle*2);a.x=c.step*.22*Math.sin(cycle);a.y=-3.5*Math.sin(cycle*2)**2}
   if(action==='idle-tired'){a.angle=c.sway*.65*soft;a.y=1.2*soft;a.face=-.35*soft}
   if(action==='idle-excited'){a.y=-4.5*Math.sin(cycle)**2;a.angle=c.sway*.65*Math.sin(cycle);a.face=.7*soft}
-  return a
+  a.head=clamp(a.head-a.angle*.20,-1.5,1.5);return a
  }
  switch(action){
  case 'left':case 'right':{const sign=action==='left'?-1:1;const pre=q<.19?Math.sin(Math.PI*q/.19):0;a.x=sign*c.step*h;a.angle=sign*(c.sway*1.65*h-.9*pre);a.y=-3*h+1.8*pre;a.face=.26*h;break}
@@ -43,7 +43,7 @@ function sample(action,time,side=1,char='ruby'){
  case 'wardrobe-cheer':a.y=-c.lift*.66*Math.sin(p*2)**2*w;a.angle=c.sway*Math.sin(p)*w;a.face=w;a.fx=w;break;
  default:{const good=action.startsWith('cheer-'),bad=action.startsWith('fail-'),n=+(action.split('-')[1]||1);if(good||bad){a.angle=side*c.sway*(.65+n*.16)*h*(n%2?1:-1);a.x=side*(n%2?1:-1)*c.step*.25*h;a.y=good?-c.lift*(.18+n*.045)*h:1.4*h;a.face=good?h:-h;a.fx=good?h:0}}
  }
- return a
+ a.head=clamp(-a.angle*.38+(action==='miss'||action==='defeat'?.45*w:0),-1.65,1.65);return a
 }
 function mix(a,b,f){const out={};for(const k of Object.keys(b))out[k]=(a?.[k]??b[k])*(1-f)+b[k]*f;return out}
 function matrix(char,a){const [px,py]=(cast[char]||cast.ruby).pivot,ang=a.angle*Math.PI/180,s=a.scale,c=Math.cos(ang)*s,k=Math.sin(ang)*s;return [c,k,-k,c,px+a.x-c*px+k*py,py+a.y-k*px-c*py]}
@@ -57,6 +57,11 @@ function repair(base,overlay,rect){
  for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4,r=Math.hypot((x+.5-w/2)/(w/2),(y+.5-h/2)/(h/2)),f=1-ease((r-.52)/.48),skin=ease((overlay[i]-105)/120);for(let k=0;k<3;k++)out[i+k]=clamp(overlay[i+k]+delta[k]*skin,0,255);out[i+3]=Math.round(overlay[i+3]*f)}
  return out
 }
-const api={cast,durations,actions:Object.keys(durations),neutral,sample,mix,matrix,point,repair,ease,clamp};
+/* A narrow overlapping seam uses the authored silhouette boundary. The two regions
+   rotate as rigid parts; no UV mesh or per-axis scaling is applied. */
+function seamAt(char,x){const cut=(cast[char]||cast.ruby).cut;let j=1;while(j<cut.length-1&&x>cut[j][0])j++;const a=cut[j-1],b=cut[j];return a[1]+(b[1]-a[1])*clamp((x-a[0])/(b[0]-a[0]))}
+function headMask(char,x,y){return 1-ease((y-seamAt(char,x)+2)/10)}
+function bodyMask(char,x,y){return y>=seamAt(char,x)-9?1:0}
+const api={cast,durations,actions:Object.keys(durations),neutral,sample,mix,matrix,point,repair,ease,clamp,seamAt,headMask,bodyMask};
 if(typeof module==='object'&&module.exports)module.exports=api;else root.CBMotion35=api;
 })(typeof window==='object'?window:globalThis);
