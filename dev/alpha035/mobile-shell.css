@@ -42,3 +42,14 @@ html[data-device=mobile] #shell #home .lobby-bottom .lobby-play{grid-column:auto
 html[data-device=mobile] #shell #home .lobby-play span,html[data-device=mobile] #shell #home .lobby-play small{display:none!important}
 html[data-device=mobile] #shell #home .lobby-play strong{font-size:19px!important}
 }
+
+/* Gacha: don't shrink the first grid row to the viewport height while its
+   contents overflow into the probability panel. Use the main scroller. */
+@media(max-width:700px) and (orientation:portrait){
+ html[data-device=mobile] #shell #gacha.active{display:block!important;flex:0 0 auto!important;min-height:0!important;height:auto!important;max-height:none!important;overflow:visible!important}
+ html[data-device=mobile] #shell #gacha .gacha-layout{display:flex!important;flex-direction:column!important;flex:none!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;gap:10px!important}
+ html[data-device=mobile] #shell #gacha .gacha-layout>.gacha-left,html[data-device=mobile] #shell #gacha .gacha-layout>.gacha-right{position:relative!important;flex:0 0 auto!important;display:flex!important;flex-direction:column!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important}
+ html[data-device=mobile] #shell #gacha .gacha-left>*,html[data-device=mobile] #shell #gacha .gacha-right>*{flex-shrink:0!important}
+ html[data-device=mobile] #shell #gacha .gacha-actions{display:grid!important;position:relative!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;height:auto!important;min-height:0!important}
+ html[data-device=mobile] #shell #gacha #buyTicket{grid-column:1/-1!important}
+}
