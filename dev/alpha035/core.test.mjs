@@ -25,3 +25,15 @@ check(C.pull({...C.initialState(),crystals:1,pity:{limited:{exotic:59,epic:0,gua
 check(C.pull({...C.initialState(),crystals:1,pity:{limited:{exotic:59,epic:0,guaranteed:true}}},{...b,group:"standard"},()=>.999).result.rarity==="rare","standard pity independent");
 let blocked=false;try{C.pullBatch(C.initialState(),b,10)}catch{blocked=true}check(blocked,"insufficient balance rejected");
 for(let n=1;n<=5;n++){const players=Array.from({length:n*2},(_,i)=>({id:String(i),mmr:1000+i*50}));let teams=C.balanceTeams(players,n);check(teams.cherry.length===n&&teams.nova.length===n&&new Set([...teams.cherry,...teams.nova].map(x=>x.id)).size===2*n,"unique balanced teams "+n+"v"+n);check(C.layoutPlan(n,360,640,"mobile").axis==="vertical"&&C.layoutPlan(n,1920,1080,"pc").slots===n*2,"layout "+n+"v"+n)}
+
+check(Object.keys(C.SEASON_REWARDS).length===50,"all 50 season rewards configured");
+s={...C.initialState(),seasonXP:49000};
+for(let level=1;level<=50;level++){const before=s;s=C.claimSeason(s,level);if(s===before||C.claimSeason(s,level)!==s)throw Error("milestone claim "+level)}
+check(Object.keys(s.claimed).length===50,"all 50 milestones claimable exactly once");
+check(C.claimSeason(s,"__proto__")===s&&C.claimSeason(s,51)===s,"invalid season levels ignored");
+const p2=(id,mmr=1000)=>({id,mmr});
+const parties=[[p2("a"),p2("b")],[p2("c"),p2("d")],[p2("e")],[p2("f")]];
+const teams=C.balanceParties(parties,3);
+check(teams!==null&&parties.every(group=>[teams.cherry,teams.nova].some(team=>group.every(p=>team.includes(p)))),"premade groups not split");
+check(C.balanceParties([[p2("a"),p2("b")],[p2("c"),p2("d")],[p2("e"),p2("f")]],3)===null,"impossible group partition rejected");
+check(C.exoticRate(43)===.02&&C.exoticRate(44)===.06&&C.exoticRate(59)===1,"soft and hard pity boundaries");
