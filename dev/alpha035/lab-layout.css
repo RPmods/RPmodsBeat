@@ -1,0 +1,30 @@
+/* New desktop and portrait compositions for the isolated Dev 2 laboratory. */
+.wallet>div{display:flex;align-items:center;gap:5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.wallet img{width:25px;height:25px;object-fit:contain}
+.wallet>div:nth-child(2){color:#d9b9ff}.wallet>div:nth-child(3){color:#f4bce6}
+.hero:after,.banner:after{display:none}
+.hero-art{position:absolute!important;inset:0 0 0 42%;z-index:0!important;display:grid;place-items:center;pointer-events:none}
+.hero-art img{position:relative;width:min(100%,420px);height:100%;max-height:430px;object-fit:contain;z-index:2;filter:drop-shadow(0 10px 12px #080a1c80)}
+.hero-plinth{position:absolute;bottom:7%;width:70%;height:12%;border:1px solid #b9a2df55;border-radius:50%;background:radial-gradient(ellipse,#8a69bb44,#13192922 70%);box-shadow:0 0 22px #a78bda33}
+.hero-copy{position:relative;z-index:1!important;width:min(58%,520px)}
+#app[data-device=pc] .hero{min-height:370px;display:flex;align-items:center}
+.banner{display:flex;align-items:center;min-height:270px}
+.banner-art{position:absolute!important;right:0;top:0;height:100%;width:48%;object-fit:contain;z-index:0!important;pointer-events:none;filter:drop-shadow(0 8px 10px #0a0c1880)}
+.banner-copy{max-width:55%;position:relative;z-index:1!important}
+#app[data-device=mobile]{padding-bottom:94px}
+#app[data-device=mobile] nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,450px);padding:7px 9px max(7px,env(safe-area-inset-bottom));box-shadow:0 -4px 18px #080a1677;border-top:1px solid #454260;grid-template-columns:repeat(3,minmax(0,1fr))}
+#app[data-device=mobile] .hero{min-height:430px;display:flex;align-items:flex-end;justify-content:center;padding:12px}
+#app[data-device=mobile] .hero-art{inset:0 0 35% 0;align-items:center}
+#app[data-device=mobile] .hero-art img{max-height:270px;width:90%}
+#app[data-device=mobile] .hero-plinth{bottom:2%}
+#app[data-device=mobile] .hero-copy{width:100%;text-align:center}
+#app[data-device=mobile] .hero h1{font-size:clamp(38px,13vw,66px);line-height:.9;margin:6px 0}
+#app[data-device=mobile] .hero h1 br{display:none}#app[data-device=mobile] .hero h1 em:before{content:" "}
+#app[data-device=mobile] .hero-copy p:not(.kicker){margin:7px 0}
+#app[data-device=mobile] .banner{min-height:310px;align-items:flex-end;padding:13px}
+#app[data-device=mobile] .banner-art{width:100%;height:71%;right:0}
+#app[data-device=mobile] .banner-copy{max-width:100%;width:100%;background:linear-gradient(transparent,#151b2e);padding-top:18px}
+#app[data-device=mobile] .track{grid-template-columns:repeat(2,minmax(0,1fr))}
+#app[data-device=mobile] .slot{min-height:58px}
+@media(max-width:420px){header{padding:5px}.wordmark{font-size:17px}.wallet{gap:5px}.wallet img{width:19px;height:19px}.wallet>div{gap:3px}.toolbar{margin:6px 0}.notice{font-size:11px}#app[data-device=mobile] .hero{min-height:360px}#app[data-device=mobile] .hero-art img{max-height:220px}}
+@media(orientation:landscape) and (max-height:520px){#app[data-device=mobile] .hero{min-height:300px}#app[data-device=mobile] .hero-art img{max-height:175px}}
