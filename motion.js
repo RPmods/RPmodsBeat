@@ -2,7 +2,7 @@
 'use strict';
 window.CherryMotion=(()=>{
  const M=window.CBMotion35,{clamp,ease,neutral}=M;
- const data=window.CBRigData, imgs=new Map(), textures=new Map(), instances=new WeakMap();
+ const data=window.CBRigData, imgs=new Map(), textures=new Map(), instances=new WeakMap();let sizeEpoch=0;window.addEventListener('resize',()=>sizeEpoch++);
  const canvas=(n=480)=>{let c=document.createElement('canvas');c.width=c.height=n;return c};
  const image=url=>{if(!imgs.has(url)){let im=new Image();imgs.set(url,new Promise(resolve=>{im.onload=()=>resolve(im);im.onerror=()=>resolve(null);im.src=url;if(im.complete)resolve(im.naturalWidth?im:null)}));if(imgs.size>64)imgs.delete(imgs.keys().next().value)}return imgs.get(url)};
  const variants={hair:['plum','ocean','emerald','peach','silver','rose'],eyes:['aqua','amber','violet','emerald','rose'],cloth:['mint','violet','gold','rose','blue','crimson','galaxy','legend-nebula','legend-rose','epic-ocean','epic-dream','zomby-starmap','zomby-void','zomby-astral','zomby-night','zomby-nexus']};
@@ -37,11 +37,12 @@ window.CherryMotion=(()=>{
  ctx.globalAlpha=clamp(a.alpha);if(i.iconImage){const crown=i.icon==='crown',sz=crown?42:32,x=crown?219:322,y=crown?26:85;ctx.drawImage(i.iconImage,x,y,sz,sz)}if(split)ctx.restore();ctx.globalAlpha=1;ctx.setTransform(1,0,0,1,0,0);
  }
  function mount(el,c,l={}){
- c=data[c]?c:'ruby';const key=c+'|'+assets(c,l).join('|')+'|'+(l.accessory||'original'),old=instances.get(el);
- // Measure at mount only, not once per animation frame. Canvas has a stable resolution.
- if(old?.key===key&&el.contains(old.cv))return old;
- const mobile=document.documentElement.dataset.device==='mobile',size=Math.min(mobile?384:768,Math.max(mobile?144:192,Math.ceil(Math.max(el.clientWidth,el.clientHeight,120)*Math.min(mobile?1.25:1.6,window.devicePixelRatio||1)/32)*32));
- const cv=canvas(size);cv.className='motion-canvas';const i={key,c,cv,ctx:cv.getContext('2d'),last:neutral(),start:0,lastTime:0};
+ c=data[c]?c:'ruby';const mobile=document.documentElement.dataset.device==='mobile',key=c+'|'+assets(c,l).join('|')+'|'+(l.accessory||'original')+'|'+mobile,old=instances.get(el);
+ // Measure only on mount or window resize. No synchronous layout read each frame.
+ const measure=()=>Math.min(mobile?384:768,Math.max(mobile?144:192,Math.ceil(Math.max(el.clientWidth,el.clientHeight,120)*Math.min(mobile?1.25:1.6,window.devicePixelRatio||1)/32)*32));
+ if(old?.key===key&&el.contains(old.cv)){if(old.sizeEpoch!==sizeEpoch){old.sizeEpoch=sizeEpoch;const size=measure();if(Math.abs(old.cv.width-size)>=64){old.cv.width=old.cv.height=size;old.renderAt=undefined}}return old}
+ const size=measure();
+ const cv=canvas(size);cv.className='motion-canvas';const i={key,c,cv,ctx:cv.getContext('2d'),last:neutral(),start:0,lastTime:0,sizeEpoch};
  instances.set(el,i);el.classList.remove('motion-ready');el.classList.add('motion-mounted');const f=applyStatic(el,c,l,'idle',true),fx=document.createElement('div');fx.className='motion-fx';if(f.fx)fx.style.backgroundImage='url('+f.fx+')';else fx.hidden=true;el.replaceChildren(fx,cv);i.icon=f.icon;if(f.icon)image('assets/ui/'+f.icon+'.svg').then(im=>{if(instances.get(el)===i)i.iconImage=im});
  texture(c,l).then(tex=>{if(instances.get(el)!==i||!el.contains(cv)||!tex)return;i.tex=tex;try{render(i,i.last);el.classList.add('motion-ready')}catch{el.classList.remove('motion-ready')}});return i
  }
