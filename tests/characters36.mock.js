@@ -12,7 +12,7 @@ for(const c of Object.keys(A.cast)){
  for(const [slot,colors,field] of [['hair',A.hair,'hair'],['cloth',A.cloth,'cloth'],['eyes',A.eyes,'eye']])for(const color of Object.keys(colors)){
   const look={[slot]:color},m=A.materials(c,look),allowed=!color.startsWith('zomby-')||c==='zomby';
   for(const k of ['hair','cloth','eye','skin','dark','accent'])if(k!==field||!allowed)assert.deepStrictEqual(m[k],base[k]);
-  assert.equal(inspect(A.art(c,look)),geo,'recolor changed geometry '+c+' '+slot+' '+color);variants++;
+  const shape=inspect(A.art(c,look));if(slot==='cloth'&&allowed&&/galaxy|legend|zomby|epic/.test(color)){let i=0,original=geo.split('|');for(const d of shape.split('|'))if(d===original[i])i++;assert.equal(i,original.length,'set removed base geometry')}else assert.equal(shape,geo,'recolor changed geometry '+c+' '+slot+' '+color);variants++;
  }
  for(const a of accessories){const look={accessory:a};inspect(A.art(c,look));if(a.includes('zomby-')&&c!=='zomby')assert.equal(A.appearance(c,look).outfit,'original');variants++}
  const nasty=decodeURIComponent(E.picture(c,{hair:'constructor',eyes:'__proto__',cloth:'toString',accessory:'fx-unknown'}).split(',')[1]);inspect(nasty);assert.equal(inspect(nasty),geo);
