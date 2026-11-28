@@ -29,9 +29,14 @@ with sync_playwright() as p:
         for _ in range(3):
             page.locator("#simulateResult").click()
         page.locator("#claimAll").click()
+        assert page.locator("#seasonTrack").is_hidden()
         before=page.locator("#coins").inner_text()
         page.locator("#claimAll").click()
         assert page.locator("#coins").inner_text()==before
+        page.locator('[data-period="season"]').click()
+        assert page.locator("#seasonTrack .reward").count()==50
+        page.locator('[data-period="day"]').click()
+        assert page.locator("#seasonTrack").is_hidden()
         page.locator('[data-tab="versus"]').click()
         for n in range(1,6):
             page.locator("#size").select_option(str(n))
